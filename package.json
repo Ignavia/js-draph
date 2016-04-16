@@ -1,0 +1,118 @@
+{
+  "name": "@ignavia/draph",
+  "version": "1.0.0",
+  "description": "A graph drawing library.",
+  "keywords": [
+    "drawing",
+    "graph"
+  ],
+  "homepage": "http://ignavia.github.io/js-draph",
+  "bugs": "https://github.com/Ignavia/js-draph/issues",
+  "license": "MIT",
+  "author": "Lars Reimann <mail@lars-reimann.eu> (http://lars-reimann.eu)",
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/draph.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ignavia/js-draph.git"
+  },
+  "scripts": {
+    "build": "jspm build ./src/draph.js - lodash ./dist/draph.js --format cjs --skip-source-maps --minify",
+    "coverage": "babel-node node_modules/isparta/bin/isparta cover --report text --report html node_modules/mocha/bin/_mocha -- --reporter dot",
+    "doc": "esdoc -c esdoc.json",
+    "test": "mocha --compilers js:babel-register"
+  },
+  "dependencies": {
+    "lodash": "^4.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.5.1",
+    "babel-polyfill": "^6.5.0",
+    "babel-preset-es2015": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-regenerator-runtime": "^6.5.0",
+    "babel-register": "^6.5.1",
+    "chai": "^3.5.0",
+    "chai-string": "^1.1.6",
+    "core-js": "^2.1.0",
+    "esdoc": "^0.4.4",
+    "esdoc-es7-plugin": "0.0.3",
+    "isparta": "^4.0.0",
+    "jspm": "^0.17.0-beta.6",
+    "mocha": "^2.4.5",
+    "sinon": "^1.17.3",
+    "sinon-chai": "^2.8.0"
+  },
+  "babel": {
+    "env": {
+        "development": {
+            "presets": ["es2015", "stage-0"]
+        }
+    }
+  },
+  "jspmPackage": true,
+  "registry": "npm",
+  "format": "cjs",
+  "jspm": {
+    "name": "@ignavia/draph",
+    "dependencies": {
+      "lodash": "^4.6.1",
+      "pixi.js": "^3.0.10"
+    },
+    "devDependencies": {
+      "babel-preset-stage-0": "^6.5.0",
+      "babel-regenerator-runtime": "^6.5.0",
+      "plugin-babel": "systemjs-plugin-babel@^0.0.8"
+    },
+    "peerDependencies": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
+      "core-js": "^1.2.0",
+      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
+      "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "source-map": "~0.1.33",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
+      "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
+      "url": "github:jspm/nodelibs-url@^0.2.0-alpha",
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha"
+    },
+    "overrides": {
+      "npm:babel-runtime@5.8.35": {
+        "main": false,
+        "dependencies": {},
+        "optionalDependencies": {
+          "core-js": "^1.2.0"
+        }
+      },
+      "npm:inherits@2.0.1": {
+        "ignore": [
+          "test.js"
+        ]
+      },
+      "npm:readable-stream@1.0.33": {
+        "map": {
+          "stream": "stream-browserify/index"
+        },
+        "systemjs": {
+          "main": "readable.js"
+        },
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.0",
+          "inherits": "~2.0.1",
+          "stream-browserify": "~1.0.0"
+        }
+      }
+    }
+  }
+}
+

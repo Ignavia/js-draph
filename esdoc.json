@@ -1,0 +1,13 @@
+{
+    "source": "./src",
+    "destination": "./doc",
+    "index": "./README.md",
+    "package": "./package.json",
+    "title": "JavaScript Draph",
+    "manual": {
+        "changelog": ["CHANGELOG.md"]
+    },
+    "plugins": [
+        {"name": "esdoc-es7-plugin"}
+    ]
+}
