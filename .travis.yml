@@ -3,8 +3,6 @@ node_js:
 - '4.1'
 install: # install NPM dependencies
 - npm install
-script: # run tests
-- npm run test
 before_deploy: # install JSPM dependencies and create the bundle and the doc
 - jspm config registries.github.auth $JSPM_GITHUB_AUTH_TOKEN
 - jspm install

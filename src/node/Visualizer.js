@@ -4,11 +4,11 @@ import Behavior      from "./Behavior.js";
 
 export default class Visualizer {
     constructor() {
-        this.style = new LabelledStyle();
+        this.style    = new LabelledStyle();
         this.behavior = new Behavior();
         this.position = new Vec2(Math.random(), Math.random());
-        this.scale = new Vec2(1, 1);
-        this.pivot = new Vec2(0, 0);
+        this.scale    = new Vec2(1, 1);
+        this.pivot    = new Vec2(0, 0);
         this.rotation = 0;
     }
 

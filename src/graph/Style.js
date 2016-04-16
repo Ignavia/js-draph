@@ -1,5 +1,5 @@
-import {Vec2}                                            from "@ignavia/ella";
-import {EventManager, observableMixin, predefinedColors} from "@ignavia/util";
+import {Vec2}             from "@ignavia/ella";
+import {predefinedColors} from "@ignavia/util";
 
 export default class Style {
     constructor() {
@@ -11,10 +11,5 @@ export default class Style {
             color:    predefinedColors.gray,
             distance: 5
         };
-
-        this.eventManager = new EventManager();
     }
 }
-
-// Make graph styles observable
-Object.assign(Style.prototype, observableMixin);

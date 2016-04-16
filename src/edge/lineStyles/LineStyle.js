@@ -1,4 +1,4 @@
-import {EventManager, observableMixin, predefinedColors} from "@ignavia/util";
+import {predefinedColors} from "@ignavia/util";
 
 export default class LineStyle {
     constructor() {
@@ -6,12 +6,8 @@ export default class LineStyle {
             color:  predefinedColors.black,
             width:  2
         };
-
-        this.eventManager = new EventManager();
     }
 
     makeDisplayObject(edgeObj, graphicalComponent) {}
 }
 
-// Make edge styles observable
-Object.assign(LineStyle.prototype, observableMixin);

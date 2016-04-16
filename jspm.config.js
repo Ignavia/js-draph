@@ -1,5 +1,6 @@
 SystemJS.config({
   transpiler: "plugin-babel",
+  trace: true,
   packages: {
     "@ignavia/draph": {
       "main": "draph.js",
@@ -9,6 +10,9 @@ SystemJS.config({
         "*.js": {
           "loader": "plugin-babel",
           "babelOptions": {
+            "plugins": [
+              "babel-plugin-transform-export-extensions"
+            ],
             "presets": [
               "babel-preset-stage-0"
             ]
@@ -16,6 +20,9 @@ SystemJS.config({
         }
       }
     }
+  },
+  map: {
+    "lodash": "npm:lodash@4.6.1"
   }
 });
 
@@ -26,6 +33,10 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "babel-plugin-transform-export-extensions": "npm:babel-plugin-transform-export-extensions@6.5.0",
+    "@ignavia/util": "npm:@ignavia/util@1.2.4",
+    "@ignavia/earl": "npm:@ignavia/earl@1.2.2",
+    "@ignavia/ella": "npm:@ignavia/ella@1.0.15",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "babel-preset-stage-0": "npm:babel-preset-stage-0@6.5.0",
     "babel-regenerator-runtime": "npm:babel-regenerator-runtime@6.5.0",
@@ -34,7 +45,8 @@ SystemJS.config({
     "core-js": "npm:core-js@1.2.6",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
-    "lodash": "npm:lodash@4.6.1",
+    "jquery": "npm:jquery@2.2.3",
+    "jquery-mousewheel": "npm:jquery-mousewheel@3.1.13",
     "module": "github:jspm/nodelibs-module@0.2.0-alpha",
     "net": "github:jspm/nodelibs-net@0.2.0-alpha",
     "path": "github:jspm/nodelibs-path@0.2.0-alpha",
@@ -43,15 +55,23 @@ SystemJS.config({
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
     "source-map": "npm:source-map@0.1.43",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
+    "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@0.5.7",
     "tty": "github:jspm/nodelibs-tty@0.2.0-alpha",
     "url": "github:jspm/nodelibs-url@0.2.0-alpha",
     "util": "github:jspm/nodelibs-util@0.2.0-alpha",
     "vm": "github:jspm/nodelibs-vm@0.2.0-alpha"
   },
   packages: {
+    "github:capaj/systemjs-hot-reloader@0.5.7": {
+      "map": {
+        "debug": "npm:debug@2.2.0",
+        "socket.io-client": "github:socketio/socket.io-client@1.4.5",
+        "weakee": "npm:weakee@1.0.0"
+      }
+    },
     "github:jspm/nodelibs-buffer@0.2.0-alpha": {
       "map": {
-        "buffer-browserify": "npm:buffer@4.5.0"
+        "buffer-browserify": "npm:buffer@4.5.1"
       }
     },
     "github:jspm/nodelibs-stream@0.2.0-alpha": {
@@ -64,6 +84,17 @@ SystemJS.config({
         "url-browserify": "npm:url@0.11.0"
       }
     },
+    "npm:@ignavia/earl@1.2.2": {
+      "map": {
+        "@ignavia/util": "npm:@ignavia/util@1.2.4",
+        "babel-regenerator-runtime": "npm:babel-regenerator-runtime@6.5.0"
+      }
+    },
+    "npm:@ignavia/util@1.2.4": {
+      "map": {
+        "lodash": "npm:lodash@4.11.1"
+      }
+    },
     "npm:ansi-styles@2.2.0": {
       "map": {
         "color-convert": "npm:color-convert@1.0.0"
@@ -71,7 +102,7 @@ SystemJS.config({
     },
     "npm:babel-code-frame@6.7.2": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "chalk": "npm:chalk@1.1.1",
         "esutils": "npm:esutils@2.0.2",
         "js-tokens": "npm:js-tokens@1.0.2",
@@ -81,7 +112,7 @@ SystemJS.config({
     },
     "npm:babel-helper-bindify-decorators@6.6.5": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2"
       }
@@ -89,21 +120,21 @@ SystemJS.config({
     "npm:babel-helper-builder-binary-assignment-operator-visitor@6.6.5": {
       "map": {
         "babel-helper-explode-assignable-expression": "npm:babel-helper-explode-assignable-expression@6.6.5",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-types": "npm:babel-types@6.7.2"
       }
     },
     "npm:babel-helper-define-map@6.6.5": {
       "map": {
         "babel-helper-function-name": "npm:babel-helper-function-name@6.6.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-types": "npm:babel-types@6.7.2",
         "lodash": "npm:lodash@3.10.1"
       }
     },
     "npm:babel-helper-explode-assignable-expression@6.6.5": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2"
       }
@@ -111,7 +142,7 @@ SystemJS.config({
     "npm:babel-helper-explode-class@6.6.5": {
       "map": {
         "babel-helper-bindify-decorators": "npm:babel-helper-bindify-decorators@6.6.5",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2"
       }
@@ -119,7 +150,7 @@ SystemJS.config({
     "npm:babel-helper-function-name@6.6.0": {
       "map": {
         "babel-helper-get-function-arity": "npm:babel-helper-get-function-arity@6.6.5",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-template": "npm:babel-template@6.7.0",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2"
@@ -127,14 +158,14 @@ SystemJS.config({
     },
     "npm:babel-helper-get-function-arity@6.6.5": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-types": "npm:babel-types@6.7.2"
       }
     },
     "npm:babel-helper-remap-async-to-generator@6.7.0": {
       "map": {
         "babel-helper-function-name": "npm:babel-helper-function-name@6.6.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-template": "npm:babel-template@6.7.0",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2"
@@ -142,77 +173,77 @@ SystemJS.config({
     },
     "npm:babel-messages@6.7.2": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-async-functions@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-class-constructor-call@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-class-properties@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-decorators@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-do-expressions@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-exponentiation-operator@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-export-extensions@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-function-bind@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-object-rest-spread@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-syntax-trailing-function-commas@6.5.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-async-to-generator@6.7.0": {
       "map": {
         "babel-helper-remap-async-to-generator": "npm:babel-helper-remap-async-to-generator@6.7.0",
         "babel-plugin-syntax-async-functions": "npm:babel-plugin-syntax-async-functions@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-class-constructor-call@6.6.5": {
       "map": {
         "babel-plugin-syntax-class-constructor-call": "npm:babel-plugin-syntax-class-constructor-call@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-template": "npm:babel-template@6.7.0"
       }
     },
     "npm:babel-plugin-transform-class-properties@6.6.0": {
       "map": {
         "babel-plugin-syntax-class-properties": "npm:babel-plugin-syntax-class-properties@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-decorators@6.6.5": {
@@ -220,7 +251,7 @@ SystemJS.config({
         "babel-helper-define-map": "npm:babel-helper-define-map@6.6.5",
         "babel-helper-explode-class": "npm:babel-helper-explode-class@6.6.5",
         "babel-plugin-syntax-decorators": "npm:babel-plugin-syntax-decorators@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-template": "npm:babel-template@6.7.0",
         "babel-types": "npm:babel-types@6.7.2"
       }
@@ -228,32 +259,32 @@ SystemJS.config({
     "npm:babel-plugin-transform-do-expressions@6.5.0": {
       "map": {
         "babel-plugin-syntax-do-expressions": "npm:babel-plugin-syntax-do-expressions@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-exponentiation-operator@6.5.0": {
       "map": {
         "babel-helper-builder-binary-assignment-operator-visitor": "npm:babel-helper-builder-binary-assignment-operator-visitor@6.6.5",
         "babel-plugin-syntax-exponentiation-operator": "npm:babel-plugin-syntax-exponentiation-operator@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-export-extensions@6.5.0": {
       "map": {
         "babel-plugin-syntax-export-extensions": "npm:babel-plugin-syntax-export-extensions@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-function-bind@6.5.2": {
       "map": {
         "babel-plugin-syntax-function-bind": "npm:babel-plugin-syntax-function-bind@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-plugin-transform-object-rest-spread@6.6.5": {
       "map": {
         "babel-plugin-syntax-object-rest-spread": "npm:babel-plugin-syntax-object-rest-spread@6.5.0",
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:babel-preset-stage-0@6.5.0": {
@@ -285,9 +316,14 @@ SystemJS.config({
         "babel-plugin-transform-exponentiation-operator": "npm:babel-plugin-transform-exponentiation-operator@6.5.0"
       }
     },
+    "npm:babel-runtime@5.8.38": {
+      "map": {
+        "core-js": "npm:core-js@1.2.6"
+      }
+    },
     "npm:babel-template@6.7.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "babel-types": "npm:babel-types@6.7.2",
         "babylon": "npm:babylon@6.7.0",
@@ -298,7 +334,7 @@ SystemJS.config({
       "map": {
         "babel-code-frame": "npm:babel-code-frame@6.7.2",
         "babel-messages": "npm:babel-messages@6.7.2",
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-types": "npm:babel-types@6.7.2",
         "babylon": "npm:babylon@6.7.0",
         "debug": "npm:debug@2.2.0",
@@ -310,7 +346,7 @@ SystemJS.config({
     },
     "npm:babel-types@6.7.2": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35",
+        "babel-runtime": "npm:babel-runtime@5.8.38",
         "babel-traverse": "npm:babel-traverse@6.7.3",
         "esutils": "npm:esutils@2.0.2",
         "lodash": "npm:lodash@3.10.1",
@@ -319,7 +355,7 @@ SystemJS.config({
     },
     "npm:babylon@6.7.0": {
       "map": {
-        "babel-runtime": "npm:babel-runtime@5.8.35"
+        "babel-runtime": "npm:babel-runtime@5.8.38"
       }
     },
     "npm:brfs@1.4.3": {
@@ -336,9 +372,9 @@ SystemJS.config({
         "through2": "npm:through2@0.6.3"
       }
     },
-    "npm:buffer@4.5.0": {
+    "npm:buffer@4.5.1": {
       "map": {
-        "base64-js": "npm:base64-js@1.1.1",
+        "base64-js": "npm:base64-js@1.1.2",
         "ieee754": "npm:ieee754@1.1.6",
         "isarray": "npm:isarray@1.0.0"
       }

@@ -1,5 +1,3 @@
-import {EventManager, observableMixin} from "@ignavia/util";
-
 export default class Style {
     constructor() {
 
@@ -10,8 +8,6 @@ export default class Style {
         this.width = "auto";
 
         this.zIndex = 0;
-
-        this.eventManager = new EventManager();
 
 
 /*
@@ -119,6 +115,3 @@ https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
 
     makeDisplayObject(nodeObj, graphicalComponent) {}
 }
-
-// Make node styles observable
-Object.assign(Style.prototype, observableMixin);

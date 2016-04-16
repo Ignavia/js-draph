@@ -52,7 +52,7 @@ export default class LabelledStyle extends Style {
         const container = new PIXI.Container();
 
         // Make label
-        const label = new PIXI.Text(nodeObj.rdf.nominalValue, {
+        const label = new PIXI.Text("<Placeholder>", {
             align:              this.text.align,
             dropShadow:         this.text.dropShadow.distance > 0,
             dropShadowAngle:    this.text.dropShadow.angle,
