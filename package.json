@@ -45,6 +45,7 @@
       "@ignavia/util": "^1.2.4",
       "jquery": "^2.2.3",
       "jquery-mousewheel": "^3.1.13",
+      "lodash": "^4.11.1",
       "pixi.js": "^3.0.10",
       "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.7"
     },

@@ -1,38 +1,66 @@
+import _ from "lodash";
+
 import {predefinedColors} from "@ignavia/util";
-import Style              from "./Style.js";
+
+import Style from "./Style.js";
 
 export default class IllustratedStyle extends Style {
     constructor() {
         super();
+        _.merge(this, LabelledStyle.default, conf);
+    }
 
-        //this.backgroundImage
+    makeContainer() {
+        const result = new PIXI.Container();
+        return result;
+    }
 
-        this.border = {
-            color:  predefinedColors.black,
-            radius: 5,
-            width:  2
-        };
+    makeIllustration() {
 
-        this.captionSide = "below"; // below, above, left, right, center, none
+    }
 
-        this.text = {
-            align:           "left",
-            dropShadow:      {
-                                 angle:    Math.PI / 4,
-                                 color:    predefinedColors.gray,
-                                 distance: 0
-                             },
-            fill:            predefinedColors.black,
-            font:            {
-                                 family: "Arial",
-                                 size:   12,
-                                 style:  "normal",
-                                 weight: "bold"
-                             },
-            stroke:          predefinedColors.white,
-            strokeThickness: 0,
-            wordWrapWidth:   0
-        };
+    makeCaption() {
+
+    }
+
+    makeDisplayObject(nodeObj, graphicalComponent) {
+        const container = this.makeContainer();
+        const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
+        const sprite    = new PIXI.Sprite(texture);
+    }
+}
+
+IllustratedStyle.default = {
+    texture: null, // TODO: proper default image (draph)
+
+    border: {
+        color:  predefinedColors.black,
+        radius: 5,
+        width:  2
+    },
+
+    caption: "<Placeholder>",
+    captionSide: "below", // below, above, left, right, center, none
+
+    text: {
+        align:  "left",
+        dropShadow: {
+            angle:    Math.PI / 4,
+            color:    predefinedColors.gray,
+            distance: 0
+        },
+        fill: predefinedColors.black,
+        font: {
+            family: "Arial",
+            size:   12,
+            style:  "normal",
+            weight: "bold"
+        },
+        stroke:          predefinedColors.white,
+        strokeThickness: 0,
+        wordWrapWidth:   0
+    }
+};
 
 
 /*
@@ -126,9 +154,3 @@ zIndex
 https://developer.mozilla.org/en-US/docs/Web/API/Window/getComputedStyle
 
  */
-    }
-
-    makeDisplayObject(nodeObj, graphicalComponent) {
-
-    }
-}

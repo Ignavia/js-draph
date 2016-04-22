@@ -1,58 +1,28 @@
+import _ from "lodash";
+
 import {predefinedColors} from "@ignavia/util";
-import Style              from "./Style.js";
+
+import Style from "./Style.js";
 
 export default class LabelledStyle extends Style {
-    constructor() {
+    constructor(conf = {}) {
         super();
-
-        this.backgroundColor = predefinedColors.white;
-
-        this.border = {
-            color:  predefinedColors.black,
-            radius: 5,
-            width:  2
-        };
-
-        this.padding = 10;
-
-        this.margin = 2;
-
-        /**
-         * The shape of this node. The values "circle", "ellipse", "rect",
-         * "roundedRect" are supported. The default value is "ellipse".
-         *
-         * @type {String}
-         */
-        this.shape = "ellipse";
-
-        this.text = {
-            align:           "left",
-            dropShadow:      {
-                                 angle:    Math.PI / 4,
-                                 color:    predefinedColors.gray,
-                                 distance: 0
-                             },
-            fill:            predefinedColors.black,
-            font:            {
-                                 family: "Arial",
-                                 size:   12,
-                                 style:  "normal",
-                                 weight: "bold"
-                             },
-            stroke:          predefinedColors.white,
-            strokeThickness: 0,
-            textBaseline:    "center",
-            wordWrapWidth:   0
-        };
+        _.merge(this, LabelledStyle.default, conf);
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
-
-        // Bundles label, box and margin
+    makeContainer() {
         const container = new PIXI.Container();
+        const label     = this.makeLabel();
+        const box       = this.makeBox(label);
+        const margin    = this.makeMargin(box);
+        container.addChild(margin);
+        container.addChild(box);
+        container.addChild(label);
+        return container;
+    }
 
-        // Make label
-        const label = new PIXI.Text("<Placeholder>", {
+    makeLabel() {
+        const result = new PIXI.Text(this.label, {
             align:              this.text.align,
             dropShadow:         this.text.dropShadow.distance > 0,
             dropShadowAngle:    this.text.dropShadow.angle,
@@ -65,36 +35,38 @@ export default class LabelledStyle extends Style {
             wordWrap:           this.text.wordWrapWidth > 0,
             wordWrapWidth:      this.text.wordWrapWidth
         });
-        label.x = -label.width  / 2;
-        label.y = -label.height / 2;
+        result.x = -result.width  / 2;
+        result.y = -result.height / 2;
+        return result;
+    }
 
-        // Make box
-        const box = new PIXI.Graphics();
-        box.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
-        box.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
+    makeBox(label) {
+        const result = new PIXI.Graphics();
+        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
+        result.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
 
         if (this.shape === "circle") {
-            box.drawCircle(
+            result.drawCircle(
                 0,
                 0,
                 Math.max(label.width, label.height) / 2 + this.padding
             );
         } else if (this.shape === "ellipse") {
-            box.drawEllipse(
+            result.drawEllipse(
                 0,
                 0,
                 label.width  / Math.sqrt(2) + this.padding,
                 label.height / Math.sqrt(2) + this.padding
             );
         } else if (this.shape === "rect") {
-            box.drawRect(
+            result.drawRect(
                 -label.width  / 2 -     this.padding,
                 -label.height / 2 -     this.padding,
                  label.width      + 2 * this.padding,
                  label.height     + 2 * this.padding
             );
         } else if (this.shape === "roundedRect") {
-            box.drawRoundedRect(
+            result.drawRoundedRect(
                 -label.width  / 2 -     this.padding,
                 -label.height / 2 -     this.padding,
                  label.width      + 2 * this.padding,
@@ -103,23 +75,25 @@ export default class LabelledStyle extends Style {
             );
         }
 
-        // Make margin
-        const margin = new PIXI.Graphics();
-        margin.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
-        margin.drawRect(
+        return result;
+    }
+
+    makeMargin(box) {
+        const result = new PIXI.Graphics();
+        result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
+        result.drawRect(
             -box.width  / 2 -     this.margin,
             -box.height / 2 -     this.margin,
              box.width      + 2 * this.margin,
              box.height     + 2 * this.margin
         );
+        return result;
+    }
 
-        container.addChild(margin);
-        container.addChild(box);
-        container.addChild(label);
-
-        // Using Canvas renderer for smoother lines
-        const texture = container.generateTexture(graphicalComponent.canvasRenderer),
-              sprite  = new PIXI.Sprite(texture);
+    makeDisplayObject(nodeObj, graphicalComponent) {
+        const container = this.makeContainer();
+        const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
+        const sprite    = new PIXI.Sprite(texture);
 
         if (this.width !== "auto") {
             sprite.width = this.width;
@@ -139,3 +113,62 @@ export default class LabelledStyle extends Style {
         return sprite;
     }
 }
+
+LabelledStyle.default = {
+        label: "<Placeholder>",
+        backgroundColor: predefinedColors.white,
+        border: {
+            color:  predefinedColors.black,
+            radius: 5,
+            width:  2
+        },
+        padding: 10,
+        margin: 2,
+
+
+        /**
+         * The width of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
+        width: "auto",
+
+        /**
+         * The height of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
+        height: "auto",
+
+        /**
+         * The shape of this node. The values "circle", "ellipse", "rect",
+         * "roundedRect" are supported. The default value is "ellipse".
+         *
+         * @type {String}
+         */
+        shape: "ellipse",
+
+        text: {
+            align:  "left",
+            dropShadow: {
+                angle:    Math.PI / 4,
+                color:    predefinedColors.gray,
+                distance: 0
+            },
+            fill: predefinedColors.black,
+            font: {
+                family: "Arial",
+                size:   12,
+                style:  "normal",
+                weight: "bold"
+            },
+            stroke:          predefinedColors.white,
+            strokeThickness: 0,
+            textBaseline:    "center",
+            wordWrapWidth:   0
+        }
+};
+
+// TODO: this should have a toJSON method and a fromJSON method (the latter does not need any merge with the default anymore)

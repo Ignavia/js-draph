@@ -20,9 +20,6 @@ SystemJS.config({
         }
       }
     }
-  },
-  map: {
-    "lodash": "npm:lodash@4.6.1"
   }
 });
 
@@ -33,6 +30,7 @@ SystemJS.config({
     "github:*/*.json"
   ],
   map: {
+    "lodash": "npm:lodash@4.11.1",
     "babel-plugin-transform-export-extensions": "npm:babel-plugin-transform-export-extensions@6.5.0",
     "@ignavia/util": "npm:@ignavia/util@1.2.4",
     "@ignavia/earl": "npm:@ignavia/earl@1.2.2",

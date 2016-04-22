@@ -1,18 +1,12 @@
+import _ from "lodash";
+
 import {predefinedColors} from "@ignavia/util";
 import Style              from "./Style.js";
 
 export default class SimpleStyle extends Style {
-    constructor() {
+    constructor(conf = {}) {
         super();
-
-        this.backgroundColor = predefinedColors.white;
-
-        this.border = {
-            color: predefinedColors.black,
-            width: 2
-        };
-
-        this.radius = 10;
+        _.merge(this, SimpleStyle.default, conf);
     }
 
     makeDisplayObject(nodeObj, graphicalComponent) {
@@ -41,3 +35,14 @@ export default class SimpleStyle extends Style {
         return sprite;
     }
 }
+
+SimpleStyle.default = {
+    backgroundColor: predefinedColors.white,
+    border: {
+        color: predefinedColors.black,
+        width: 2
+    },
+    radius: 10,
+    width:  "auto",
+    height: "auto"
+};

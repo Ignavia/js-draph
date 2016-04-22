@@ -3,15 +3,19 @@ import mousewheel from "jquery-mousewheel";
 mousewheel($);
 
 import {NodeVisualizer} from "./draph.js";
+import {GraphVisualizer} from "./draph.js";
+import {EdgeVisualizer} from "./draph.js";
 
 import PIXI from "pixi.js";
 
 export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
+        const gVisualizer = new GraphVisualizer();
+
         this.renderer = new PIXI.autoDetectRenderer(width, height, {
             autoResize:      true,
             resolution:      window.devicePixelRatio || 1,
-            //backgroundColor: graphObj.visualizer.style.backgroundColor.hex
+            backgroundColor: gVisualizer.style.backgroundColor.hex
         });
 
         this.canvasRenderer = new PIXI.CanvasRenderer({
@@ -54,24 +58,25 @@ export default class GraphView {
         this.stage.addChild(this.nodeContainer);
 
         // Apply drop shadows to all node graphics
-        // const dropShadow = new PIXI.filters.DropShadowFilter();
-        // dropShadow.color = graphObj.visualizer.style.dropShadow.color.hex;
-        // dropShadow.alpha = graphObj.visualizer.style.dropShadow.color.alpha;
-        // dropShadow.angle = graphObj.visualizer.style.dropShadow.angle;
-        // dropShadow.blurX = graphObj.visualizer.style.dropShadow.blur.x;
-        // dropShadow.blurY = graphObj.visualizer.style.dropShadow.blur.y;
-        // dropShadow.distance = 5;
-        // this.nodeContainer.filters = [dropShadow];
+        const dropShadow = new PIXI.filters.DropShadowFilter();
+        dropShadow.color = gVisualizer.style.dropShadow.color.hex;
+        dropShadow.alpha = gVisualizer.style.dropShadow.color.alpha;
+        dropShadow.angle = gVisualizer.style.dropShadow.angle;
+        dropShadow.blurX = gVisualizer.style.dropShadow.blur.x;
+        dropShadow.blurY = gVisualizer.style.dropShadow.blur.y;
+        dropShadow.distance = 5;
+        this.nodeContainer.filters = [dropShadow];
+
 
         for (let nodeObj of graphObj.iterNodes()) {
-            const visualizer = new NodeVisualizer();
-            const displayObject = visualizer.makeDisplayObject(nodeObj, this);
-            console.log(visualizer)
+            const nVisualizer = new NodeVisualizer();
+            const displayObject = nVisualizer.makeDisplayObject(nodeObj, this);
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
         }
         for (let edgeObj of graphObj.iterEdges()) {
-            const displayObject = edgeObj.visualizer.makeDisplayObject(edgeObj, this);
+            const eVisualizer = new EdgeVisualizer();
+            const displayObject = eVisualizer.makeDisplayObject(edgeObj, this);
             this.edgeContainer.addChild(displayObject);
             this.edges.set(edgeObj.id, displayObject);
         }
@@ -111,7 +116,7 @@ export default class GraphView {
             this.stage.scale.x * factor > this.graph.visualizer.behavior.maxScaleX * 1.01 ||
             this.stage.scale.y * factor > this.graph.visualizer.behavior.maxScaleY * 1.01) {
 
-            return ;
+            return;
         }
 
         const beforeTransform = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage);
