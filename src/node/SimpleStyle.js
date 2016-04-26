@@ -1,7 +1,8 @@
 import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
-import Style              from "./Style.js";
+
+import Style from "./Style.js";
 
 export default class SimpleStyle extends Style {
     constructor(conf = {}) {
@@ -42,7 +43,5 @@ SimpleStyle.default = {
         color: predefinedColors.black,
         width: 2
     },
-    radius: 10,
-    width:  "auto",
-    height: "auto"
+    radius: 10
 };

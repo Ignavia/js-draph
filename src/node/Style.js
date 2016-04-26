@@ -1,12 +1,34 @@
 export default class Style {
     constructor() {
 
+        /**
+         * The height of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
         this.height = "auto";
 
-        this.visibility = true;
-
+        /**
+         * The width of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
         this.width = "auto";
 
+        /**
+         * Whether to show the sprite.
+         *
+         * @type {Boolean}
+         */
+        this.visibility = true;
+
+        /**
+         * Nodes with a higher value are going to be shown on top of others.
+         *
+         * @type {Number}
+         */
         this.zIndex = 0;
 
 

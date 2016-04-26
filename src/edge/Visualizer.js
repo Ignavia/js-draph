@@ -1,10 +1,11 @@
+import _ from "lodash";
+
 import StraightStyle from "./lineStyles/StraightStyle.js";
 import LabelledStyle from "./decalStyles/LabelledStyle.js";
 
 export default class Visualizer {
-    constructor() {
-        this.lineStyle = new StraightStyle();
-        this.decalStyle = new LabelledStyle();
+    constructor(conf) {
+        _.merge(this, Visualizer.default, conf);
     }
 
     makeDisplayObject(edgeObj, graphicalComponent) {
@@ -13,3 +14,8 @@ export default class Visualizer {
         return line;
     }
 }
+
+Visualizer.default = {
+    lineStyle:  new StraightStyle(),
+    decalStyle: new LabelledStyle()
+};

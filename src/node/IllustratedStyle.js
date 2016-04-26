@@ -7,7 +7,7 @@ import Style from "./Style.js";
 export default class IllustratedStyle extends Style {
     constructor() {
         super();
-        _.merge(this, LabelledStyle.default, conf);
+        _.merge(this, IllustratedStyle.default, conf);
     }
 
     makeContainer() {

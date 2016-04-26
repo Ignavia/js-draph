@@ -1,9 +1,11 @@
 export EdgeVisualizer            from "./Visualizer.js";
-export EdgeDecalStyle            from "./decalStyles/DecalStyle.js";
+
 export EdgeEmptyDecalStyle       from "./decalStyles/EmptyStyle.js";
 export EdgeLabelledDecalStyle    from "./decalStyles/LabelledStyle.js";
 export EdgeIllustratedDecalStyle from "./decalStyles/IllustratedStyle.js";
 export EdgeAnimatedDecalStyle    from "./decalStyles/AnimatedStyle.js";
-export EdgeLineStyle             from "./lineStyles/LineStyle.js";
+
 export EdgeStraightLineStyle     from "./lineStyles/StraightStyle.js";
+export EdgeQuadraticLineStyle    from "./lineStyles/QuadraticCurveStyle.js";
+
 export EdgeBehavior              from "./Behavior.js";

@@ -125,23 +125,6 @@ LabelledStyle.default = {
         padding: 10,
         margin: 2,
 
-
-        /**
-         * The width of this node. This can either be a number or the string
-         * "auto".
-         *
-         * @type {Number|String}
-         */
-        width: "auto",
-
-        /**
-         * The height of this node. This can either be a number or the string
-         * "auto".
-         *
-         * @type {Number|String}
-         */
-        height: "auto",
-
         /**
          * The shape of this node. The values "circle", "ellipse", "rect",
          * "roundedRect" are supported. The default value is "ellipse".
@@ -168,7 +151,37 @@ LabelledStyle.default = {
             strokeThickness: 0,
             textBaseline:    "center",
             wordWrapWidth:   0
-        }
+        },
+
+        /**
+         * The height of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
+        height: "auto",
+
+        /**
+         * The width of this node. This can either be a number or the string
+         * "auto".
+         *
+         * @type {Number|String}
+         */
+        width: "auto",
+
+        /**
+         * Whether to show the sprite.
+         *
+         * @type {Boolean}
+         */
+        visibility: true,
+
+        /**
+         * Nodes with a higher value are going to be shown on top of others.
+         *
+         * @type {Number}
+         */
+        zIndex: 0
 };
 
 // TODO: this should have a toJSON method and a fromJSON method (the latter does not need any merge with the default anymore)

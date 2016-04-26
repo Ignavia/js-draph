@@ -1,8 +1,10 @@
-import LineStyle from "./LineStyle.js";
+import _ from "lodash";
 
-export default class StraightStyle extends LineStyle {
-    constructor() {
-        super();
+import {predefinedColors} from "@ignavia/util";
+
+export default class StraightStyle {
+    constructor(conf) {
+        _.merge(this, StraightStyle.default, conf);
     }
 
     makeDisplayObject(edgeObj, graphicalComponent) {
@@ -12,12 +14,12 @@ export default class StraightStyle extends LineStyle {
               centerY             = (sourceDisplayObject.y + targetDisplayObject.y) / 2;
 
         const line = new PIXI.Graphics();
-        line.lineStyle(this.line.width, this.line.color.hex, this.line.color.alpha);
+        line.lineStyle(this.width, this.color.hex, this.color.alpha);
         line.moveTo(sourceDisplayObject.x - centerX, sourceDisplayObject.y - centerY);
         line.lineTo(targetDisplayObject.x - centerX, targetDisplayObject.y - centerY);
 
-        const texture = line.generateTexture(graphicalComponent.canvasRenderer),
-              sprite  = new PIXI.Sprite(texture);
+        const texture = line.generateTexture(graphicalComponent.canvasRenderer);
+        const sprite  = new PIXI.Sprite(texture);
 
         // Placing the sprite between the two nodes
         sprite.x = centerX;
@@ -28,7 +30,10 @@ export default class StraightStyle extends LineStyle {
         };
 
         return sprite;
-
-        // TODO arrow, node styles should offer collision detection or have a method that returns their shape/bounds
     }
 }
+
+StraightStyle.default = {
+    color: predefinedColors.black,
+    width: 2
+};

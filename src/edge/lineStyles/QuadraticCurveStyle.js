@@ -1,13 +1,8 @@
-import LineStyle from "./LineStyle.js";
+import _ from "lodash";
 
-export default class QuadraticCurveStyle extends LineStyle {
+export default class QuadraticCurveStyle {
     constructor() {
-
-        this.parallel = 0.5;
-
-        this.perpendicular = 20; // could be automatically adjusted if we go through all edges that start at a node and pass in a counter; always postive, so nodes ending here are bend the other way
-
-        super();
+        _.merge(this, LabelledStyle.default, conf);
     }
 
     makeDisplayObject(edgeObj, graphicalComponent) {
@@ -41,3 +36,8 @@ export default class QuadraticCurveStyle extends LineStyle {
         return sprite;
     }
 }
+
+QuadraticCurveStyle.default = {
+    parallel: 0.5,
+    perpendicular: 20
+};

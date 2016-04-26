@@ -64,9 +64,8 @@ export default class GraphView {
         dropShadow.angle = gVisualizer.style.dropShadow.angle;
         dropShadow.blurX = gVisualizer.style.dropShadow.blur.x;
         dropShadow.blurY = gVisualizer.style.dropShadow.blur.y;
-        dropShadow.distance = 5;
+        dropShadow.distance = gVisualizer.style.dropShadow.distance;
         this.nodeContainer.filters = [dropShadow];
-
 
         for (let nodeObj of graphObj.iterNodes()) {
             const nVisualizer = new NodeVisualizer();
