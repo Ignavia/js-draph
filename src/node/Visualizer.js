@@ -11,10 +11,23 @@ export default class Visualizer {
         this.position =new Vec2(Math.random(), Math.random());// TODO: remove
     }
 
+    addBehavior(displayObject) {
+        displayObject.interactive = true;
+        displayObject.buttonMode  = true;
+        displayObject.mouseover   = this.behavior.handleMouseover;
+        displayObject.mouseout    = this.behavior.handleMouseout;
+        displayObject.mousedown   = this.behavior.handleMousedown;
+        displayObject.mouseup     = this.behavior.handleMouseup;
+        displayObject.click       = this.behavior.handleClick;
+        displayObject.touchstart  = this.behavior.handleTouchstart;
+        displayObject.touchend    = this.behavior.handleTouchend;
+        displayObject.tap         = this.behavior.handleTap;
+    }
+
     makeDisplayObject(nodeObj, graphicalComponent) {
         const displayObject = this.style.makeDisplayObject(nodeObj, graphicalComponent);
+        this.addBehavior(displayObject);
 
-        // Add behavior
         displayObject.x        += this.position.x * graphicalComponent.width;
         displayObject.y        += this.position.y * graphicalComponent.height;
         displayObject.scale    = this.scale;

@@ -5,18 +5,22 @@ import {predefinedColors} from "@ignavia/util";
 import Style from "./Style.js";
 
 export default class IllustratedStyle extends Style {
-    constructor() {
+    constructor(conf = {}) {
         super();
         _.merge(this, IllustratedStyle.default, conf);
     }
 
     makeContainer() {
         const result = new PIXI.Container();
+        const illustration = this.makeIllustration();
+        result.addChild(illustration);
+
         return result;
     }
 
     makeIllustration() {
-
+        const sprite = PIXI.Sprite.fromImage(this.imagePath);
+        return sprite;
     }
 
     makeCaption() {
@@ -27,11 +31,12 @@ export default class IllustratedStyle extends Style {
         const container = this.makeContainer();
         const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
         const sprite    = new PIXI.Sprite(texture);
+        return sprite;
     }
 }
 
 IllustratedStyle.default = {
-    texture: null, // TODO: proper default image (draph)
+    imagePath: "../../img/default.png",
 
     border: {
         color:  predefinedColors.black,

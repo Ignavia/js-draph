@@ -6,6 +6,8 @@ import {NodeVisualizer} from "./draph.js";
 import {GraphVisualizer} from "./draph.js";
 import {EdgeVisualizer} from "./draph.js";
 
+import IllustratedStyle from "./node/IllustratedStyle.js";
+
 import PIXI from "pixi.js";
 
 export default class GraphView {
@@ -83,6 +85,16 @@ export default class GraphView {
         if (width !== window.innerWidth || height !== window.innerHeight) {
             this.resize();
         }
+
+        // remove -------
+
+        const style = new IllustratedStyle();
+        const vis = new NodeVisualizer({
+            style
+        });
+        this.edgeContainer.addChild(vis.makeDisplayObject(null, this));
+
+        // end remove ------
 
         this.animate();
     }
