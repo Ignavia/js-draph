@@ -12,12 +12,12 @@ import PIXI from "pixi.js";
 
 export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
-        const gVisualizer = new GraphVisualizer();
+        this.gVisualizer = new GraphVisualizer();
 
         this.renderer = new PIXI.autoDetectRenderer(width, height, {
             autoResize:      true,
             resolution:      window.devicePixelRatio || 1,
-            backgroundColor: gVisualizer.style.backgroundColor.hex
+            backgroundColor: this.gVisualizer.style.backgroundColor.hex
         });
 
         this.canvasRenderer = new PIXI.CanvasRenderer({
@@ -61,12 +61,12 @@ export default class GraphView {
 
         // Apply drop shadows to all node graphics
         const dropShadow = new PIXI.filters.DropShadowFilter();
-        dropShadow.color = gVisualizer.style.dropShadow.color.hex;
-        dropShadow.alpha = gVisualizer.style.dropShadow.color.alpha;
-        dropShadow.angle = gVisualizer.style.dropShadow.angle;
-        dropShadow.blurX = gVisualizer.style.dropShadow.blur.x;
-        dropShadow.blurY = gVisualizer.style.dropShadow.blur.y;
-        dropShadow.distance = gVisualizer.style.dropShadow.distance;
+        dropShadow.color = this.gVisualizer.style.dropShadow.color.hex;
+        dropShadow.alpha = this.gVisualizer.style.dropShadow.color.alpha;
+        dropShadow.angle = this.gVisualizer.style.dropShadow.angle;
+        dropShadow.blurX = this.gVisualizer.style.dropShadow.blur.x;
+        dropShadow.blurY = this.gVisualizer.style.dropShadow.blur.y;
+        dropShadow.distance = this.gVisualizer.style.dropShadow.distance;
         this.nodeContainer.filters = [dropShadow];
 
         for (let nodeObj of graphObj.iterNodes()) {
@@ -120,12 +120,12 @@ export default class GraphView {
 
     zoom(direction = "in") {
         const sign   = direction === "in" ? 1 : -1,
-              factor = Math.pow(this.graph.visualizer.behavior.zoomFactor, sign);
+              factor = Math.pow(this.gVisualizer.behavior.zoomFactor, sign);
 
-        if (this.stage.scale.x * factor < this.graph.visualizer.behavior.minScaleX * 0.99 ||
-            this.stage.scale.y * factor < this.graph.visualizer.behavior.minScaleY * 0.99 ||
-            this.stage.scale.x * factor > this.graph.visualizer.behavior.maxScaleX * 1.01 ||
-            this.stage.scale.y * factor > this.graph.visualizer.behavior.maxScaleY * 1.01) {
+        if (this.stage.scale.x * factor < this.gVisualizer.behavior.minScaleX * 0.99 ||
+            this.stage.scale.y * factor < this.gVisualizer.behavior.minScaleY * 0.99 ||
+            this.stage.scale.x * factor > this.gVisualizer.behavior.maxScaleX * 1.01 ||
+            this.stage.scale.y * factor > this.gVisualizer.behavior.maxScaleY * 1.01) {
 
             return;
         }

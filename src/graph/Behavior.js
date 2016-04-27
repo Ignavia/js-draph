@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 export default class Behavior {
-    constructor(conf) {
+    constructor(conf = {}) {
         _.merge(this, Behavior.default, conf);
     }
 }

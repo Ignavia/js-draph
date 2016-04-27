@@ -13,6 +13,9 @@ export default class IllustratedStyle extends Style {
     makeContainer() {
         const result = new PIXI.Container();
         const illustration = this.makeIllustration();
+        const caption = this.makeCaption();
+
+        result.addChild(caption);
         result.addChild(illustration);
 
         return result;
@@ -24,7 +27,22 @@ export default class IllustratedStyle extends Style {
     }
 
     makeCaption() {
-
+        const result = new PIXI.Text(this.caption, {
+            align:              this.text.align,
+            dropShadow:         this.text.dropShadow.distance > 0,
+            dropShadowAngle:    this.text.dropShadow.angle,
+            dropShadowColor:    this.text.dropShadow.color.hex,
+            dropShadowDistance: this.text.dropShadow.distance,
+            fill:               this.text.fill.hex,
+            font:               `${this.text.font.weight} ${this.text.font.style} ${this.text.font.size}px ${this.text.font.family}`,
+            stroke:             this.text.stroke.hex,
+            strokeThickness:    this.text.strokeThickness,
+            wordWrap:           this.text.wordWrapWidth > 0,
+            wordWrapWidth:      this.text.wordWrapWidth
+        });
+        result.x = -result.width  / 2;
+        result.y = -result.height / 2;
+        return result;
     }
 
     makeDisplayObject(nodeObj, graphicalComponent) {
