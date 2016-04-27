@@ -18,12 +18,26 @@ export default class IllustratedStyle extends Style {
         result.addChild(caption);
         result.addChild(illustration);
 
+        if (this.captionSide === "above") {
+            caption.y -= Math.max(illustration.height, caption.height) / 2 + this.imagePadding;
+        } else if (this.captionSide === "right") {
+            caption.x += Math.max(illustration.width,  caption.width)  / 2 + this.imagePadding;
+        } else if (this.captionSide === "below") {
+            caption.y += Math.max(illustration.height, caption.height) / 2 + this.imagePadding;
+        } else if (this.captionSide === "left") {
+            caption.x -= Math.max(illustration.width,  caption.width)  / 2 + this.imagePadding;
+        } else if (this.captionSide === "none") {
+            result.removeChild(caption);
+        }
+
         return result;
     }
 
     makeIllustration() {
-        const sprite = PIXI.Sprite.fromImage(this.imagePath);
-        return sprite;
+        const result = PIXI.Sprite.fromImage(this.imagePath);
+        result.x = -result.width  / 2;
+        result.y = -result.height / 2;
+        return result;
     }
 
     makeCaption() {
@@ -56,6 +70,8 @@ export default class IllustratedStyle extends Style {
 IllustratedStyle.default = {
     imagePath: "../../img/default.png",
 
+    imagePadding: 10,
+
     border: {
         color:  predefinedColors.black,
         radius: 5,
@@ -63,7 +79,7 @@ IllustratedStyle.default = {
     },
 
     caption: "<Placeholder>",
-    captionSide: "below", // below, above, left, right, center, none
+    captionSide: "left", // below, above, left, right, center, none
 
     text: {
         align:  "left",
@@ -72,10 +88,10 @@ IllustratedStyle.default = {
             color:    predefinedColors.gray,
             distance: 0
         },
-        fill: predefinedColors.black,
+        fill: predefinedColors.gray,
         font: {
             family: "Arial",
-            size:   12,
+            size:   10,
             style:  "normal",
             weight: "bold"
         },
