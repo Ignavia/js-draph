@@ -1,6 +1,8 @@
-export default class Behavior {
-    constructor() {
+import _ from "lodash";
 
+export default class Behavior {
+    constructor(conf) {
+        _.merge(this, Behavior.default, conf);
     }
 }
 

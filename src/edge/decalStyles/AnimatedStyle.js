@@ -1,7 +1,5 @@
-import DecalStyle from "./DecalStyle.js";
-
-export default class AnimatedStyle extends DecalStyle {
+export default class AnimatedStyle {
     constructor() {
-        super();
+
     }
 }

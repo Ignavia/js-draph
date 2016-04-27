@@ -9,9 +9,17 @@ export default class Visualizer {
     }
 
     makeDisplayObject(edgeObj, graphicalComponent) {
+        const container = new PIXI.Container();
         const line = this.lineStyle.makeDisplayObject(edgeObj, graphicalComponent);
+        const decal = this.decalStyle.makeDisplayObject(edgeObj, graphicalComponent);
 
-        return line;
+        decal.position.x = line.decalAnchor.x;
+        decal.position.y = line.decalAnchor.y;
+
+        container.addChild(line);
+        container.addChild(decal);
+
+        return container;
     }
 }
 

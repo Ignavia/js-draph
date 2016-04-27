@@ -38,6 +38,6 @@ export default class QuadraticCurveStyle {
 }
 
 QuadraticCurveStyle.default = {
-    parallel: 0.5,
+    parallel:      0.5,
     perpendicular: 20
 };

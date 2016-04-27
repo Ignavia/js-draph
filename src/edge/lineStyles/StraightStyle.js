@@ -1,6 +1,7 @@
 import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
+import {Vec2}             from "@ignavia/ella";
 
 export default class StraightStyle {
     constructor(conf) {
@@ -29,11 +30,18 @@ export default class StraightStyle {
             y: 0.5
         };
 
+        if (this.decalAnchor === "auto") {
+            sprite.decalAnchor = new Vec2(centerX, centerY);
+        } else {
+            sprite.decalAnchor = this.decalAnchor;
+        }
+
         return sprite;
     }
 }
 
 StraightStyle.default = {
     color: predefinedColors.black,
-    width: 2
+    width: 2,
+    decalAnchor: "auto"
 };

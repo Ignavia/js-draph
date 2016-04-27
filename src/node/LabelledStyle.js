@@ -2,11 +2,8 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-import Style from "./Style.js";
-
-export default class LabelledStyle extends Style {
+export default class LabelledStyle {
     constructor(conf = {}) {
-        super();
         _.merge(this, LabelledStyle.default, conf);
     }
 

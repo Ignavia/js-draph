@@ -4,7 +4,7 @@ export {NodeVisualizer, NodeStyle, NodeSimpleStyle, NodeLabelledStyle,
         NodeIllustratedStyle, NodeAnimatedStyle, NodeTableStyle}
         from "./node/node.js";
 
-export {EdgeVisualizer, EdgeDecalStyle, EdgeEmptyDecalStyle,
+export {EdgeVisualizer, EdgeEmptyDecalStyle,
         EdgeLabelledDecalStyle, EdgeIllustratedDecalStyle,
         EdgeAnimatedDecalStyle, EdgeLineStyle, EdgeStraightLineStyle}
         from "./edge/edge.js";

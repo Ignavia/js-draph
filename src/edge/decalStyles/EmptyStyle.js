@@ -1,11 +1,11 @@
-import DecalStyle from "./DecalStyle.js";
+const empty = new PIXI.DisplayObject();
 
-export default class EmptyStyle extends DecalStyle {
+export default class EmptyStyle {
     constructor() {
-        super();
+
     }
 
     makeDisplayObject() {
-        return new PIXI.DisplayObject();
+        return empty;
     }
 }
