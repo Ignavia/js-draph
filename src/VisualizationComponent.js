@@ -14,7 +14,7 @@ export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
         this.gVisualizer = new GraphVisualizer();
 
-        this.renderer = new PIXI.autoDetectRenderer(width, height, {
+        this.renderer = new PIXI.CanvasRenderer(width, height, {
             autoResize:      true,
             resolution:      window.devicePixelRatio || 1,
             backgroundColor: this.gVisualizer.style.backgroundColor.hex

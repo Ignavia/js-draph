@@ -90,7 +90,7 @@ export default class LabelledStyle {
     makeDisplayObject(nodeObj, graphicalComponent) {
         const container = this.makeContainer();
         const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
-        const sprite    = new PIXI.Sprite(texture);
+        const sprite    = container;//new PIXI.Sprite(texture);
 
         if (this.width !== "auto") {
             sprite.width = this.width;
@@ -140,7 +140,7 @@ LabelledStyle.default = {
             fill: predefinedColors.black,
             font: {
                 family: "Arial",
-                size:   10,
+                size:   16,
                 style:  "normal",
                 weight: "bold"
             },

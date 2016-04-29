@@ -46,7 +46,7 @@
       "jquery": "^2.2.3",
       "jquery-mousewheel": "^3.1.13",
       "lodash": "^4.11.1",
-      "pixi.js": "^3.0.10",
+      "pixi.js": "^3.0.11",
       "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.7"
     },
     "devDependencies": {
@@ -64,6 +64,7 @@
       "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
       "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
+      "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
       "source-map": "~0.1.33",
@@ -81,21 +82,6 @@
       },
       "npm:jquery@2.2.3": {
         "format": "amd"
-      },
-      "npm:readable-stream@1.0.33": {
-        "map": {
-          "stream": "stream-browserify/index"
-        },
-        "systemjs": {
-          "main": "readable.js"
-        },
-        "dependencies": {
-          "core-util-is": "~1.0.0",
-          "isarray": "0.0.1",
-          "string_decoder": "~0.10.0",
-          "inherits": "~2.0.1",
-          "stream-browserify": "~1.0.0"
-        }
       }
     }
   }

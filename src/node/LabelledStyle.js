@@ -2,6 +2,8 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
+import * as Utils from "../Utils.js";
+
 export default class LabelledStyle {
     constructor(conf = {}) {
         _.merge(this, LabelledStyle.default, conf);
@@ -89,17 +91,12 @@ export default class LabelledStyle {
 
     makeDisplayObject(nodeObj, graphicalComponent) {
         const container = this.makeContainer();
-        const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
-        const sprite    = new PIXI.Sprite(texture);
+        const sprite    = Utils.makeCanvasSprite(container, {
+            width:  this.width,
+            height: this.height
+        });
 
-        if (this.width !== "auto") {
-            sprite.width = this.width;
-        }
-        if (this.height !== "auto") {
-            sprite.height = this.height;
-        }
-
-        sprite.visible = this.visibility;
+        sprite.visible = this.visible;
 
         // Placing the texture at the origin of the coordinate system of the sprite
         sprite.anchor = {
@@ -140,7 +137,7 @@ LabelledStyle.default = {
             fill: predefinedColors.black,
             font: {
                 family: "Arial",
-                size:   12,
+                size:   20,
                 style:  "normal",
                 weight: "bold"
             },
@@ -171,7 +168,7 @@ LabelledStyle.default = {
          *
          * @type {Boolean}
          */
-        visibility: true,
+        visible: true,
 
         /**
          * Nodes with a higher value are going to be shown on top of others.
