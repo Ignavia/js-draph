@@ -1,4 +1,4 @@
-const empty = new PIXI.DisplayObject();
+import {emptyDisplayObject} from "../../Utils.js";
 
 export default class EmptyStyle {
     constructor() {
@@ -6,6 +6,6 @@ export default class EmptyStyle {
     }
 
     makeDisplayObject() {
-        return empty;
+        return emptyDisplayObject;
     }
 }

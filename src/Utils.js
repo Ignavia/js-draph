@@ -10,6 +10,8 @@ const renderer = new PIXI.CanvasRenderer(screen.width, screen.height, {
 
 console.log(window.devicePixelRatio)
 
+export const emptyDisplayObject = new PIXI.DisplayObject();
+
 export function makeCanvasSprite(displayObject, {width = "auto", height = "auto"} = {}) {
     const texture = displayObject.generateTexture(renderer);
     const sprite  = new PIXI.Sprite(texture);
