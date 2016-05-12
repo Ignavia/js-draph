@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
 export default class TriangleStyle {
@@ -7,89 +8,23 @@ export default class TriangleStyle {
         _.merge(this, TriangleStyle.default, conf);
     }
 
-    makeContainer() {
-        const container = new PIXI.Container();
-        const label     = this.makeLabel();
-        const box       = this.makeBox(label);
-        const margin    = this.makeMargin(box);
-        container.addChild(margin);
-        container.addChild(box);
-        container.addChild(label);
-        return container;
-    }
-
-    makeLabel() {
-        const result = new PIXI.Text(this.label, {
-            align:              this.text.align,
-            dropShadow:         this.text.dropShadow.distance > 0,
-            dropShadowAngle:    this.text.dropShadow.angle,
-            dropShadowColor:    this.text.dropShadow.color.hex,
-            dropShadowDistance: this.text.dropShadow.distance,
-            fill:               this.text.fill.hex,
-            font:               `${this.text.font.weight} ${this.text.font.style} ${this.text.font.size}px ${this.text.font.family}`,
-            stroke:             this.text.stroke.hex,
-            strokeThickness:    this.text.strokeThickness,
-            wordWrap:           this.text.wordWrapWidth > 0,
-            wordWrapWidth:      this.text.wordWrapWidth
-        });
-        result.x = -result.width  / 2;
-        result.y = -result.height / 2;
-        return result;
-    }
-
     makeBox(label) {
+        const {tip, baseLeft, baseRight} = this.computeVertices();
+
         const result = new PIXI.Graphics();
         result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
         result.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
 
-        if (this.shape === "circle") {
-            result.drawCircle(
-                0,
-                0,
-                Math.max(label.width, label.height) / 2 + this.padding
-            );
-        } else if (this.shape === "ellipse") {
-            result.drawEllipse(
-                0,
-                0,
-                label.width  / Math.sqrt(2) + this.padding,
-                label.height / Math.sqrt(2) + this.padding
-            );
-        } else if (this.shape === "rect") {
-            result.drawRect(
-                -label.width  / 2 -     this.padding,
-                -label.height / 2 -     this.padding,
-                 label.width      + 2 * this.padding,
-                 label.height     + 2 * this.padding
-            );
-        } else if (this.shape === "roundedRect") {
-            result.drawRoundedRect(
-                -label.width  / 2 -     this.padding,
-                -label.height / 2 -     this.padding,
-                 label.width      + 2 * this.padding,
-                 label.height     + 2 * this.padding,
-                this.border.radius
-            );
-        }
+        result.moveTo(baseLeft.x,  baseLeft.y);
+        result.lineTo(0,           0);
+        result.lineTo(baseRight.x, baseRight.y);
 
-        return result;
-    }
-
-    makeMargin(box) {
-        const result = new PIXI.Graphics();
-        result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
-        result.drawRect(
-            -box.width  / 2 -     this.margin,
-            -box.height / 2 -     this.margin,
-             box.width      + 2 * this.margin,
-             box.height     + 2 * this.margin
-        );
         return result;
     }
 
     makeDisplayObject(nodeObj, graphicalComponent) {
-        const container = this.makeContainer();
-        const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
+        const container = this.makeBox();
+        //const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
         const sprite    = container;//new PIXI.Sprite(texture);
 
         sprite.visible = this.visibility;
@@ -103,6 +38,17 @@ export default class TriangleStyle {
         return sprite;
     }
 
+    computeVertices() {
+        const {baseLength: b, legLength: l} = this.computeMeasures();
+        const h = Math.sqrt(l**2 - (b / 2)**2);
+
+        return {
+            tip:       new Vec2(0, 0),
+            baseLeft:  new Vec2(-b / 2, h),
+            baseRight: new Vec2( b / 2, h),
+        };
+    }
+
     computeMeasures() {
         const autoBaseLength = this.measures.baseLength === "auto";
         const autoLegLength  = this.measures.legLength  === "auto";
@@ -112,27 +58,24 @@ export default class TriangleStyle {
                                  (autoLegLength  ? 1 : 0) +
                                  (autoTipAngle   ? 1 : 0);
 
-        if (numberOfUnknowns !== 1) {
-            throw new Error(`Exactly one measure must be set to "auto".`);
+        if (numberOfUnknowns > 1) {
+            throw new Error("At least two measures must be provided.");
         }
 
         if (autoBaseLength) {
             return {
                 baseLength: this.computeBaseLength(),
-                legLength:  this.measures.legLength,
-                tipAngle:   this.measures.tipAngle
+                legLength:  this.measures.legLength
             };
         } else if (autoLegLength) {
             return {
                 baseLength: this.measures.baseLength,
-                legLength:  this.computeLegLength(),
-                tipAngle:   this.measures.tipAngle
+                legLength:  this.computeLegLength()
             };
         } else {
             return {
                 baseLength: this.measures.baseLength,
-                legLength:  this.measures.legLength,
-                tipAngle:   this.computeTipAngle()
+                legLength:  this.measures.legLength
             };
         }
     }
@@ -144,25 +87,19 @@ export default class TriangleStyle {
     computeLegLength() {
         return this.measures.baseLength / (2 * Math.sin(this.measures.tipAngle / 2));
     }
-
-    computeTipAngle() {
-        return 2 * Math.asin(this.measures.baseLength / (2 * this.measures.legLength));
-    }
 }
 
 TriangleStyle.default = {
     backgroundColor: predefinedColors.white,
     border: {
-        color:    predefinedColors.black,
-        radius:   5,
-        width:    2,
-        showBase: false
+        color: predefinedColors.black,
+        width: 2
     },
     measures: {
         tipAngle: Math.PI / 4,
         legLength: "auto",
-        baseLength: 10
-    }
+        baseLength: 15
+    },
 
     /**
      * Whether to show the sprite.

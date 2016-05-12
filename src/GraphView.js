@@ -6,6 +6,8 @@ import {NodeVisualizer} from "./draph.js";
 import {GraphVisualizer} from "./draph.js";
 import {EdgeVisualizer} from "./draph.js";
 
+import {EdgeTriangleArrowStyle} from "./draph.js";
+
 import IllustratedStyle from "./node/IllustratedStyle.js";
 
 import PIXI from "pixi.js";
@@ -93,6 +95,9 @@ export default class GraphView {
             style
         });
         this.edgeContainer.addChild(vis.makeDisplayObject(null, this));
+
+        const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
+        this.edgeContainer.addChild(disp);
 
         // end remove ------
 
