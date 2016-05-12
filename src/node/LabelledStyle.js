@@ -109,73 +109,73 @@ export default class LabelledStyle {
 }
 
 LabelledStyle.default = {
-        label: "<Placeholder>",
-        backgroundColor: predefinedColors.white,
-        border: {
-            color:  predefinedColors.black,
-            radius: 5,
-            width:  2
+    label: "<Placeholder>",
+    backgroundColor: predefinedColors.white,
+    border: {
+        color:  predefinedColors.black,
+        radius: 5,
+        width:  2
+    },
+    padding: 10,
+    margin: 2,
+
+    /**
+     * The shape of this node. The values "circle", "ellipse", "rect",
+     * "roundedRect" are supported. The default value is "ellipse".
+     *
+     * @type {String}
+     */
+    shape: "ellipse",
+
+    text: {
+        align:  "left",
+        dropShadow: {
+            angle:    Math.PI / 4,
+            color:    predefinedColors.gray,
+            distance: 0
         },
-        padding: 10,
-        margin: 2,
-
-        /**
-         * The shape of this node. The values "circle", "ellipse", "rect",
-         * "roundedRect" are supported. The default value is "ellipse".
-         *
-         * @type {String}
-         */
-        shape: "ellipse",
-
-        text: {
-            align:  "left",
-            dropShadow: {
-                angle:    Math.PI / 4,
-                color:    predefinedColors.gray,
-                distance: 0
-            },
-            fill: predefinedColors.black,
-            font: {
-                family: "Arial",
-                size:   20,
-                style:  "normal",
-                weight: "bold"
-            },
-            stroke:          predefinedColors.white,
-            strokeThickness: 0,
-            textBaseline:    "center",
-            wordWrapWidth:   0
+        fill: predefinedColors.black,
+        font: {
+            family: "Arial",
+            size:   20,
+            style:  "normal",
+            weight: "bold"
         },
+        stroke:          predefinedColors.white,
+        strokeThickness: 0,
+        textBaseline:    "center",
+        wordWrapWidth:   0
+    },
 
-        /**
-         * The height of this node. This can either be a number or the string
-         * "auto".
-         *
-         * @type {Number|String}
-         */
-        height: "auto",
+    /**
+     * The height of this node. This can either be a number or the string
+     * "auto".
+     *
+     * @type {Number|String}
+     */
+    height: "auto",
 
-        /**
-         * The width of this node. This can either be a number or the string
-         * "auto".
-         *
-         * @type {Number|String}
-         */
-        width: "auto",
+    /**
+     * The width of this node. This can either be a number or the string
+     * "auto".
+     *
+     * @type {Number|String}
+     */
+    width: "auto",
 
-        /**
-         * Whether to show the sprite.
-         *
-         * @type {Boolean}
-         */
-        visible: true,
+    /**
+     * Whether to show the sprite.
+     *
+     * @type {Boolean}
+     */
+    visible: true,
 
-        /**
-         * Nodes with a higher value are going to be shown on top of others.
-         *
-         * @type {Number}
-         */
-        zIndex: 0
+    /**
+     * Nodes with a higher value are going to be shown on top of others.
+     *
+     * @type {Number}
+     */
+    zIndex: 0
 };
 
 // TODO: this should have a toJSON method and a fromJSON method (the latter does not need any merge with the default anymore)
