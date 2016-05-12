@@ -100,7 +100,10 @@ export default class GraphView {
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
         this.edgeContainer.addChild(disp);
 
-        const disp2 = new NodeTableStyle().makeDisplayObject();
+        const disp2 = new NodeTableStyle({
+            headers: ["Column1", "Column2"],
+            data:   [["Data 11", "Data21"], ["Data 21", "Data22"]]
+        }).makeDisplayObject();
         this.nodeContainer.addChild(disp2);
 
         // end remove ------

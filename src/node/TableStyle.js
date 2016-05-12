@@ -119,16 +119,16 @@ export default class TableStyle {
 
             let curX = (columnWidths[0] || 0) / 2 - width / 2;
             for (let c = 0; c < labels[r].length; c++) {
-                labels.x += curX;
-                labels.y += curY;
+                labels[r][c].x += curX;
+                labels[r][c].y += curY;
 
                 curX += columnWidths[c] / 2 +
-                        this.border.vertical ? this.border.width : 0 +
+                        (this.border.vertical ? this.border.width : 0) +
                         (columnWidths[c + 1] || 0) / 2;
             }
 
             curY += rowHeights[r] / 2 +
-                    this.border.horizontal ? this.border.width : 0 +
+                    (this.border.horizontal ? this.border.width : 0) +
                     (rowHeights[r + 1] || 0) / 2;
         }
     }
@@ -181,16 +181,16 @@ export default class TableStyle {
         }
 
         // Data
-        for (let r = 0; r < this.data.length; r++) {
+        for (let r = 1; r <= this.data.length; r++) {
             labels[r] = [];
-            for (let c = 0; c < this.data[r].length; c++) {
-                const label     = this.makeLabel(this.data[r][c], this.text.data);
+            for (let c = 0; c < this.data[r - 1].length; c++) {
+                const label     = this.makeLabel(this.data[r - 1][c], this.text.data);
                 labels[r][c]    = label;
-                columnWidths[r] = this.adjustDimension(columnWidths[r], label.width);
-                rowHeights[c]   = this.adjustDimension(rowHeights[c],   label.height);
+                columnWidths[c] = this.adjustDimension(columnWidths[c], label.width);
+                rowHeights[r]   = this.adjustDimension(rowHeights[r],   label.height);
             }
         }
-
+console.log(columnWidths,rowHeights)
         return {labels, columnWidths, rowHeights};
     }
 
