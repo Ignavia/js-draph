@@ -476,6 +476,7 @@ SystemJS.config({
         "core-util-is": "npm:core-util-is@1.0.2",
         "inherits": "npm:inherits@2.0.1",
         "isarray": "npm:isarray@0.0.1",
+        "stream-browserify": "npm:stream-browserify@1.0.0",
         "string_decoder": "npm:string_decoder@0.10.31"
       }
     },
@@ -484,6 +485,7 @@ SystemJS.config({
         "core-util-is": "npm:core-util-is@1.0.2",
         "inherits": "npm:inherits@2.0.1",
         "isarray": "npm:isarray@0.0.1",
+        "stream-browserify": "npm:stream-browserify@1.0.0",
         "string_decoder": "npm:string_decoder@0.10.31"
       }
     },
@@ -531,6 +533,12 @@ SystemJS.config({
         "shallow-copy": "npm:shallow-copy@0.0.1",
         "static-eval": "npm:static-eval@0.2.4",
         "through2": "npm:through2@0.4.2"
+      }
+    },
+    "npm:stream-browserify@1.0.0": {
+      "map": {
+        "inherits": "npm:inherits@2.0.1",
+        "readable-stream": "npm:readable-stream@1.1.14"
       }
     },
     "npm:stream-browserify@2.0.1": {
