@@ -79,8 +79,8 @@ export default class TableStyle {
         let curX = -width / 2;
         for (let c = 0; c < columnWidths.length - 1; c++) {
             curX += columnWidths[c];
-            result.moveTo(curX, 0);
-            result.lineTo(curX, height);
+            result.moveTo(curX, -height / 2);
+            result.lineTo(curX,  height / 2);
         }
 
         return result;
@@ -93,8 +93,8 @@ export default class TableStyle {
         let curY = -height / 2;
         for (let r = 0; r < rowHeights.length - 1; r++) {
             curY += rowHeights[r];
-            result.moveTo(0,     curY);
-            result.lineTo(width, curY);
+            result.moveTo(-width / 2, curY);
+            result.lineTo( width / 2, curY);
         }
 
         return result;
@@ -190,7 +190,7 @@ export default class TableStyle {
                 rowHeights[r]   = this.adjustDimension(rowHeights[r],   label.height);
             }
         }
-console.log(columnWidths,rowHeights)
+
         return {labels, columnWidths, rowHeights};
     }
 
