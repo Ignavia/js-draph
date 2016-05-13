@@ -10,14 +10,14 @@ export default class TableStyle {
         _.merge(this, TableStyle.default, conf);
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
-        const container = this.makeContainer();
+    makeDisplayObject(nodeObj, graphicalComponent, conf = TableStyle.default) {
+        const container = this.makeContainer(conf);
         const sprite    = Utils.makeCanvasSprite(container, {
-            width:  this.width,
-            height: this.height
+            width:  conf.width,
+            height: conf.height
         });
 
-        sprite.visible = this.visible;
+        sprite.visible = conf.visible;
 
         // Placing the texture at the origin of the coordinate system of the sprite
         sprite.anchor = {
@@ -28,18 +28,18 @@ export default class TableStyle {
         return sprite;
     }
 
-    makeContainer() {
+    makeContainer(conf) {
         const container = new PIXI.Container();
 
-        const {labels, columnWidths, rowHeights} = this.makeLabels();
+        const {labels, columnWidths, rowHeights} = this.makeLabels(conf);
 
-        const width  = this.computeWidth(columnWidths);
-        const height = this.computeHeight(rowHeights);
+        const width  = this.computeWidth(columnWidths, conf);
+        const height = this.computeHeight(rowHeights, conf);
 
-        this.positionLabels(labels, columnWidths, rowHeights, width, height);
+        this.positionLabels(labels, columnWidths, rowHeights, width, height, conf);
 
-        const box = this.makeBox(width, height);
-        const borders = this.makeBorders(columnWidths, rowHeights, width, height);
+        const box = this.makeBox(width, height, conf);
+        const borders = this.makeBorders(columnWidths, rowHeights, width, height, conf);
 
         container.addChild(box);
         container.addChild(borders);
@@ -54,27 +54,27 @@ export default class TableStyle {
 
     // draw box, border, labels
 
-    makeBorders(columnWidths, rowHeights, width, height) {
+    makeBorders(columnWidths, rowHeights, width, height, conf) {
         const result = new PIXI.Container();
 
-        if (this.border.vertical){
-            result.addChild(this.makeVerticalBorders(columnWidths, width, height));
+        if (conf.border.vertical){
+            result.addChild(this.makeVerticalBorders(columnWidths, width, height, conf));
         }
 
-        if (this.border.horizontal) {
-            result.addChild(this.makeHorizontalBorders(rowHeights, width, height));
+        if (conf.border.horizontal) {
+            result.addChild(this.makeHorizontalBorders(rowHeights, width, height, conf));
         }
 
-        if (this.border.around) {
-            result.addChild(this.makeBorderAround(width, height));
+        if (conf.border.around) {
+            result.addChild(this.makeBorderAround(width, height, conf));
         }
 
         return result;
     }
 
-    makeVerticalBorders(columnWidths, width, height) {
+    makeVerticalBorders(columnWidths, width, height, conf) {
         const result = new PIXI.Graphics();
-        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
+        result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
 
         let curX = -width / 2;
         for (let c = 0; c < columnWidths.length - 1; c++) {
@@ -86,9 +86,9 @@ export default class TableStyle {
         return result;
     }
 
-    makeHorizontalBorders(rowHeights, width, height) {
+    makeHorizontalBorders(rowHeights, width, height, conf) {
         const result = new PIXI.Graphics();
-        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
+        result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
 
         let curY = -height / 2;
         for (let r = 0; r < rowHeights.length - 1; r++) {
@@ -100,9 +100,9 @@ export default class TableStyle {
         return result;
     }
 
-    makeBorderAround(width, height) {
+    makeBorderAround(width, height, conf) {
         const result = new PIXI.Graphics();
-        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
+        result.lineStyle(conf.border.width, conf.border.color.hex, conf .border.color.alpha);
 
         result.moveTo(-width / 2, -height / 2);
         result.lineTo( width / 2, -height / 2);
@@ -113,7 +113,7 @@ export default class TableStyle {
         return result;
     }
 
-    positionLabels(labels, columnWidths, rowHeights, width, height) {
+    positionLabels(labels, columnWidths, rowHeights, width, height, conf) {
         let curY = (rowHeights[0] || 0) / 2 - height / 2;
         for (let r = 0; r < labels.length; r++) {
 
@@ -123,40 +123,40 @@ export default class TableStyle {
                 labels[r][c].y += curY;
 
                 curX += columnWidths[c] / 2 +
-                        (this.border.vertical ? this.border.width : 0) +
+                        (conf.border.vertical ? conf.border.width : 0) +
                         (columnWidths[c + 1] || 0) / 2;
             }
 
             curY += rowHeights[r] / 2 +
-                    (this.border.horizontal ? this.border.width : 0) +
+                    (conf.border.horizontal ? conf.border.width : 0) +
                     (rowHeights[r + 1] || 0) / 2;
         }
     }
 
-    computeWidth(columnWidths) {
+    computeWidth(columnWidths, conf) {
         let result = _.sum(columnWidths);
 
-        if (this.border.vertical) {
-            result += (columnWidths.length - 1) * this.border.width;
+        if (conf.border.vertical) {
+            result += (columnWidths.length - 1) * conf.border.width;
         }
 
         return result;
     }
 
-    computeHeight(rowHeights) {
+    computeHeight(rowHeights, conf) {
         let result = _.sum(rowHeights);
 
-        if (this.border.horizontal) {
-            result += (rowHeights.length - 1) * this.border.width;
+        if (conf.border.horizontal) {
+            result += (rowHeights.length - 1) * conf.border.width;
         }
 
         return result;
     }
 
-    makeBox(width, height) {
+    makeBox(width, height, conf) {
         const result = new PIXI.Graphics();
 
-        result.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
+        result.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
         result.drawRect(
             -width  / 2,
             -height / 2,
@@ -167,35 +167,35 @@ export default class TableStyle {
         return result;
     }
 
-    makeLabels() {
+    makeLabels(conf) {
         const labels       = [[]];
         const columnWidths = [];
         const rowHeights   = [];
 
         // Header
-        for (let c = 0; c < this.headers.length; c++) {
-            const label     = this.makeLabel(this.headers[c], this.text.header);
+        for (let c = 0; c < conf.headers.length; c++) {
+            const label     = this.makeLabel(conf.headers[c], conf.text.header);
             labels[0][c]    = label;
-            columnWidths[c] = this.adjustDimension(columnWidths[c], label.width);
-            rowHeights[0]   = this.adjustDimension(rowHeights[0],   label.height);
+            columnWidths[c] = this.adjustDimension(columnWidths[c], label.width, conf);
+            rowHeights[0]   = this.adjustDimension(rowHeights[0],   label.height, conf);
         }
 
         // Data
-        for (let r = 1; r <= this.data.length; r++) {
+        for (let r = 1; r <= conf.data.length; r++) {
             labels[r] = [];
-            for (let c = 0; c < this.data[r - 1].length; c++) {
-                const label     = this.makeLabel(this.data[r - 1][c], this.text.data);
+            for (let c = 0; c < conf.data[r - 1].length; c++) {
+                const label     = this.makeLabel(conf.data[r - 1][c], conf.text.data);
                 labels[r][c]    = label;
-                columnWidths[c] = this.adjustDimension(columnWidths[c], label.width);
-                rowHeights[r]   = this.adjustDimension(rowHeights[r],   label.height);
+                columnWidths[c] = this.adjustDimension(columnWidths[c], label.width, conf);
+                rowHeights[r]   = this.adjustDimension(rowHeights[r],   label.height, conf);
             }
         }
 
         return {labels, columnWidths, rowHeights};
     }
 
-    adjustDimension(old, current) {
-        current = current + 2 * this.padding;
+    adjustDimension(old, current, conf) {
+        current = current + 2 * conf.padding;
         if (old === undefined) {
             return current;
         }

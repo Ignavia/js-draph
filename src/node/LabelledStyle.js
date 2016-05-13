@@ -9,94 +9,94 @@ export default class LabelledStyle {
         _.merge(this, LabelledStyle.default, conf);
     }
 
-    makeContainer() {
+    makeContainer(conf) {
         const container = new PIXI.Container();
-        const label     = this.makeLabel();
-        const box       = this.makeBox(label);
-        const margin    = this.makeMargin(box);
+        const label     = this.makeLabel(conf);
+        const box       = this.makeBox(label, conf);
+        const margin    = this.makeMargin(box, conf);
         container.addChild(margin);
         container.addChild(box);
         container.addChild(label);
         return container;
     }
 
-    makeLabel() {
-        const result = new PIXI.Text(this.label, {
-            align:              this.text.align,
-            dropShadow:         this.text.dropShadow.distance > 0,
-            dropShadowAngle:    this.text.dropShadow.angle,
-            dropShadowColor:    this.text.dropShadow.color.hex,
-            dropShadowDistance: this.text.dropShadow.distance,
-            fill:               this.text.fill.hex,
-            font:               `${this.text.font.weight} ${this.text.font.style} ${this.text.font.size}px ${this.text.font.family}`,
-            stroke:             this.text.stroke.hex,
-            strokeThickness:    this.text.strokeThickness,
-            wordWrap:           this.text.wordWrapWidth > 0,
-            wordWrapWidth:      this.text.wordWrapWidth
+    makeLabel(conf) {
+        const result = new PIXI.Text(conf.label, { // Pull the label out of the conf
+            align:              conf.text.align,
+            dropShadow:         conf.text.dropShadow.distance > 0,
+            dropShadowAngle:    conf.text.dropShadow.angle,
+            dropShadowColor:    conf.text.dropShadow.color.hex,
+            dropShadowDistance: conf.text.dropShadow.distance,
+            fill:               conf.text.fill.hex,
+            font:               `${conf.text.font.weight} ${conf.text.font.style} ${conf.text.font.size}px ${conf.text.font.family}`,
+            stroke:             conf.text.stroke.hex,
+            strokeThickness:    conf.text.strokeThickness,
+            wordWrap:           conf.text.wordWrapWidth > 0,
+            wordWrapWidth:      conf.text.wordWrapWidth
         });
         result.x = -result.width  / 2;
         result.y = -result.height / 2;
         return result;
     }
 
-    makeBox(label) {
+    makeBox(label, conf) {
         const result = new PIXI.Graphics();
-        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
-        result.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
+        result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+        result.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
 
-        if (this.shape === "circle") {
+        if (conf.shape === "circle") {
             result.drawCircle(
                 0,
                 0,
-                Math.max(label.width, label.height) / 2 + this.padding
+                Math.max(label.width, label.height) / 2 + conf.padding
             );
-        } else if (this.shape === "ellipse") {
+        } else if (conf.shape === "ellipse") {
             result.drawEllipse(
                 0,
                 0,
-                label.width  / Math.sqrt(2) + this.padding,
-                label.height / Math.sqrt(2) + this.padding
+                label.width  / Math.sqrt(2) + conf.padding,
+                label.height / Math.sqrt(2) + conf.padding
             );
-        } else if (this.shape === "rect") {
+        } else if (conf.shape === "rect") {
             result.drawRect(
-                -label.width  / 2 -     this.padding,
-                -label.height / 2 -     this.padding,
-                 label.width      + 2 * this.padding,
-                 label.height     + 2 * this.padding
+                -label.width  / 2 -     conf.padding,
+                -label.height / 2 -     conf.padding,
+                 label.width      + 2 * conf.padding,
+                 label.height     + 2 * conf.padding
             );
-        } else if (this.shape === "roundedRect") {
+        } else if (conf.shape === "roundedRect") {
             result.drawRoundedRect(
-                -label.width  / 2 -     this.padding,
-                -label.height / 2 -     this.padding,
-                 label.width      + 2 * this.padding,
-                 label.height     + 2 * this.padding,
-                this.border.radius
+                -label.width  / 2 -     conf.padding,
+                -label.height / 2 -     conf.padding,
+                 label.width      + 2 * conf.padding,
+                 label.height     + 2 * conf.padding,
+                conf.border.radius
             );
         }
 
         return result;
     }
 
-    makeMargin(box) {
+    makeMargin(box, conf) {
         const result = new PIXI.Graphics();
         result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
         result.drawRect(
-            -box.width  / 2 -     this.margin,
-            -box.height / 2 -     this.margin,
-             box.width      + 2 * this.margin,
-             box.height     + 2 * this.margin
+            -box.width  / 2 -     conf.margin,
+            -box.height / 2 -     conf.margin,
+             box.width      + 2 * conf.margin,
+             box.height     + 2 * conf.margin
         );
         return result;
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
-        const container = this.makeContainer();
+    makeDisplayObject(nodeObj, graphicalComponent, conf = LabelledStyle.default) {
+        const container = this.makeContainer(conf);
         const sprite    = Utils.makeCanvasSprite(container, {
-            width:  this.width,
-            height: this.height
+            width:  conf.width,
+            height: conf.height
         });
 
-        sprite.visible = this.visible;
+        sprite.visible = conf.visible;
 
         // Placing the texture at the origin of the coordinate system of the sprite
         sprite.anchor = {

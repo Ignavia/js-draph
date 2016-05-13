@@ -2,34 +2,33 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-
 export default class SimpleStyle {
     constructor(conf = {}) {
         _.merge(this, SimpleStyle.default, conf);
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
+    makeDisplayObject(nodeObj, graphicalComponent, conf = SimpleStyle.default) {
         const g = new PIXI.Graphics();
-        g.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
-        g.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
+        g.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+        g.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
         g.drawCircle(
-            this.radius / 2,
-            this.radius / 2,
-            this.radius
+            conf.radius / 2,
+            conf.radius / 2,
+            conf.radius
         );
 
         // Using Canvas renderer for smoother lines
         const texture = g.generateTexture(graphicalComponent.canvasRenderer),
               sprite  = new PIXI.Sprite(texture);
 
-        if (this.width !== "auto") {
-            sprite.width = this.width;
+        if (conf.width !== "auto") {
+            sprite.width = conf.width;
         }
-        if (this.height !== "auto") {
-            sprite.height = this.height;
+        if (conf.height !== "auto") {
+            sprite.height = conf.height;
         }
 
-        sprite.visible = this.visibility;
+        sprite.visible = conf.visibility;
 
         return sprite;
     }
