@@ -8,12 +8,12 @@ export default class TriangleStyle {
         _.merge(this, TriangleStyle.default, conf);
     }
 
-    makeBox(label) {
-        const {tip, baseLeft, baseRight} = this.computeVertices();
+    makeBox(conf) {
+        const {tip, baseLeft, baseRight} = this.computeVertices(conf);
 
         const result = new PIXI.Graphics();
-        result.lineStyle(this.border.width, this.border.color.hex, this.border.color.alpha);
-        result.beginFill(this.backgroundColor.hex, this.backgroundColor.alpha);
+        result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+        result.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
 
         result.moveTo(baseLeft.x,  baseLeft.y);
         result.lineTo(0,           0);
@@ -22,12 +22,12 @@ export default class TriangleStyle {
         return result;
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
-        const container = this.makeBox();
+    makeDisplayObject(nodeObj, graphicalComponent, conf = TriangleStyle.default) {
+        const container = this.makeBox(conf);
         //const texture   = container.generateTexture(graphicalComponent.canvasRenderer);
         const sprite    = container;//new PIXI.Sprite(texture);
 
-        sprite.visible = this.visibility;
+        sprite.visible = conf.visibility;
 
         // Placing the texture at the origin of the coordinate system of the sprite
         sprite.anchor = {
@@ -38,8 +38,8 @@ export default class TriangleStyle {
         return sprite;
     }
 
-    computeVertices() {
-        const {baseLength: b, legLength: l} = this.computeMeasures();
+    computeVertices(conf) {
+        const {baseLength: b, legLength: l} = this.computeMeasures(conf);
         const h = Math.sqrt(l**2 - (b / 2)**2);
 
         return {
@@ -49,10 +49,10 @@ export default class TriangleStyle {
         };
     }
 
-    computeMeasures() {
-        const autoBaseLength = this.measures.baseLength === "auto";
-        const autoLegLength  = this.measures.legLength  === "auto";
-        const autoTipAngle   = this.measures.tipAngle   === "auto";
+    computeMeasures(conf) {
+        const autoBaseLength = conf.measures.baseLength === "auto";
+        const autoLegLength  = conf.measures.legLength  === "auto";
+        const autoTipAngle   = conf.measures.tipAngle   === "auto";
 
         const numberOfUnknowns = (autoBaseLength ? 1 : 0) +
                                  (autoLegLength  ? 1 : 0) +
@@ -64,18 +64,18 @@ export default class TriangleStyle {
 
         if (autoBaseLength) {
             return {
-                baseLength: this.computeBaseLength(),
-                legLength:  this.measures.legLength
+                baseLength: this.computeBaseLength(conf),
+                legLength:  conf.measures.legLength
             };
         } else if (autoLegLength) {
             return {
-                baseLength: this.measures.baseLength,
-                legLength:  this.computeLegLength()
+                baseLength: conf.measures.baseLength,
+                legLength:  this.computeLegLength(conf)
             };
         } else {
             return {
                 baseLength: this.measures.baseLength,
-                legLength:  this.measures.legLength
+                legLength:  conf.measures.legLength
             };
         }
     }

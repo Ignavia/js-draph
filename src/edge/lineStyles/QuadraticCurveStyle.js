@@ -5,14 +5,14 @@ export default class QuadraticCurveStyle {
         _.merge(this, LabelledStyle.default, conf);
     }
 
-    makeDisplayObject(edgeObj, graphicalComponent) {
+    makeDisplayObject(edgeObj, graphicalComponent, conf = QuadraticCurveStyle.default) {
         const sourceDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.sourceId),
               targetDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.targetId),
               centerX             = (sourceDisplayObject.x + targetDisplayObject.x) / 2,
               centerY             = (sourceDisplayObject.y + targetDisplayObject.y) / 2;
 
         const line = new PIXI.Graphics();
-        line.lineStyle(this.line.width, this.line.color.hex, this.line.color.alpha);
+        line.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
         line.moveTo(sourceDisplayObject.x - centerX, sourceDisplayObject.y - centerY);
         line.quadraticCurveTo(
             centerX,

@@ -8,14 +8,14 @@ export default class StraightStyle {
         _.merge(this, StraightStyle.default, conf);
     }
 
-    makeDisplayObject(edgeObj, graphicalComponent) {
+    makeDisplayObject(edgeObj, graphicalComponent, conf = StraightStyle.default) {
         const sourceDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.sourceId),
               targetDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.targetId),
               centerX             = (sourceDisplayObject.x + targetDisplayObject.x) / 2,
               centerY             = (sourceDisplayObject.y + targetDisplayObject.y) / 2;
 
         const line = new PIXI.Graphics();
-        line.lineStyle(this.width, this.color.hex, this.color.alpha);
+        line.lineStyle(conf.width, conf.color.hex, conf.color.alpha);
         line.moveTo(sourceDisplayObject.x - centerX, sourceDisplayObject.y - centerY);
         line.lineTo(targetDisplayObject.x - centerX, targetDisplayObject.y - centerY);
 
@@ -30,10 +30,10 @@ export default class StraightStyle {
             y: 0.5
         };
 
-        if (this.decalAnchor === "auto") {
+        if (conf.decalAnchor === "auto") {
             sprite.decalAnchor = new Vec2(centerX, centerY);
         } else {
-            sprite.decalAnchor = this.decalAnchor;
+            sprite.decalAnchor = conf.decalAnchor;
         }
 
         return sprite;

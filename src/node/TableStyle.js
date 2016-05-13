@@ -38,7 +38,7 @@ export default class TableStyle {
 
         this.positionLabels(labels, columnWidths, rowHeights, width, height, conf);
 
-        const box = this.makeBox(width, height, conf);
+        const box = this.makeBox(rowHeights[0], width, height, conf);
         const borders = this.makeBorders(columnWidths, rowHeights, width, height, conf);
 
         container.addChild(box);
@@ -76,9 +76,9 @@ export default class TableStyle {
         const result = new PIXI.Graphics();
         result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
 
-        let curX = -width / 2;
+        let curX = -width / 2 - conf.border.width / 2;
         for (let c = 0; c < columnWidths.length - 1; c++) {
-            curX += columnWidths[c];
+            curX += columnWidths[c] + conf.border.width;
             result.moveTo(curX, -height / 2);
             result.lineTo(curX,  height / 2);
         }
@@ -90,9 +90,9 @@ export default class TableStyle {
         const result = new PIXI.Graphics();
         result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
 
-        let curY = -height / 2;
+        let curY = -height / 2 - conf.border.width / 2;
         for (let r = 0; r < rowHeights.length - 1; r++) {
-            curY += rowHeights[r];
+            curY += rowHeights[r] + conf.border.width;
             result.moveTo(-width / 2, curY);
             result.lineTo( width / 2, curY);
         }
@@ -153,15 +153,23 @@ export default class TableStyle {
         return result;
     }
 
-    makeBox(width, height, conf) {
+    makeBox(headerRowHeight, width, height, conf) {
         const result = new PIXI.Graphics();
 
-        result.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
+        result.beginFill(conf.backgroundColor.header.hex, conf.backgroundColor.header.alpha);
         result.drawRect(
             -width  / 2,
             -height / 2,
              width,
-             height
+             headerRowHeight
+        );
+
+        result.beginFill(conf.backgroundColor.data.hex, conf.backgroundColor.data.alpha);
+        result.drawRect(
+            -width  / 2,
+            -height / 2 + headerRowHeight,
+             width,
+             height - headerRowHeight
         );
 
         return result;
@@ -223,9 +231,12 @@ export default class TableStyle {
 }
 
 TableStyle.default = {
-    headers: ["<Placeholder>"],
-    data:    [["<Placeholder>"]],
-    backgroundColor: predefinedColors.white,
+    headers: ["<Placeholder>", "<Header>"],
+    data:    [["<Placeholder>", "Test"], ["<Placeholder>"], ["<Placeholder>"], ["<Placeholder>"]],
+    backgroundColor: {
+        header: predefinedColors.lightgray,
+        data:   predefinedColors.white
+    },
     border: {
         color:  predefinedColors.black,
         radius: 5,
