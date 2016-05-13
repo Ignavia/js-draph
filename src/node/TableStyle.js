@@ -100,15 +100,15 @@ export default class TableStyle {
         return result;
     }
 
-    makeBorderAround(width, height, conf) {
+    makeBorderAround(width, height, conf) { // move outside
         const result = new PIXI.Graphics();
         result.lineStyle(conf.border.width, conf.border.color.hex, conf .border.color.alpha);
 
-        result.moveTo(-width / 2, -height / 2);
-        result.lineTo( width / 2, -height / 2);
-        result.lineTo( width / 2,  height / 2);
-        result.lineTo(-width / 2,  height / 2);
-        result.lineTo(-width / 2, -height / 2);
+        result.moveTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
+        result.lineTo( width / 2 + conf.border.width / 2, -height / 2 - conf.border.width / 2);
+        result.lineTo( width / 2 + conf.border.width / 2,  height / 2 + conf.border.width / 2);
+        result.lineTo(-width / 2 - conf.border.width / 2,  height / 2 + conf.border.width / 2);
+        result.lineTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
 
         return result;
     }
@@ -239,7 +239,6 @@ TableStyle.default = {
     },
     border: {
         color:  predefinedColors.black,
-        radius: 5,
         width:  2,
         vertical:   true,
         horizontal: true,
