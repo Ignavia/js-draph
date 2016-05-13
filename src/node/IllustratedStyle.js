@@ -13,62 +13,62 @@ export default class IllustratedStyle extends Style {
         _.merge(this, IllustratedStyle.default, conf);
     }
 
-    makeContainer() {
+    makeContainer(conf) {
         const result = new PIXI.Container();
-        const illustration = this.makeIllustration();
-        const caption = this.makeCaption();
+        const illustration = this.makeIllustration(conf);
+        const caption = this.makeCaption(conf);
 
         result.addChild(caption);
         result.addChild(illustration);
 
-        if (this.captionSide === "above") {
-            caption.y -= Math.max(illustration.height, caption.height) / 2 + this.captionGap;
-        } else if (this.captionSide === "right") {
-            caption.x += Math.max(illustration.width,  caption.width)  / 2 + this.captionGap;
-        } else if (this.captionSide === "below") {
-            caption.y += Math.max(illustration.height, caption.height) / 2 + this.captionGap;
-        } else if (this.captionSide === "left") {
-            caption.x -= Math.max(illustration.width,  caption.width)  / 2 + this.captionGap;
-        } else if (this.captionSide === "none") {
+        if (conf.captionSide === "above") {
+            caption.y -= Math.max(illustration.height, caption.height) / 2 + conf.captionGap;
+        } else if (conf.captionSide === "right") {
+            caption.x += Math.max(illustration.width,  caption.width)  / 2 + conf.captionGap;
+        } else if (conf.captionSide === "below") {
+            caption.y += Math.max(illustration.height, caption.height) / 2 + conf.captionGap;
+        } else if (conf.captionSide === "left") {
+            caption.x -= Math.max(illustration.width,  caption.width)  / 2 + conf.captionGap;
+        } else if (conf.captionSide === "none") {
             result.removeChild(caption);
         }
 
         return result;
     }
 
-    makeIllustration() {
+    makeIllustration(conf) {
         const result = PIXI.Sprite.fromImage(this.imagePath);
         result.x = -result.width  / 2;
         result.y = -result.height / 2;
         return result;
     }
 
-    makeCaption() {
-        const result = new PIXI.Text(this.caption, {
-            align:              this.text.align,
-            dropShadow:         this.text.dropShadow.distance > 0,
-            dropShadowAngle:    this.text.dropShadow.angle,
-            dropShadowColor:    this.text.dropShadow.color.hex,
-            dropShadowDistance: this.text.dropShadow.distance,
-            fill:               this.text.fill.hex,
-            font:               `${this.text.font.weight} ${this.text.font.style} ${this.text.font.size}px ${this.text.font.family}`,
-            stroke:             this.text.stroke.hex,
-            strokeThickness:    this.text.strokeThickness,
-            wordWrap:           this.text.wordWrapWidth > 0,
-            wordWrapWidth:      this.text.wordWrapWidth
+    makeCaption(conf) {
+        const result = new PIXI.Text(conf.caption, {
+            align:              conf.text.align,
+            dropShadow:         conf.text.dropShadow.distance > 0,
+            dropShadowAngle:    conf.text.dropShadow.angle,
+            dropShadowColor:    conf.text.dropShadow.color.hex,
+            dropShadowDistance: conf.text.dropShadow.distance,
+            fill:               conf.text.fill.hex,
+            font:               `${conf.text.font.weight} ${conf.text.font.style} ${conf.text.font.size}px ${conf.text.font.family}`,
+            stroke:             conf.text.stroke.hex,
+            strokeThickness:    conf.text.strokeThickness,
+            wordWrap:           conf.text.wordWrapWidth > 0,
+            wordWrapWidth:      conf.text.wordWrapWidth
         });
         result.x = -result.width  / 2;
         result.y = -result.height / 2;
         return result;
     }
 
-    makeDisplayObject(nodeObj, graphicalComponent) {
-        const container = this.makeContainer();
+    makeDisplayObject(nodeObj, graphicalComponent, conf = IllustratedStyle.default) {
+        const container = this.makeContainer(conf);
         const sprite    = Utils.makeCanvasSprite(container, {
             width:  this.width,
             height: this.height
         });
-        console.log(sprite.width)
+
         return sprite;
     }
 }
