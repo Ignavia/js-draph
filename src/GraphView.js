@@ -9,7 +9,9 @@ import {EdgeVisualizer} from "./draph.js";
 import {EdgeTriangleArrowStyle} from "./draph.js";
 
 import IllustratedStyle from "./node/IllustratedStyle.js";
-import NodeTableStyle from "./node/TableStyle.js";
+import * as NodeTableStyle from "./node/TableStyle.js";
+
+import Style from "./node/LabelledStyle.js";
 
 import PIXI from "pixi.js";
 
@@ -17,7 +19,7 @@ export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
         this.gVisualizer = new GraphVisualizer();
 
-        this.renderer = new PIXI.CanvasRenderer(width, height, {
+        this.renderer = new PIXI.WebGLRenderer(width, height, {
             autoResize:      true,
             resolution:      window.devicePixelRatio || 1,
             backgroundColor: this.gVisualizer.style.backgroundColor.hex
@@ -73,8 +75,7 @@ export default class GraphView {
         this.nodeContainer.filters = [dropShadow];
 
         for (let nodeObj of graphObj.iterNodes()) {
-            const nVisualizer = new NodeVisualizer();
-            const displayObject = nVisualizer.makeDisplayObject(nodeObj, this);
+            const displayObject = Style(nodeObj, this);
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
         }
@@ -100,10 +101,8 @@ export default class GraphView {
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
         this.edgeContainer.addChild(disp);
 
-        const disp2 = new NodeTableStyle({
-            headers: ["Column1", "Column2"],
-            data:   [["Data 11", "Data21"], ["Data 21"]]
-        }).makeDisplayObject();
+        const disp2 = NodeTableStyle.makeDisplayObjectWithDefaultConf([[]]);
+        console.log(disp2);
         this.nodeContainer.addChild(disp2);
 
         // end remove ------

@@ -2,14 +2,12 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-import Style from "./Style.js";
 import * as Utils from "../Utils.js";
 
 // TODO outsource illustration generation
 
-export default class IllustratedStyle extends Style {
+export default class IllustratedStyle {
     constructor(conf = {}) {
-        super();
         _.merge(this, IllustratedStyle.default, conf);
     }
 
