@@ -67,17 +67,73 @@ export function makeCircle(style) {
     return result;
 }
 
-export function makeLabel(content, style) {
+/**
+ * Creates a display object of a label.
+ *
+ * @param {String} content
+ * The string to use as label.
+ *
+ * @param {Object} style
+ * How the label should look.
+ *
+ * @param {String} style.align
+ * How the next should be aligned. The possible values are "left", "center" and
+ * "right". For a single line of text this option has no effect.
+ *
+ * @param {Object} style.dropShadow
+ * How the drop shadow of the text should look.
+ *
+ * @param {Number} style.dropShadow.distance
+ * How long the drop shadow should be. Set this to 0 to remove it.
+ *
+ * @param {Number} style.dropShadow.angle
+ * The angle of the drop shadow given in radian. An angle of 0 means that the
+ * shadow goes to the right, increasing the angle moves the shadow clockwise.
+ *
+ * @param {Color} style.dropShadow.color
+ * The color of the shadow.
+ *
+ * @param {Color} style.fillColor
+ * The color to fill the text with.
+ *
+ * @param {Object} style.font
+ * COnfigures the font of the text.
+ *
+ * @param {String} style.font.family
+ * The font-family to use.
+ *
+ * @param {String} style.font.size
+ * The font-size to use.
+ *
+ * @param {String} style.font.weight
+ * The weight of the font. This can either be "normal" or "bold".
+ *
+ * @param {String} style.font.style
+ * The style of the font. This can either be "normal", "italic" or "oblique".
+ *
+ * @param {Object} style.stroke
+ * How the stroke around the text should look.
+ *
+ * @param {Color} style.stroke.color
+ * The color of the stroke around the text.
+ *
+ * @param {Number} style.stroke.thickness
+ * How thick the stroke should be.
+ *
+ * @param {Number} style.wordWrapWidth
+ * The width at which the text is going to wrap. Set this to 0 to disable it.
+ */
+export function makeText(content, style) {
     const result = new PIXI.Text(content, {
         align:              style.align,
         dropShadow:         style.dropShadow.distance > 0,
         dropShadowAngle:    style.dropShadow.angle,
         dropShadowColor:    style.dropShadow.color.hex,
         dropShadowDistance: style.dropShadow.distance,
-        fill:               style.fill.hex,
+        fill:               style.fillColor.hex,
         font:               `${style.font.weight} ${style.font.style} ${style.font.size}px ${style.font.family}`,
-        stroke:             style.stroke.hex,
-        strokeThickness:    style.strokeThickness,
+        stroke:             style.stroke.color.hex,
+        strokeThickness:    style.stroke.thickness,
         wordWrap:           style.wordWrapWidth > 0,
         wordWrapWidth:      style.wordWrapWidth
     });

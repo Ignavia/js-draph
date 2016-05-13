@@ -28,25 +28,19 @@ export const defaultConf = {
             color:    predefinedColors.gray,
             distance: 0
         },
-        fill: predefinedColors.black,
+        fillColor: predefinedColors.black,
         font: {
             family: "Arial",
             size:   20,
             style:  "normal",
             weight: "bold"
         },
-        stroke:          predefinedColors.white,
-        strokeThickness: 0,
-        textBaseline:    "center",
-        wordWrapWidth:   0
-    },
-
-    /**
-     * Whether to show the sprite.
-     *
-     * @type {Boolean}
-     */
-    visible: true
+        stroke: {
+            color:     predefinedColors.white,
+            thickness: 0
+        },
+        wordWrapWidth: 0
+    }
 };
 
 /**
@@ -65,8 +59,6 @@ export function makeSprite(conf) {
         width:  conf.width,
         height: conf.height
     });
-
-    sprite.visible = conf.visible;
 
     // Placing the texture at the origin of the coordinate system of the sprite
     sprite.anchor = {
@@ -94,7 +86,7 @@ export function makeSpriteWithDefaultConf() {
 
 function makeContainer(conf) {
     const container = new PIXI.Container();
-    const label     = Utils.makeLabel(conf.label, conf.text);
+    const label     = Utils.makeText(conf.label, conf.text);
     const box       = makeBox(label, conf);
     const margin    = makeMargin(box, conf);
     container.addChild(margin);
@@ -152,9 +144,3 @@ function makeMargin(box, conf) {
     );
     return result;
 }
-
-
-
-
-
-// TODO: this should have a toJSON method and a fromJSON method (the latter does not need any merge with the default anymore)

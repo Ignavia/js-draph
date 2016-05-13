@@ -43,14 +43,7 @@ export const defaultConf = {
      *
      * @type {Number}
      */
-    radius: 10,
-
-    /**
-     * Whether to show the created sprite.
-     *
-     * @type {Boolean}
-     */
-    visible: true
+    radius: 10
 };
 
 /**
@@ -66,9 +59,6 @@ export const defaultConf = {
 export function makeSprite(conf) {
     const circle = Utils.makeCircle(conf);
     const sprite = Utils.makeCanvasSprite(circle);
-
-    sprite.visible = conf.visible;
-
     return sprite;
 };
 
