@@ -93,7 +93,7 @@ export const defaultConf = {
     zIndex: 0
 };
 
-export const makeDisplayObject = _.curry(function(conf, content) {
+export const makeSprite = _.curry(function(conf, content) {
     const container = makeContainer(conf);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,
@@ -111,7 +111,7 @@ export const makeDisplayObject = _.curry(function(conf, content) {
     return sprite;
 });
 
-export const makeDisplayObjectWithDefaultConf = makeDisplayObject(defaultConf);
+export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
 
 function makeContainer(conf) {
     const container = new PIXI.Container();

@@ -56,15 +56,15 @@ function makeBox(label, conf) {
         result.drawRect(
             -label.width  / 2 -     conf.padding,
             -label.height / 2 -     conf.padding,
-                label.width      + 2 * conf.padding,
-                label.height     + 2 * conf.padding
+             label.width      + 2 * conf.padding,
+             label.height     + 2 * conf.padding
         );
     } else if (conf.shape === "roundedRect") {
         result.drawRoundedRect(
             -label.width  / 2 -     conf.padding,
             -label.height / 2 -     conf.padding,
-                label.width      + 2 * conf.padding,
-                label.height     + 2 * conf.padding,
+             label.width      + 2 * conf.padding,
+             label.height     + 2 * conf.padding,
             conf.border.radius
         );
     }
@@ -84,7 +84,7 @@ function makeMargin(box, conf) {
     return result;
 }
 
-export default function makeDisplayObject(nodeObj, graphicalComponent, conf = defaultConf) {
+export default function makeSprite(nodeObj, graphicalComponent, conf = defaultConf) {
     const container = makeContainer(conf);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,

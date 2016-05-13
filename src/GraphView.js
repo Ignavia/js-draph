@@ -8,6 +8,7 @@ import {EdgeVisualizer} from "./draph.js";
 
 import {EdgeTriangleArrowStyle} from "./draph.js";
 
+import * as SimpleStyle from "./node/SimpleStyle.js";
 import * as IllustratedStyle from "./node/IllustratedStyle.js";
 import * as NodeTableStyle from "./node/TableStyle.js";
 
@@ -92,15 +93,18 @@ export default class GraphView {
 
         // remove -------
 
-        const disp0 = IllustratedStyle.makeDisplayObject();
+        const disp0 = IllustratedStyle.makeSprite();
         this.edgeContainer.addChild(disp0);
 
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
         this.edgeContainer.addChild(disp);
 
-        const disp2 = NodeTableStyle.makeDisplayObjectWithDefaultConf([[]]);
+        const disp2 = NodeTableStyle.makeSpriteWithDefaultConf([[]]);
         console.log(disp2);
         this.nodeContainer.addChild(disp2);
+
+        const disp3 = SimpleStyle.makeSpriteWithDefaultConf();
+        this.nodeContainer.addChild(disp3);
 
         // end remove ------
 

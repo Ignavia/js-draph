@@ -1,36 +1,63 @@
 import {predefinedColors} from "@ignavia/util";
 
+import * as Utils from "../Utils.js";
+
+/**
+ * The default configuration of the style.
+ */
 export const defaultConf = {
+
+    /**
+     * The background color of the circle.
+     */
     backgroundColor: predefinedColors.white,
+
+    /**
+     * The border around the circle.
+     */
     border: {
+
+        /**
+         * The color of the border.
+         */
         color: predefinedColors.black,
+
+        /**
+         * The line-width of the border.
+         */
         width: 2
     },
-    radius: 10
+
+    /**
+     * The radius of the circle.
+     */
+    radius: 10,
+
+    /**
+     * Whether to show the created sprite.
+     */
+    visible: true
 };
 
-export function makeDisplayObject(nodeObj, graphicalComponent, conf = defaultConf) {
-    const g = new PIXI.Graphics();
-    g.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
-    g.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
-    g.drawCircle(
-        conf.radius / 2,
-        conf.radius / 2,
-        conf.radius
-    );
+/**
+ * Creates a sprite using the given configuration.
+ *
+ * @param {Object} conf
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ */
+export function makeSprite(conf) {
+    const circle = Utils.makeCircle(conf);
+    const sprite = Utils.makeCanvasSprite(circle);
 
-    // Using Canvas renderer for smoother lines
-    const texture = g.generateTexture(graphicalComponent.canvasRenderer),
-            sprite  = new PIXI.Sprite(texture);
-
-    if (conf.width !== "auto") {
-        sprite.width = conf.width;
-    }
-    if (conf.height !== "auto") {
-        sprite.height = conf.height;
-    }
-
-    sprite.visible = conf.visibility;
+    sprite.visible = conf.visible;
 
     return sprite;
+};
+
+/**
+ * Creates a sprite using the default configuration.
+ */
+export function makeSpriteWithDefaultConf() {
+    return makeSprite(defaultConf);
 }

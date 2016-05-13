@@ -91,7 +91,7 @@ function makeCaption(conf) {
     return result;
 }
 
-export const makeDisplayObject = function (conf = defaultConf) {
+export const makeSprite = function (conf = defaultConf) {
     const container = makeContainer(conf);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,
