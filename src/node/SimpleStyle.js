@@ -1,5 +1,14 @@
 import {predefinedColors} from "@ignavia/util";
 
+export const defaultConf = {
+    backgroundColor: predefinedColors.white,
+    border: {
+        color: predefinedColors.black,
+        width: 2
+    },
+    radius: 10
+};
+
 export function makeDisplayObject(nodeObj, graphicalComponent, conf = defaultConf) {
     const g = new PIXI.Graphics();
     g.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
@@ -25,12 +34,3 @@ export function makeDisplayObject(nodeObj, graphicalComponent, conf = defaultCon
 
     return sprite;
 }
-
-export const defaultConf = {
-    backgroundColor: predefinedColors.white,
-    border: {
-        color: predefinedColors.black,
-        width: 2
-    },
-    radius: 10
-};

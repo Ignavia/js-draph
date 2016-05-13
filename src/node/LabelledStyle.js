@@ -84,7 +84,7 @@ function makeMargin(box, conf) {
     return result;
 }
 
-export default function makeDisplayObject(nodeObj, graphicalComponent, conf = def) {
+export default function makeDisplayObject(nodeObj, graphicalComponent, conf = defaultConf) {
     const container = makeContainer(conf);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,
@@ -107,7 +107,7 @@ export default function makeDisplayObject(nodeObj, graphicalComponent, conf = de
     return sprite;
 }
 
-const def = {
+const defaultConf = {
     label: "<Placeholder>",
     backgroundColor: predefinedColors.white,
     border: {
