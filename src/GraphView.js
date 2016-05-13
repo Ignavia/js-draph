@@ -10,9 +10,8 @@ import {EdgeTriangleArrowStyle} from "./draph.js";
 
 import * as SimpleStyle from "./node/SimpleStyle.js";
 import * as IllustratedStyle from "./node/IllustratedStyle.js";
+import * as LabelledStyle from "./node/LabelledStyle.js";
 import * as NodeTableStyle from "./node/TableStyle.js";
-
-import Style from "./node/LabelledStyle.js";
 
 import PIXI from "pixi.js";
 
@@ -76,7 +75,7 @@ export default class GraphView {
         this.nodeContainer.filters = [dropShadow];
 
         for (let nodeObj of graphObj.iterNodes()) {
-            const displayObject = Style(nodeObj, this);
+            const displayObject = LabelledStyle.makeSpriteWithDefaultConf();
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
         }

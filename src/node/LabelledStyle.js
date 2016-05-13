@@ -1,37 +1,106 @@
-import _ from "lodash";
-
 import {predefinedColors} from "@ignavia/util";
 
 import * as Utils from "../Utils.js";
 
+export const defaultConf = {
+    label: "<Placeholder>",
+    backgroundColor: predefinedColors.white,
+    border: {
+        color:  predefinedColors.black,
+        radius: 5,
+        width:  2
+    },
+    padding: 10,
+    margin: 2,
+
+    /**
+     * The shape of this node. The values "circle", "ellipse", "rect",
+     * "roundedRect" are supported. The default value is "ellipse".
+     *
+     * @type {String}
+     */
+    shape: "ellipse",
+
+    text: {
+        align:  "left",
+        dropShadow: {
+            angle:    Math.PI / 4,
+            color:    predefinedColors.gray,
+            distance: 0
+        },
+        fill: predefinedColors.black,
+        font: {
+            family: "Arial",
+            size:   20,
+            style:  "normal",
+            weight: "bold"
+        },
+        stroke:          predefinedColors.white,
+        strokeThickness: 0,
+        textBaseline:    "center",
+        wordWrapWidth:   0
+    },
+
+    /**
+     * Whether to show the sprite.
+     *
+     * @type {Boolean}
+     */
+    visible: true
+};
+
+/**
+ * Creates a sprite using the given configuration.
+ *
+ * @param {Object} conf
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
+export function makeSprite(conf) {
+    const container = makeContainer(conf);
+    const sprite    = Utils.makeCanvasSprite(container, {
+        width:  conf.width,
+        height: conf.height
+    });
+
+    sprite.visible = conf.visible;
+
+    // Placing the texture at the origin of the coordinate system of the sprite
+    sprite.anchor = {
+        x: 0.5,
+        y: 0.5
+    };
+
+//-------- REMOVE
+    sprite.x = Math.random() * 1000;
+    sprite.y = Math.random() * 1000;
+    //_-----------
+
+    return sprite;
+}
+
+/**
+ * Creates a sprite using the default configuration.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
+export function makeSpriteWithDefaultConf() {
+    return makeSprite(defaultConf);
+}
+
 function makeContainer(conf) {
     const container = new PIXI.Container();
-    const label     = makeLabel(conf);
+    const label     = Utils.makeLabel(conf.label, conf.text);
     const box       = makeBox(label, conf);
     const margin    = makeMargin(box, conf);
     container.addChild(margin);
     container.addChild(box);
     container.addChild(label);
     return container;
-}
-
-function makeLabel(conf) {
-    const result = new PIXI.Text(conf.label, { // Pull the label out of the conf
-        align:              conf.text.align,
-        dropShadow:         conf.text.dropShadow.distance > 0,
-        dropShadowAngle:    conf.text.dropShadow.angle,
-        dropShadowColor:    conf.text.dropShadow.color.hex,
-        dropShadowDistance: conf.text.dropShadow.distance,
-        fill:               conf.text.fill.hex,
-        font:               `${conf.text.font.weight} ${conf.text.font.style} ${conf.text.font.size}px ${conf.text.font.family}`,
-        stroke:             conf.text.stroke.hex,
-        strokeThickness:    conf.text.strokeThickness,
-        wordWrap:           conf.text.wordWrapWidth > 0,
-        wordWrapWidth:      conf.text.wordWrapWidth
-    });
-    result.x = -result.width  / 2;
-    result.y = -result.height / 2;
-    return result;
 }
 
 function makeBox(label, conf) {
@@ -84,97 +153,8 @@ function makeMargin(box, conf) {
     return result;
 }
 
-export default function makeSprite(nodeObj, graphicalComponent, conf = defaultConf) {
-    const container = makeContainer(conf);
-    const sprite    = Utils.makeCanvasSprite(container, {
-        width:  conf.width,
-        height: conf.height
-    });
 
-    sprite.visible = conf.visible;
 
-    // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
 
-//-------- REMOVE
-    sprite.x = Math.random() * 1000;
-    sprite.y = Math.random() * 1000;
-    //_-----------
-
-    return sprite;
-}
-
-const defaultConf = {
-    label: "<Placeholder>",
-    backgroundColor: predefinedColors.white,
-    border: {
-        color:  predefinedColors.black,
-        radius: 5,
-        width:  2
-    },
-    padding: 10,
-    margin: 2,
-
-    /**
-     * The shape of this node. The values "circle", "ellipse", "rect",
-     * "roundedRect" are supported. The default value is "ellipse".
-     *
-     * @type {String}
-     */
-    shape: "ellipse",
-
-    text: {
-        align:  "left",
-        dropShadow: {
-            angle:    Math.PI / 4,
-            color:    predefinedColors.gray,
-            distance: 0
-        },
-        fill: predefinedColors.black,
-        font: {
-            family: "Arial",
-            size:   20,
-            style:  "normal",
-            weight: "bold"
-        },
-        stroke:          predefinedColors.white,
-        strokeThickness: 0,
-        textBaseline:    "center",
-        wordWrapWidth:   0
-    },
-
-    /**
-     * The height of this node. This can either be a number or the string
-     * "auto".
-     *
-     * @type {Number|String}
-     */
-    height: "auto",
-
-    /**
-     * The width of this node. This can either be a number or the string
-     * "auto".
-     *
-     * @type {Number|String}
-     */
-    width: "auto",
-
-    /**
-     * Whether to show the sprite.
-     *
-     * @type {Boolean}
-     */
-    visible: true,
-
-    /**
-     * Nodes with a higher value are going to be shown on top of others.
-     *
-     * @type {Number}
-     */
-    zIndex: 0
-};
 
 // TODO: this should have a toJSON method and a fromJSON method (the latter does not need any merge with the default anymore)

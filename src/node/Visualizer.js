@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import {Vec2}        from "@ignavia/ella";
-import LabelledStyle from "./LabelledStyle.js";
+import * as LabelledStyle from "./LabelledStyle.js";
 import Behavior      from "./Behavior.js";
 
 export default class Visualizer {
@@ -39,7 +39,7 @@ export default class Visualizer {
 }
 
 Visualizer.default = {
-    style:    new LabelledStyle(),
+    style:    LabelledStyle,
     behavior: new Behavior(),
     position: new Vec2(0, 0),
     scale:    new Vec2(1, 1),

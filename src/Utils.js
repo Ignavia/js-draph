@@ -66,3 +66,22 @@ export function makeCircle(style) {
     );
     return result;
 }
+
+export function makeLabel(content, style) {
+    const result = new PIXI.Text(content, {
+        align:              style.align,
+        dropShadow:         style.dropShadow.distance > 0,
+        dropShadowAngle:    style.dropShadow.angle,
+        dropShadowColor:    style.dropShadow.color.hex,
+        dropShadowDistance: style.dropShadow.distance,
+        fill:               style.fill.hex,
+        font:               `${style.font.weight} ${style.font.style} ${style.font.size}px ${style.font.family}`,
+        stroke:             style.stroke.hex,
+        strokeThickness:    style.strokeThickness,
+        wordWrap:           style.wordWrapWidth > 0,
+        wordWrapWidth:      style.wordWrapWidth
+    });
+    result.x = -result.width  / 2;
+    result.y = -result.height / 2;
+    return result;
+}
