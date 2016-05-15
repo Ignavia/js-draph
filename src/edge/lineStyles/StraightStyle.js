@@ -8,16 +8,29 @@ export default class StraightStyle {
         _.merge(this, StraightStyle.default, conf);
     }
 
-    makeDisplayObject(edgeObj, graphicalComponent, conf = StraightStyle.default) {
+
+}
+export const defaultConf = {
+    line: {
+        color: predefinedColors.black,
+        width: 2
+    },
+    decalAnchor: "auto"
+};
+
+function makeDisplayObject(conf, sourcePos, targetPos) {
         const sourceDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.sourceId),
               targetDisplayObject = graphicalComponent.getNodeDisplayObjectById(edgeObj.targetId),
               centerX             = (sourceDisplayObject.x + targetDisplayObject.x) / 2,
               centerY             = (sourceDisplayObject.y + targetDisplayObject.y) / 2;
 
-        const line = new PIXI.Graphics();
-        line.lineStyle(conf.width, conf.color.hex, conf.color.alpha);
-        line.moveTo(sourceDisplayObject.x - centerX, sourceDisplayObject.y - centerY);
-        line.lineTo(targetDisplayObject.x - centerX, targetDisplayObject.y - centerY);
+        const line = Utils.makeLine(conf.line, {
+            x: sourceDisplayObject.x - centerX,
+            y: sourceDisplayObject.y - centerY
+        }, {
+            x: targetDisplayObject.x - centerX,
+            y: targetDisplayObject.y - centerY
+        });
 
         const texture = line.generateTexture(graphicalComponent.canvasRenderer);
         const sprite  = new PIXI.Sprite(texture);
@@ -38,10 +51,3 @@ export default class StraightStyle {
 
         return sprite;
     }
-}
-
-StraightStyle.default = {
-    color: predefinedColors.black,
-    width: 2,
-    decalAnchor: "auto"
-};

@@ -57,6 +57,19 @@ export function adjustConf(base, adjustments) {
 }
 
 /**
+ * Creates a display object of line.
+ *
+ * @
+ */
+export const makeLine = _.curry(function (style, startPos, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(conf.width, conf.color.hex, conf.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.lineTo(endPos.x, endPos.y);
+    return result;
+});
+
+/**
  * Creates a display object of a circle. This function is curried.
  *
  * @param {Object} style

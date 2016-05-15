@@ -1,5 +1,7 @@
 import _ from "lodash";
 
+import {predefinedColors} from "@ignavia/util";
+
 export default class QuadraticCurveStyle {
     constructor() {
         _.merge(this, LabelledStyle.default, conf);
@@ -39,5 +41,8 @@ export default class QuadraticCurveStyle {
 
 QuadraticCurveStyle.default = {
     parallel:      0.5,
-    perpendicular: 20
+    perpendicular: 20,
+    color: predefinedColors.black,
+    width: 2,
+    decalAnchor: "auto"
 };
