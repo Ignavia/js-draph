@@ -5,23 +5,25 @@ import {predefinedColors} from "@ignavia/util";
 import * as Utils from "../../Utils.js";
 
 export const defaultConf = {
-    label: "<Placeholder>",
-    backgroundColor: predefinedColors.white,
-    border: {
-        color:  predefinedColors.black,
-        radius: 5,
-        width:  2
-    },
-    padding: 5,
-    margin: 2,
 
-    /**
-     * The shape of this node. The values "circle", "ellipse", "rect",
-     * "roundedRect" are supported. The default value is "ellipse".
-     *
-     * @type {String}
-     */
-    shape: "rect",
+    box: {
+        backgroundColor: predefinedColors.white,
+        border: {
+            color:  predefinedColors.black,
+            radius: 5,
+            width:  2
+        },
+        padding: 5,
+        margin: 2,
+
+        /**
+         * The shape of this node. The values "circle", "ellipse", "rect",
+         * "roundedRect" are supported. The default value is "ellipse".
+         *
+         * @type {String}
+         */
+        shape: "rect"
+    },
 
     text: {
         align:  "left",

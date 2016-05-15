@@ -11,7 +11,7 @@ export default class Visualizer {
     makeDisplayObject(edgeObj, graphicalComponent) {
         const container = new PIXI.Container();
         const line = this.lineStyle.makeDisplayObject(edgeObj, graphicalComponent);
-        const decal = this.decalStyle.makeSpriteWithDefaultConf();
+        const decal = this.decalStyle.makeSpriteWithDefaultConf("placehodler");
 
         decal.position.x = line.decalAnchor.x;
         decal.position.y = line.decalAnchor.y;

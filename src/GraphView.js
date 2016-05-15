@@ -92,15 +92,15 @@ export default class GraphView {
 
         // remove -------
 
-        const disp0 = IllustratedStyle.makeSpriteWithDefaultConf();
+        const disp0 = IllustratedStyle.makeSpriteWithDefaultConf("img/default.png", "Caption");
         this.edgeContainer.addChild(disp0);
 
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
         this.edgeContainer.addChild(disp);
 
-        const disp2 = NodeTableStyle.makeSpriteWithDefaultConf([[]]);
-        console.log(disp2);
-        this.nodeContainer.addChild(disp2);
+        // const disp2 = NodeTableStyle.makeSpriteWithDefaultConf([[]]);
+        // console.log(disp2);
+        // this.nodeContainer.addChild(disp2);
 
         const disp3 = SimpleStyle.makeSpriteWithDefaultConf();
         this.nodeContainer.addChild(disp3);

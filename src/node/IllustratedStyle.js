@@ -159,20 +159,22 @@ export const defaultConf = {
     image: {
 
         /**
-         * The width of the image. Set this to "auto" to automatically
-         * determine it.
+         * The width of the image. Set this to "orig" to use the width of the
+         * original image and to "auto" to keep the aspect ratio when setting
+         * the height.
          *
          * @type {Number|String}
          */
-        width: "auto",
+        width: "orig",
 
         /**
-         * The height of the image. Set this to "auto" to automatically
-         * determine it.
+         * The height of the image. Set this to "orig" to use the height of the
+         * original image and to "auto" to keep the aspect ratio when setting
+         * the width.
          *
          * @type {Number|String}
          */
-        height: "auto"
+        height: "orig"
     }
 };
 

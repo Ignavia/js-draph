@@ -367,16 +367,50 @@ export const makeMargin = _.curry(function (margin, displayObject) {
 /**
  * Creates a diplay object from the image at the given location.
  *
+ * @param {Object} style
+ * How the image should look.
+ *
+ * @param {Number|String} style.width
+ * The width of the image. Set this to "orig" to use the width of the
+ * original image and to "auto" to keep the aspect ratio when setting
+ * the height.
+ *
+ * @param {Number|String} style.height
+ * The height of the image. Set this to "orig" to use the height of the
+ * original image and to "auto" to keep the aspect ratio when setting
+ * the width.
+ *
  * @param {String} path
  * The location of the image.
  *
  * @return {DisplayObject}
  * The resulting display object.
  */
-export function makeImage(path) {
+export function makeImage(style, path) {
     const result = PIXI.Sprite.fromImage(path);
+
+    // Adjust width
+    if (style.width === "auto") {
+        if (style.height !== "auto" || style.height !== "orig") {
+            result.width *= style.height / result.height;
+        }
+    } else if (style.width !== "orig") {
+        result.width = style.width;
+    }
+
+    // Adjust height
+    if (style.height === "auto") {
+        if (style.width !== "auto" || style.width !== "orig") {
+            result.height *= style.width / result.width;
+        }
+    } else if (style.height !== "orig") {
+        result.height = style.height;
+    }
+
+    // Adjust position
     result.x = -result.width  / 2;
     result.y = -result.height / 2;
+
     return result;
 }
 
@@ -413,15 +447,15 @@ export function makeImage(path) {
 export const makeCaption = _.curry(function (style, text, displayObject) {
     const result = makeText(style.text, text);
 
-    switch (style.caption.side) {
+    switch (style.side) {
     case "above":
-        result.y -= (displayObject.height + result.height) / 2 + style.caption.gap; break;
+        result.y -= (displayObject.height + result.height) / 2 + style.gap; break;
     case "right":
-        result.x += (displayObject.width  + result.width)  / 2 + style.caption.gap; break;
+        result.x += (displayObject.width  + result.width)  / 2 + style.gap; break;
     case "below":
-        result.y += (displayObject.height + result.height) / 2 + style.caption.gap; break;
+        result.y += (displayObject.height + result.height) / 2 + style.gap; break;
     case "left":
-        result.x -= (displayObject.width  + result.width)  / 2 + style.caption.gap; break;
+        result.x -= (displayObject.width  + result.width)  / 2 + style.gap; break;
     }
 
     return result;
@@ -463,14 +497,34 @@ export const makeBoxedLabel = _.curry(function (style, text) {
 });
 
 /**
+ * Creates an image with a label.
  *
+ * @param {Object} style
+ * How everything should look.
+ *
+ * @param {Object} style.image
+ * How the image should look. Refer to the makeImage function to see how this
+ * sub-object should be structured.
+ *
+ * @param {Object} style.caption
+ * How the caption should look. Check the documentation of the makeCaption
+ * function for further information.
+ *
+ * @param {String} imagePath
+ * The path to the image.
+ *
+ * @param {String} text
+ * The caption text.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
  */
 export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
     const result       = new PIXI.Container();
-    const illustration = makeImage(imagePath);
+    const illustration = makeImage(style.image, imagePath);
 
     if (style.captionSide !== "none") {
-        const caption = makeCaption(style, text, illustration);
+        const caption = makeCaption(style.caption, text, illustration);
         result.addChild(caption);
     }
 
