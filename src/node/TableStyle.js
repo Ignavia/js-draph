@@ -1,6 +1,5 @@
 import _ from "lodash";
 
-import {Vec2Builder}      from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
 import * as Utils from "../Utils.js";

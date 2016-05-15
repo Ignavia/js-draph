@@ -45,35 +45,17 @@ export const defaultConf = {
     }
 };
 
-export function makeSprite(conf) {
-    const container = makeContainer(conf);
-    const sprite    = Utils.makeCanvasSprite(container, {
-        width:  conf.width,
-        height: conf.height
-    });
-
-    sprite.visible = conf.visibility;
+export const makeSprite = _.curry(function (conf, label) {
+    const container = Utils.makeBoxedLabel(conf, label);
+    const result    = Utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
+    result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
-    return sprite;
-}
+    return result;
+});
 
-export function makeSpriteWithDefaultConf() {
-    return makeSprite(defaultConf);
-}
-
-function makeContainer(conf) {
-    const container = new PIXI.Container();
-    const label     = Utils.makeText(conf.label, conf.text);
-    const box       = Utils.makeBox(label, conf);
-    const margin    = Utils.makeMargin(box, conf);
-    container.addChild(margin);
-    container.addChild(box);
-    container.addChild(label);
-    return container;
-}
+export const makeSpriteWithDefaultConf = makeSprite(defaultConf);

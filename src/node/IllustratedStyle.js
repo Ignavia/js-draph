@@ -12,11 +12,18 @@ import * as Utils from "../Utils.js";
 export const defaultConf = {
 
     /**
-     * Affects the style of the caption in general.
+     * Affects the style of the caption.
      *
      * @type {Object}
      */
     caption: {
+
+        /**
+         * How large the gap between the given display object and the caption should be.
+         *
+         * @type {Number}
+         */
+        gap: 5,
 
         /**
          * Where the caption should be positioned in relation to the given display
@@ -27,128 +34,145 @@ export const defaultConf = {
         side: "below", // below, above, left, right, center, none
 
         /**
-         * How large the gap between the given display object and the caption should be.
+         * How the text itself should look.
          *
-         * @type {Number}
+         * @type {Object}
          */
-        gap: 5
+        text: {
+
+            /**
+             * How the text should be aligned. The possible values are "left", "center" and
+             * "right". For a single line of text this option has no effect.
+             *
+             * @type {String}
+             */
+            align:  "left",
+
+            /**
+             * How the drop shadow of the text should look.
+             *
+             * @type {Object}
+             */
+            dropShadow: {
+
+                /**
+                 * The angle of the drop shadow given in radian. An angle of 0 means that the
+                 * shadow goes to the right, increasing the angle moves the shadow clockwise.
+                 *
+                 * @type {Number}
+                 */
+                angle: Math.PI / 4,
+
+                /**
+                 * The color of the shadow.
+                 *
+                 * @type {Color}
+                 */
+                color: predefinedColors.gray,
+
+                /**
+                 * How long the drop shadow should be. Set this to 0 to remove it.
+                 *
+                 * @type {Number}
+                 */
+                distance: 0
+            },
+
+            /**
+             * The color to fill the text with.
+             *
+             * @type {Color}
+             */
+            fillColor: predefinedColors.black,
+
+            /**
+             * Configures the font of the text.
+             *
+             * @type {Object}
+             */
+            font: {
+
+                /**
+                 * The font-family to use.
+                 *
+                 * @type {String}
+                 */
+                family: "Arial",
+
+                /**
+                 * The font-size to use.
+                 *
+                 * @type {Number}
+                 */
+                size: 10,
+
+                /**
+                 * The style of the font. This can either be "normal", "italic" or "oblique".
+                 *
+                 * @type {String}
+                 */
+                style: "normal",
+
+                /**
+                 * The weight of the font. This can either be "light", "normal" or "bold".
+                 */
+                weight: "bold"
+            },
+
+            /**
+             * How the stroke around the text should look.
+             *
+             * @type {Object}
+             */
+            stroke: {
+
+                /**
+                 * The color of the stroke around the text.
+                 *
+                 * @type {Color}
+                 */
+                color: predefinedColors.white,
+
+                /**
+                 * How thick the stroke should be. Set this to 0 to deactivate it.
+                 *
+                 * @type {Number}
+                 */
+                thickness: 0
+            },
+
+            /**
+             * The width at which the text is going to wrap. Set this to 0 to
+             * disable it.
+             *
+             * @type {Number}
+             */
+            wordWrapWidth: 0
+        }
     },
 
     /**
-     * How the label should look.
+     * How the image should look.
      *
      * @type {Object}
      */
-    text: {
+    image: {
 
         /**
-         * How the next should be aligned. The possible values are "left", "center" and
-         * "right". For a single line of text this option has no effect.
+         * The width of the image. Set this to "auto" to automatically
+         * determine it.
          *
-         * @type {String}
+         * @type {Number|String}
          */
-        align:  "left",
+        width: "auto",
 
         /**
-         * How the drop shadow of the text should look.
+         * The height of the image. Set this to "auto" to automatically
+         * determine it.
          *
-         * @type {Object}
+         * @type {Number|String}
          */
-        dropShadow: {
-
-            /**
-             * The angle of the drop shadow given in radian. An angle of 0 means that the
-             * shadow goes to the right, increasing the angle moves the shadow clockwise.
-             *
-             * @type {Number}
-             */
-            angle: Math.PI / 4,
-
-            /**
-             * The color of the shadow.
-             *
-             * @type {Color}
-             */
-            color: predefinedColors.gray,
-
-            /**
-             * How long the drop shadow should be. Set this to 0 to remove it.
-             *
-             * @type {Number}
-             */
-            distance: 0
-        },
-
-        /**
-         * The color to fill the text with.
-         *
-         * @type {Color}
-         */
-        fillColor: predefinedColors.black,
-
-        /**
-         * Configures the font of the text.
-         *
-         * @type {Object}
-         */
-        font: {
-
-            /**
-             * The font-family to use.
-             *
-             * @type {String}
-             */
-            family: "Arial",
-
-            /**
-             * The font-size to use.
-             *
-             * @type {Number}
-             */
-            size: 10,
-
-            /**
-             * The style of the font. This can either be "normal", "italic" or "oblique".
-             *
-             * @type {String}
-             */
-            style: "normal",
-
-            /**
-             * The weight of the font. This can either be "light", "normal" or "bold".
-             */
-            weight: "bold"
-        },
-
-        /**
-         * How the stroke around the text should look.
-         *
-         * @type {Object}
-         */
-        stroke: {
-
-            /**
-             * The color of the stroke around the text.
-             *
-             * @type {Color}
-             */
-            color: predefinedColors.white,
-
-            /**
-             * How thick the stroke should be. Set this to 0 to deactivate it.
-             *
-             * @type {Number}
-             */
-            thickness: 0
-        },
-
-        /**
-         * The width at which the text is going to wrap. Set this to 0 to
-         * disable it.
-         *
-         * @type {Number}
-         */
-        wordWrapWidth: 0
+        height: "auto"
     }
 };
 
@@ -169,16 +193,16 @@ export const defaultConf = {
  * The created sprite.
  */
 export const makeSprite = _.curry(function (conf, imagePath, caption) {
-    const container = makeContainer(conf, imagePath, caption);
-    const sprite    = Utils.makeCanvasSprite(container);
+    const container = Utils.makeCaptionedImage(conf, imagePath, caption);
+    const result    = Utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
+    result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
-    return sprite;
+    return result;
 });
 
 /**
@@ -194,32 +218,3 @@ export const makeSprite = _.curry(function (conf, imagePath, caption) {
  * The created sprite.
  */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-
-/**
- * Creates the container used to make the final sprite.
- *
- * @param {Object} conf
- * How everything should look.
- *
- * @param {String} imagePath
- * The path to the image to display.
- *
- * @param {String} text
- * The caption to display.
- *
- * @return {DisplayObject}
- * The resulting display object.
- */
-function makeContainer(conf, imagePath, text) {
-    const result       = new PIXI.Container();
-    const illustration = Utils.makeImage(imagePath);
-
-    if (conf.captionSide !== "none") {
-        const caption = Utils.makeCaption(conf, text, illustration);
-        result.addChild(caption);
-    }
-
-    result.addChild(illustration);
-
-    return result;
-}

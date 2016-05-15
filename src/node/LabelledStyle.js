@@ -12,64 +12,72 @@ import * as Utils from "../Utils.js";
 export const defaultConf = {
 
     /**
-     * The color to fill the box with.
-     *
-     * @type {Color}
-     */
-    backgroundColor: predefinedColors.white,
-
-    /**
-     * How the border of the box should look.
+     * How the box should look like.
      *
      * @type {Object}
      */
-    border: {
+    box: {
 
         /**
-         * The color of the border.
+         * The color to fill the box with.
          *
          * @type {Color}
          */
-        color: predefinedColors.black,
+        backgroundColor: predefinedColors.white,
 
         /**
-         * The radius of the border. This option only works when the shape is
-         * set to "roundedRect".
+         * How the border of the box should look.
+         *
+         * @type {Object}
+         */
+        border: {
+
+            /**
+             * The color of the border.
+             *
+             * @type {Color}
+             */
+            color: predefinedColors.black,
+
+            /**
+             * The radius of the border. This option only works when the shape is
+             * set to "roundedRect".
+             *
+             * @type {Number}
+             */
+            radius: 5,
+
+            /**
+             * The width of the border.
+             *
+             * @type {Number}
+             */
+            width: 2
+        },
+
+        /**
+         * The margin to add around the box. This might be necessary to prevent PIXI
+         * from cutting some pixels of the border off.
          *
          * @type {Number}
          */
-        radius: 5,
+        margin: 2,
 
         /**
-         * The width of the border.
+         * The padding to add around the label.
          *
          * @type {Number}
          */
-        width: 2
+        padding: 10,
+
+        /**
+         * The shape of this node. The values "circle", "ellipse", "rect",
+         * "roundedRect" are supported.
+         *
+         * @type {String}
+         */
+        shape: "ellipse"
     },
-
-    /**
-     * The margin to add around the box. This might be necessary to prevent PIXI
-     * from cutting some pixels of the border off.
-     *
-     * @type {Number}
-     */
-    margin: 2,
-
-    /**
-     * The padding to add around the label.
-     *
-     * @type {Number}
-     */
-    padding: 10,
-
-    /**
-     * The shape of this node. The values "circle", "ellipse", "rect",
-     * "roundedRect" are supported.
-     *
-     * @type {String}
-     */
-    shape: "ellipse",
 
     /**
      * How the label should look.
@@ -79,7 +87,7 @@ export const defaultConf = {
     text: {
 
         /**
-         * How the next should be aligned. The possible values are "left", "center" and
+         * How the text should be aligned. The possible values are "left", "center" and
          * "right". For a single line of text this option has no effect.
          *
          * @type {String}
@@ -203,16 +211,16 @@ export const defaultConf = {
  * The created sprite.
  */
 export const makeSprite = _.curry(function (conf, label) {
-    const container = makeContainer(conf, label);
-    const sprite    = Utils.makeCanvasSprite(container);
+    const container = Utils.makeBoxedLabel(conf, label);
+    const result    = Utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
+    result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
-    return sprite;
+    return result;
 });
 
 /**
@@ -225,26 +233,3 @@ export const makeSprite = _.curry(function (conf, label) {
  * The created sprite.
  */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-
-/**
- * Creates the container used to make the final sprite.
- *
- * @param {Object} conf
- * How everything should look.
- *
- * @param {String} text
- * The text to use as label.
- *
- * @return {DisplayObject}
- * The resulting display object.
- */
-function makeContainer(conf, text) {
-    const result = new PIXI.Container();
-    const label     = Utils.makeText(conf.text, text);
-    const box       = Utils.makeBox(conf, label);
-    const margin    = Utils.makeMargin(conf.margin, box);
-    result.addChild(margin);
-    result.addChild(box);
-    result.addChild(label);
-    return result;
-}

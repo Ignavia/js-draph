@@ -198,13 +198,13 @@ export const makeRoundedRect = _.curry(function (style, width, height, radius) {
 });
 
 /**
- * Creates a display object of a label. This function is curried.
+ * Creates a display object of a text. This function is curried.
  *
  * @param {Object} style
- * How the label should look.
+ * How the text should look.
  *
  * @param {String} style.align
- * How the next should be aligned. The possible values are "left", "center" and
+ * How the text should be aligned. The possible values are "left", "center" and
  * "right". For a single line of text this option has no effect.
  *
  * @param {Object} style.dropShadow
@@ -251,7 +251,7 @@ export const makeRoundedRect = _.curry(function (style, width, height, radius) {
  * The width at which the text is going to wrap. Set this to 0 to disable it.
  *
  * @param {String} s
- * The string to use as label.
+ * The string to use as text.
  *
  * @return {DisplayObject}
  * The resulting display object.
@@ -406,6 +406,9 @@ export function makeImage(path) {
  *
  * @param {DisplayObject} displayObject
  * The display object to make the caption for.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
  */
 export const makeCaption = _.curry(function (style, text, displayObject) {
     const result = makeText(style.text, text);
@@ -420,6 +423,58 @@ export const makeCaption = _.curry(function (style, text, displayObject) {
     case "left":
         result.x -= (displayObject.width  + result.width)  / 2 + style.caption.gap; break;
     }
+
+    return result;
+});
+
+/**
+ * Creates a label surrounded by a box.
+ *
+ * @param {Object} style
+ * How everything should look.
+ *
+ * @param {Object} style.text
+ * How the text should look. Refer to the makeText function to see how this
+ * sub-object has to be structured.
+ *
+ * @param {Object} style.box
+ * How the box around the text should look. Refer to the makeBox function to see
+ * how this sub-object has to be structured.
+ *
+ * @param {Object} style.box.margin
+ * The margin to add around the box. This is useful to prevent PIXI from cutting
+ * some pixels of the border off.
+ *
+ * @param {String} text
+ * The text to display.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeBoxedLabel = _.curry(function (style, text) {
+    const result    = new PIXI.Container();
+    const label     = makeText(style.text, text);
+    const box       = makeBox(style.box, label);
+    const margin    = makeMargin(style.box.margin, box);
+    result.addChild(margin);
+    result.addChild(box);
+    result.addChild(label);
+    return result;
+});
+
+/**
+ *
+ */
+export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
+    const result       = new PIXI.Container();
+    const illustration = makeImage(imagePath);
+
+    if (style.captionSide !== "none") {
+        const caption = makeCaption(style, text, illustration);
+        result.addChild(caption);
+    }
+
+    result.addChild(illustration);
 
     return result;
 });

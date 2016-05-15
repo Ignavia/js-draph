@@ -75,7 +75,7 @@ export default class GraphView {
         this.nodeContainer.filters = [dropShadow];
 
         for (let nodeObj of graphObj.iterNodes()) {
-            const displayObject = LabelledStyle.makeSpriteWithDefaultConf();
+            const displayObject = LabelledStyle.makeSpriteWithDefaultConf("Placeholder");
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
         }

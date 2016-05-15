@@ -58,15 +58,15 @@ export const defaultConf = {
  */
 export function makeSprite(conf) {
     const circle = Utils.makeCircle(conf, conf.radius);
-    const sprite = Utils.makeCanvasSprite(circle);
+    const result = Utils.makeCanvasSprite(circle);
 
     // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
+    result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
-    return sprite;
+    return result;
 };
 
 /**
