@@ -4,62 +4,211 @@ import {predefinedColors} from "@ignavia/util";
 
 import * as Utils from "../Utils.js";
 
+/**
+ * The default configuration of this style.
+ *
+ * @type {Object}
+ */
 export const defaultConf = {
-    imagePath: "../../img/default.png", // TODO:use loader
 
-    border: {
-        color:  predefinedColors.black,
-        radius: 5,
-        width:  2
-    },
-
+    /**
+     * Affects the style of the caption in general.
+     *
+     * @type {Object}
+     */
     caption: {
+
+        /**
+         * Where the caption should be positioned in relation to the given display
+         * object. Possible options are "center", "above", "right", "below" and "left".
+         *
+         * @type {String}
+         */
         side: "below", // below, above, left, right, center, none
-        gap:  5
+
+        /**
+         * How large the gap between the given display object and the caption should be.
+         *
+         * @type {Number}
+         */
+        gap: 5
     },
 
+    /**
+     * How the label should look.
+     *
+     * @type {Object}
+     */
     text: {
+
+        /**
+         * How the next should be aligned. The possible values are "left", "center" and
+         * "right". For a single line of text this option has no effect.
+         *
+         * @type {String}
+         */
         align:  "left",
+
+        /**
+         * How the drop shadow of the text should look.
+         *
+         * @type {Object}
+         */
         dropShadow: {
-            angle:    Math.PI / 4,
-            color:    predefinedColors.gray,
+
+            /**
+             * The angle of the drop shadow given in radian. An angle of 0 means that the
+             * shadow goes to the right, increasing the angle moves the shadow clockwise.
+             *
+             * @type {Number}
+             */
+            angle: Math.PI / 4,
+
+            /**
+             * The color of the shadow.
+             *
+             * @type {Color}
+             */
+            color: predefinedColors.gray,
+
+            /**
+             * How long the drop shadow should be. Set this to 0 to remove it.
+             *
+             * @type {Number}
+             */
             distance: 0
         },
-        fillColor: predefinedColors.gray,
+
+        /**
+         * The color to fill the text with.
+         *
+         * @type {Color}
+         */
+        fillColor: predefinedColors.black,
+
+        /**
+         * Configures the font of the text.
+         *
+         * @type {Object}
+         */
         font: {
+
+            /**
+             * The font-family to use.
+             *
+             * @type {String}
+             */
             family: "Arial",
-            size:   10,
-            style:  "normal",
+
+            /**
+             * The font-size to use.
+             *
+             * @type {Number}
+             */
+            size: 10,
+
+            /**
+             * The style of the font. This can either be "normal", "italic" or "oblique".
+             *
+             * @type {String}
+             */
+            style: "normal",
+
+            /**
+             * The weight of the font. This can either be "light", "normal" or "bold".
+             */
             weight: "bold"
         },
+
+        /**
+         * How the stroke around the text should look.
+         *
+         * @type {Object}
+         */
         stroke: {
+
+            /**
+             * The color of the stroke around the text.
+             *
+             * @type {Color}
+             */
             color: predefinedColors.white,
+
+            /**
+             * How thick the stroke should be. Set this to 0 to deactivate it.
+             *
+             * @type {Number}
+             */
             thickness: 0
         },
-        wordWrapWidth:   0
+
+        /**
+         * The width at which the text is going to wrap. Set this to 0 to
+         * disable it.
+         *
+         * @type {Number}
+         */
+        wordWrapWidth: 0
     }
 };
 
-export function makeSprite(conf, imagePath, caption) {
+/**
+ * Creates a sprite using the given configuration. This function is curried.
+ *
+ * @param {Object} conf
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
+ * @param {String} imagePath
+ * The path to the image to display.
+ *
+ * @param {String} caption
+ * The caption to display.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
+export const makeSprite = _.curry(function (conf, imagePath, caption) {
     const container = makeContainer(conf, imagePath, caption);
-    const sprite    = Utils.makeCanvasSprite(container, {
-        width:  conf.width,
-        height: conf.height
-    });
-
+    const sprite    = Utils.makeCanvasSprite(container);
     return sprite;
-}
+});
 
-export function makeSpriteWithDefaultConf() {
-    return makeSprite(defaultConf);
-}
+/**
+ * Creates a sprite using the default configuration.
+ *
+ * @param {String} imagePath
+ * The path to the image to display.
+ *
+ * @param {String} caption
+ * The caption to display.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
+export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
 
-function makeContainer(conf, imagePath, s) {
-    const result = new PIXI.Container();
+/**
+ * Creates the container used to make the final sprite.
+ *
+ * @param {Object} conf
+ * How everything should look.
+ *
+ * @param {String} imagePath
+ * The path to the image to display.
+ *
+ * @param {String} text
+ * The caption to display.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeContainer(conf, imagePath, text) {
+    const result       = new PIXI.Container();
     const illustration = Utils.makeImage(imagePath);
 
     if (conf.captionSide !== "none") {
-        const caption = Utils.makeCaption(conf, s, illustration);
+        const caption = Utils.makeCaption(conf, text, illustration);
         result.addChild(caption);
     }
 
