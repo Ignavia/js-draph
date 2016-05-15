@@ -98,9 +98,12 @@ export default class GraphView {
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
         this.edgeContainer.addChild(disp);
 
-        // const disp2 = NodeTableStyle.makeSpriteWithDefaultConf([[]]);
-        // console.log(disp2);
-        // this.nodeContainer.addChild(disp2);
+        const disp2 = NodeTableStyle.makeSpriteWithDefaultConf({
+            headers: ["hi"],
+            data: [["hello"], ["bla"]]
+        });
+        console.log(disp2);
+        this.nodeContainer.addChild(disp2);
 
         const disp3 = SimpleStyle.makeSpriteWithDefaultConf();
         this.nodeContainer.addChild(disp3);

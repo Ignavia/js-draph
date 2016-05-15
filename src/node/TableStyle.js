@@ -26,13 +26,6 @@ export const defaultConf = {
         backgroundColor: predefinedColors.lightgray,
 
         /**
-         * The padding around the text in header cells.
-         *
-         * @type {Number}
-         */
-        padding: 10,
-
-        /**
          * The style of the text of the header cells.
          *
          * @type {Object}
@@ -163,13 +156,6 @@ export const defaultConf = {
          * @type {Color}
          */
         backgroundColor: predefinedColors.white,
-
-        /**
-         * The padding around the text in data cells.
-         *
-         * @type {Number}
-         */
-        padding: 10,
 
         /**
          * The style of the text of a data cell.
@@ -328,11 +314,18 @@ export const defaultConf = {
          * Whether to show a border around the table.
          */
         around: true
-    }
+    },
+
+    /**
+     * The padding around the text in cells.
+     *
+     * @type {Number}
+     */
+    padding: 10
 };
 
 export const makeSprite = _.curry(function(conf, content) {
-    const container = makeContainer(conf);
+    const container = makeContainer(conf, content);
     const result    = Utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
@@ -346,10 +339,10 @@ export const makeSprite = _.curry(function(conf, content) {
 
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
 
-function makeContainer(conf) {
+function makeContainer(conf, content) {
     const container = new PIXI.Container();
 
-    const {labels, columnWidths, rowHeights} = makeLabels(conf);
+    const {labels, columnWidths, rowHeights} = makeLabels(conf, content);
 
     const width  = computeWidth(columnWidths, conf);
     const height = computeHeight(rowHeights, conf);
@@ -418,7 +411,7 @@ function makeHorizontalBorders(rowHeights, width, height, conf) {
 
 function makeBorderAround(width, height, conf) {
     const result = new PIXI.Graphics();
-    result.lineStyle(conf.border.width, conf.border.color.hex, conf .border.color.alpha);
+    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
 
     result.moveTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
     result.lineTo( width / 2 + conf.border.width / 2, -height / 2 - conf.border.width / 2);
@@ -493,24 +486,24 @@ function makeBox(headerRowHeight, width, height, conf) {
     return result;
 }
 
-function makeLabels(conf) {
+function makeLabels(conf, content) {
     const labels       = [[]];
     const columnWidths = [];
     const rowHeights   = [];
 
     // Header
-    for (let c = 0; c < conf.headers.length; c++) {
-        const label     = Utils.makeText(conf.headers[c], conf.text.header);
+    for (let c = 0; c < content.headers.length; c++) {
+        const label     = Utils.makeText(conf.headerCell.text, content.headers[c]);
         labels[0][c]    = label;
         columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
         rowHeights[0]   = adjustDimension(rowHeights[0],   label.height, conf);
     }
 
     // Data
-    for (let r = 1; r <= conf.data.length; r++) {
+    for (let r = 1; r <= content.data.length; r++) {
         labels[r] = [];
-        for (let c = 0; c < conf.data[r - 1].length; c++) {
-            const label     = Utils.makeText(conf.data[r - 1][c], conf.text.data);
+        for (let c = 0; c < content.data[r - 1].length; c++) {
+            const label     = Utils.makeText(conf.dataCell.text, content.data[r - 1][c]);
             labels[r][c]    = label;
             columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
             rowHeights[r]   = adjustDimension(rowHeights[r],   label.height, conf);
