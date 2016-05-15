@@ -224,7 +224,7 @@ export const makeRoundedRect = _.curry(function (style, width, height, radius) {
  * The color to fill the text with.
  *
  * @param {Object} style.font
- * COnfigures the font of the text.
+ * Configures the font of the text.
  *
  * @param {String} style.font.family
  * The font-family to use.
@@ -245,7 +245,7 @@ export const makeRoundedRect = _.curry(function (style, width, height, radius) {
  * The color of the stroke around the text.
  *
  * @param {Number} style.stroke.thickness
- * How thick the stroke should be.
+ * How thick the stroke should be. Set this to 0 to deactivate it.
  *
  * @param {Number} style.wordWrapWidth
  * The width at which the text is going to wrap. Set this to 0 to disable it.
