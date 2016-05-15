@@ -324,6 +324,25 @@ export const defaultConf = {
     padding: 10
 };
 
+/**
+ * Creates a sprite using the given configuration.
+ *
+ * @param {Object} conf
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
+ * @param {Object} content
+ * The content of the table.
+ *
+ * @param {Array} content.headers
+ * The headers of the table.
+ *
+ * @param {Array} content.data
+ * A two-dimensional array of the data. Each entry represents one row.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
 export const makeSprite = _.curry(function(conf, content) {
     const container = makeContainer(conf, content);
     const result    = Utils.makeCanvasSprite(container);
@@ -337,92 +356,109 @@ export const makeSprite = _.curry(function(conf, content) {
     return result;
 });
 
+/**
+ * Creates a sprite using the default configuration.
+ *
+ * @return {DisplayObject}
+ * The created sprite.
+ */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
 
+/**
+ * Creates the container that is used to make the final sprite.
+ *
+ * @param {Object} conf
+ * The configuration of this style.
+ *
+ * @param {Object} content
+ * The content of the table.
+ */
 function makeContainer(conf, content) {
-    const container = new PIXI.Container();
-
     const {labels, columnWidths, rowHeights} = makeLabels(conf, content);
 
-    const width  = computeWidth(columnWidths, conf);
-    const height = computeHeight(rowHeights, conf);
+    const width  = computeWidth(conf, columnWidths);
+    const height = computeHeight(conf, rowHeights);
 
-    positionLabels(labels, columnWidths, rowHeights, width, height, conf);
+    positionLabels(conf, labels, columnWidths, rowHeights, width, height);
 
-    const box = makeBox(rowHeights[0], width, height, conf);
-    const borders = makeBorders(columnWidths, rowHeights, width, height, conf);
+    const box     = makeBox(conf, rowHeights[0], width, height);
+    const borders = makeBorders(conf, columnWidths, rowHeights, width, height);
 
-    container.addChild(box);
-    container.addChild(borders);
+    const result = new PIXI.Container();
+    result.addChild(box);
+    result.addChild(borders);
     for (let row of labels) {
         for (let label of row) {
-            container.addChild(label);
+            result.addChild(label);
         }
     }
 
-    return container;
-}
-
-function makeBorders(columnWidths, rowHeights, width, height, conf) {
-    const result = new PIXI.Container();
-
-    if (conf.border.vertical){
-        result.addChild(makeVerticalBorders(columnWidths, width, height, conf));
-    }
-
-    if (conf.border.horizontal) {
-        result.addChild(makeHorizontalBorders(rowHeights, width, height, conf));
-    }
-
-    if (conf.border.around) {
-        result.addChild(makeBorderAround(width, height, conf));
-    }
-
     return result;
 }
 
-function makeVerticalBorders(columnWidths, width, height, conf) {
-    const result = new PIXI.Graphics();
-    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+/**
+ * Creates the display objects for the labels.
+ *
+ * @param {Object} conf
+ * The configuration of this style.
+ *
+ * @param {Object} content
+ * The content of the table.
+ *
+ * @return {Object}
+ * You can find the created display objects in a two-dimensional array under
+ * the labels key. Furthermore, the returned object has a columnWidths and a
+ * rowHeight property.
+ */
+function makeLabels(conf, content) {
+    const labels       = [[]];
+    const columnWidths = [];
+    const rowHeights   = [];
 
-    let curX = -width / 2 - conf.border.width / 2;
-    for (let c = 0; c < columnWidths.length - 1; c++) {
-        curX += columnWidths[c] + conf.border.width;
-        result.moveTo(curX, -height / 2);
-        result.lineTo(curX,  height / 2);
+    // Header
+    for (let c = 0; c < content.headers.length; c++) {
+        const label     = Utils.makeText(conf.headerCell.text, content.headers[c]);
+        labels[0][c]    = label;
+        columnWidths[c] = adjustDimension(conf, columnWidths[c], label.width);
+        rowHeights[0]   = adjustDimension(conf, rowHeights[0],   label.height);
     }
 
-    return result;
-}
-
-function makeHorizontalBorders(rowHeights, width, height, conf) {
-    const result = new PIXI.Graphics();
-    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
-
-    let curY = -height / 2 - conf.border.width / 2;
-    for (let r = 0; r < rowHeights.length - 1; r++) {
-        curY += rowHeights[r] + conf.border.width;
-        result.moveTo(-width / 2, curY);
-        result.lineTo( width / 2, curY);
+    // Data
+    for (let r = 1; r <= content.data.length; r++) {
+        labels[r] = [];
+        for (let c = 0; c < content.data[r - 1].length; c++) {
+            const label     = Utils.makeText(conf.dataCell.text, content.data[r - 1][c]);
+            labels[r][c]    = label;
+            columnWidths[c] = adjustDimension(conf, columnWidths[c], label.width);
+            rowHeights[r]   = adjustDimension(conf, rowHeights[r],   label.height);
+        }
     }
 
-    return result;
+    return {labels, columnWidths, rowHeights};
 }
 
-function makeBorderAround(width, height, conf) {
-    const result = new PIXI.Graphics();
-    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
-
-    result.moveTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
-    result.lineTo( width / 2 + conf.border.width / 2, -height / 2 - conf.border.width / 2);
-    result.lineTo( width / 2 + conf.border.width / 2,  height / 2 + conf.border.width / 2);
-    result.lineTo(-width / 2 - conf.border.width / 2,  height / 2 + conf.border.width / 2);
-    result.lineTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
-
-    return result;
-}
-
-function positionLabels(labels, columnWidths, rowHeights, width, height, conf) {
+/**
+ * Moves the labels to the correct positions.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Array} labels
+ * The display objects of the labels.
+ *
+ * @param {Array} columnWidths
+ * The widths of the columns.
+ *
+ * @param {Array} rowHeights
+ * The heights of the rows.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ */
+function positionLabels(conf, labels, columnWidths, rowHeights, width, height) {
     let curY = (rowHeights[0] || 0) / 2 - height / 2;
     for (let r = 0; r < labels.length; r++) {
 
@@ -442,29 +478,199 @@ function positionLabels(labels, columnWidths, rowHeights, width, height, conf) {
     }
 }
 
-function computeWidth(columnWidths, conf) {
-    let result = _.sum(columnWidths);
+/**
+ * Creates the borders of the table.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Array} columnWidths
+ * The widths of the columns.
+ *
+ * @param {Array} rowHeights
+ * The heights of the rows.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeBorders(conf, columnWidths, rowHeights, width, height) {
+    const result = new PIXI.Container();
 
+    if (conf.border.vertical){
+        result.addChild(makeVerticalBorders(conf, columnWidths, width, height));
+    }
+    if (conf.border.horizontal) {
+        result.addChild(makeHorizontalBorders(conf, rowHeights, width, height));
+    }
+    if (conf.border.around) {
+        result.addChild(makeBorderAround(conf, width, height));
+    }
+
+    return result;
+}
+
+/**
+ * Creates the vertical borders of the table.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Array} columnWidths
+ * The widths of the columns.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeVerticalBorders(conf, columnWidths, width, height) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+
+    let curX = -width / 2 - conf.border.width / 2;
+    for (let c = 0; c < columnWidths.length - 1; c++) {
+        curX += columnWidths[c] + conf.border.width;
+        result.moveTo(curX, -height / 2);
+        result.lineTo(curX,  height / 2);
+    }
+
+    return result;
+}
+
+/**
+ * Creates the horizontal borders of the table.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Array} rowHeights
+ * The heights of the rows.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeHorizontalBorders(conf, rowHeights, width, height) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+
+    let curY = -height / 2 - conf.border.width / 2;
+    for (let r = 0; r < rowHeights.length - 1; r++) {
+        curY += rowHeights[r] + conf.border.width;
+        result.moveTo(-width / 2, curY);
+        result.lineTo( width / 2, curY);
+    }
+
+    return result;
+}
+
+/**
+ * Creates the borders of the table.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeBorderAround(conf, width, height) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
+
+    result.moveTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
+    result.lineTo( width / 2 + conf.border.width / 2, -height / 2 - conf.border.width / 2);
+    result.lineTo( width / 2 + conf.border.width / 2,  height / 2 + conf.border.width / 2);
+    result.lineTo(-width / 2 - conf.border.width / 2,  height / 2 + conf.border.width / 2);
+    result.lineTo(-width / 2 - conf.border.width / 2, -height / 2 - conf.border.width / 2);
+
+    return result;
+}
+
+/**
+ * Computes the width of the table not including the border around the
+ * table.
+ *
+ * @param {Object} conf
+ * The configuration of this style.
+ *
+ * @param {Array} columnWidths
+ * The widths of the individual columns.
+ *
+ * @return {Number}
+ * The width.
+ */
+function computeWidth(conf, columnWidths) {
+    let result = _.sum(columnWidths);
     if (conf.border.vertical) {
         result += (columnWidths.length - 1) * conf.border.width;
     }
-
     return result;
 }
 
-function computeHeight(rowHeights, conf) {
+/**
+ * Computes the height of the table not including the border around the
+ * table.
+ *
+ * @param {Object} conf
+ * The configuration of this style.
+ *
+ * @param {Array} columnWidths
+ * The heights of the individual rows.
+ *
+ * @return {Number}
+ * The height.
+ */
+function computeHeight(conf, rowHeights) {
     let result = _.sum(rowHeights);
-
     if (conf.border.horizontal) {
         result += (rowHeights.length - 1) * conf.border.width;
     }
-
     return result;
 }
 
-function makeBox(headerRowHeight, width, height, conf) {
+/**
+ * Creates the box for the background-color of the table.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Number} headerRowHeight
+ * The height of the header row.
+ *
+ * @param {Number} width
+ * The width of the complete table.
+ *
+ * @param {Number} height
+ * The height of the complete table.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+function makeBox(conf, headerRowHeight, width, height) {
     const result = new PIXI.Graphics();
 
+    // Header
     result.beginFill(conf.headerCell.backgroundColor.hex, conf.headerCell.backgroundColor.alpha);
     result.drawRect(
         -width  / 2,
@@ -473,8 +679,7 @@ function makeBox(headerRowHeight, width, height, conf) {
         headerRowHeight
     );
 
-    // TODO: use Utils ?
-
+    // Data
     result.beginFill(conf.dataCell.backgroundColor.hex, conf.dataCell.backgroundColor.alpha);
     result.drawRect(
         -width  / 2,
@@ -486,34 +691,20 @@ function makeBox(headerRowHeight, width, height, conf) {
     return result;
 }
 
-function makeLabels(conf, content) {
-    const labels       = [[]];
-    const columnWidths = [];
-    const rowHeights   = [];
-
-    // Header
-    for (let c = 0; c < content.headers.length; c++) {
-        const label     = Utils.makeText(conf.headerCell.text, content.headers[c]);
-        labels[0][c]    = label;
-        columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
-        rowHeights[0]   = adjustDimension(rowHeights[0],   label.height, conf);
-    }
-
-    // Data
-    for (let r = 1; r <= content.data.length; r++) {
-        labels[r] = [];
-        for (let c = 0; c < content.data[r - 1].length; c++) {
-            const label     = Utils.makeText(conf.dataCell.text, content.data[r - 1][c]);
-            labels[r][c]    = label;
-            columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
-            rowHeights[r]   = adjustDimension(rowHeights[r],   label.height, conf);
-        }
-    }
-
-    return {labels, columnWidths, rowHeights};
-}
-
-function adjustDimension(old, current, conf) {
+/**
+ * Returns the maximum of the old row height/columnwidth and the current cell
+ * height/width. It also adds the padding from the settings.
+ *
+ * @param {Object} conf
+ * The configuration of the style.
+ *
+ * @param {Number} old
+ * The old maximum dimension.
+ *
+ * @param {Number} current
+ * The current dimension.
+ */
+function adjustDimension(conf, old, current) {
     current = current + 2 * conf.padding;
     if (old === undefined) {
         return current;

@@ -100,7 +100,7 @@ export default class GraphView {
 
         const disp2 = NodeTableStyle.makeSpriteWithDefaultConf({
             headers: ["hi"],
-            data: [["hello"], ["bla"]]
+            data: [["hello", "world"], ["bla"]]
         });
         console.log(disp2);
         this.nodeContainer.addChild(disp2);
