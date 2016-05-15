@@ -29,15 +29,16 @@ export function makeCanvasSprite(displayObject, {width = "auto", height = "auto"
     return sprite;
 }
 
+export function makeWebGLSprite() {
+    // TODO
+}
+
 export function adjustConf(base, adjustments) {
     return _.merge({}, base, adjustments);
 }
 
 /**
- * Creates a display object of a circle.
- *
- * @param {Number} radius
- * The radius of the circle.
+ * Creates a display object of a circle. This function is curried.
  *
  * @param {Object} style
  * How the circle should look.
@@ -54,10 +55,13 @@ export function adjustConf(base, adjustments) {
  * @param {Color} style.backgroundColor
  * The color to fill the circle with.
  *
+ * @param {Number} radius
+ * The radius of the circle.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeCircle(radius, style) {
+export const makeCircle = _.curry(function (style, radius) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
@@ -67,16 +71,10 @@ export function makeCircle(radius, style) {
         radius
     );
     return result;
-}
+});
 
 /**
- * Creates a display object of an ellipse.
- *
- * @param {Number} halfWidth
- * The half width of the ellipse.
- *
- * @param {Number} halfHeight
- * The half height of the ellipse.
+ * Creates a display object of an ellipse. This function is curried.
  *
  * @param {Object} style
  * How the ellipse should look.
@@ -93,10 +91,16 @@ export function makeCircle(radius, style) {
  * @param {Color} style.backgroundColor
  * The color to fill the ellipse with.
  *
+ * @param {Number} halfWidth
+ * The half width of the ellipse.
+ *
+ * @param {Number} halfHeight
+ * The half height of the ellipse.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeEllipse(halfWidth, halfHeight, style) {
+export const makeEllipse = _.curry(function (style, halfWidth, halfHeight) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
@@ -107,16 +111,10 @@ export function makeEllipse(halfWidth, halfHeight, style) {
         halfHeight
     );
     return result;
-}
+});
 
 /**
- * Creates a display object of a rectangle.
- *
- * @param {Number} width
- * The width of the rectangle.
- *
- * @param {Number} height
- * The height of the rectangle.
+ * Creates a display object of a rectangle. This function is curried.
  *
  * @param {Object} style
  * How the rectangle should look.
@@ -133,10 +131,16 @@ export function makeEllipse(halfWidth, halfHeight, style) {
  * @param {Color} style.backgroundColor
  * The color to fill the rectangle with.
  *
+ * @param {Number} width
+ * The width of the rectangle.
+ *
+ * @param {Number} height
+ * The height of the rectangle.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeRect(width, height, style) {
+export const makeRect = _.curry(function (style, width, height) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
@@ -147,19 +151,10 @@ export function makeRect(width, height, style) {
         height
     );
     return result;
-}
+});
 
 /**
- * Creates a display object of a rounded rectangle.
- *
- * @param {Number} width
- * The width of the rounded rectangle.
- *
- * @param {Number} height
- * The height of the rounded rectangle.
- *
- * @param {Number} radius
- * The radius of the circles at the corners of the rectangle.
+ * Creates a display object of a rounded rectangle. This function is curried.
  *
  * @param {Object} style
  * How the rounded rectangle should look.
@@ -176,10 +171,19 @@ export function makeRect(width, height, style) {
  * @param {Color} style.backgroundColor
  * The color to fill the rounded rectangle with.
  *
+ * @param {Number} width
+ * The width of the rounded rectangle.
+ *
+ * @param {Number} height
+ * The height of the rounded rectangle.
+ *
+ * @param {Number} radius
+ * The radius of the circles at the corners of the rectangle.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeRoundedRect(width, height, radius, style) {
+export const makeRoundedRect = _.curry(function (style, width, height, radius) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
@@ -191,13 +195,10 @@ export function makeRoundedRect(width, height, radius, style) {
         radius
     );
     return result;
-}
+});
 
 /**
- * Creates a display object of a label.
- *
- * @param {String} content
- * The string to use as label.
+ * Creates a display object of a label. This function is curried.
  *
  * @param {Object} style
  * How the label should look.
@@ -249,11 +250,14 @@ export function makeRoundedRect(width, height, radius, style) {
  * @param {Number} style.wordWrapWidth
  * The width at which the text is going to wrap. Set this to 0 to disable it.
  *
+ * @param {String} s
+ * The string to use as label.
+ *
  * @return {DisplayObject}
  * The resulting display object.
  */
-export function makeText(content, style) {
-    const result = new PIXI.Text(content, {
+export const makeText = _.curry(function (style, s) {
+    const result = new PIXI.Text(s, {
         align:              style.align,
         dropShadow:         style.dropShadow.distance > 0,
         dropShadowAngle:    style.dropShadow.angle,
@@ -269,50 +273,86 @@ export function makeText(content, style) {
     result.x = -result.width  / 2;
     result.y = -result.height / 2;
     return result;
-}
+});
 
-export function makeBox(content, style) {
+/**
+ * Creates a display object of a box around the given display object.
+ *
+ * @param {Object} style
+ * How the box should look.
+ *
+ * @param {String} style.shape
+ * The shape of the box. This can be one of "circle", "ellipse", "rect" or
+ * "roundedRect".
+ *
+ * @param {Number} style.padding
+ * The padding to add around the given display object.
+ *
+ * @param {Object} style.border
+ * How the border of the box should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Number} style.border.radius
+ * This is only relevant when the shape is set to "roundedRect". It describes
+ * the radius of the circles in the corners of the rectangle.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the box with.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make a box for.
+ *
+ * @return {DisplayObject}
+ * The resulting box.
+ */
+export const makeBox = _.curry(function (style, displayObject) {
     switch (style.shape) {
     case "circle":
         return makeCircle(
-            Math.max(content.width, content.height) / 2 + style.padding,
-            style
+            style,
+            Math.max(displayObject.width, displayObject.height) / 2 + style.padding
         );
     case "ellipse":
         return makeEllipse(
-            content.width  / Math.sqrt(2) + style.padding,
-            content.height / Math.sqrt(2) + style.padding,
-            style
+            style,
+            displayObject.width  / Math.sqrt(2) + style.padding,
+            displayObject.height / Math.sqrt(2) + style.padding
         );
     case "rect":
         return makeRect(
-            content.width  + 2 * style.padding,
-            content.height + 2 * style.padding,
-            style
+            style,
+            displayObject.width  + 2 * style.padding,
+            displayObject.height + 2 * style.padding
         );
     case "roundedRect":
         return makeRoundedRect(
-            content.width  + 2 * style.padding,
-            content.height + 2 * style.padding,
-            style.border.radius,
-            style
+            style,
+            displayObject.width  + 2 * style.padding,
+            displayObject.height + 2 * style.padding,
+            style.border.radius
         );
     }
-}
+});
 
 /**
- * Creates a transparent margin for the given display object.
- *
- * @param {DisplayObject} displayObject
- * The display object to make a margin for.
+ * Creates a transparent margin for the given display object. This function is
+ * curried.
  *
  * @param {Number} margin
  * How wide the margin at one side should be.
  *
+ * @param {DisplayObject} displayObject
+ * The display object to make a margin for.
+ *
  * @return {DisplayObject}
  * The resulting display object.
  */
-export function makeMargin(displayObject, margin) {
+export const makeMargin = _.curry(function (margin, displayObject) {
     const result = new PIXI.Graphics();
     result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
     result.drawRect(
@@ -322,11 +362,64 @@ export function makeMargin(displayObject, margin) {
          displayObject.height     + 2 * margin
     );
     return result;
-}
+});
 
+/**
+ * Creates a diplay object from the image at the given location.
+ *
+ * @param {String} path
+ * The location of the image.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
 export function makeImage(path) {
     const result = PIXI.Sprite.fromImage(path);
     result.x = -result.width  / 2;
     result.y = -result.height / 2;
     return result;
 }
+
+/**
+ * Creates a display object of a caption for the given display object. This
+ * function is curried.
+ *
+ * @param {Object} style
+ * How the caption should look.
+ *
+ * @param {Object} style.text
+ * How the text should look. Refer to the makeText function to see how this
+ * sub-object has to be structured.
+ *
+ * @param {Object} style.caption
+ * Affects the style of the caption in general.
+ *
+ * @param {String} style.caption.side
+ * Where the caption should be positioned in relation to the given display
+ * object. Possible options are "center", "above", "right", "below" and "left".
+ *
+ * @param {Number} style.caption.gap
+ * How large the gap between the given display object and the caption should be.
+ *
+ * @param {String} text
+ * The text to display.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make the caption for.
+ */
+export const makeCaption = _.curry(function (style, text, displayObject) {
+    const result = makeText(style.text, text);
+
+    switch (style.caption.side) {
+    case "above":
+        result.y -= (displayObject.height + result.height) / 2 + style.caption.gap; break;
+    case "right":
+        result.x += (displayObject.width  + result.width)  / 2 + style.caption.gap; break;
+    case "below":
+        result.y += (displayObject.height + result.height) / 2 + style.caption.gap; break;
+    case "left":
+        result.x -= (displayObject.width  + result.width)  / 2 + style.caption.gap; break;
+    }
+
+    return result;
+});

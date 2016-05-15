@@ -53,8 +53,8 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export function makeSprite(conf) {
-    const container = makeContainer(conf);
+export function makeSprite(conf, label) {
+    const container = makeContainer(conf, label);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,
         height: conf.height
@@ -84,11 +84,11 @@ export function makeSpriteWithDefaultConf() {
     return makeSprite(defaultConf);
 }
 
-function makeContainer(conf) {
+function makeContainer(conf, text) {
     const container = new PIXI.Container();
-    const label     = Utils.makeText(conf.label, conf.text);
-    const box       = Utils.makeBox(label, conf);
-    const margin    = Utils.makeMargin(box, conf.margin);
+    const label     = Utils.makeText(conf.text, text);
+    const box       = Utils.makeBox(conf, label);
+    const margin    = Utils.makeMargin(conf.margin, box);
     container.addChild(margin);
     container.addChild(box);
     container.addChild(label);

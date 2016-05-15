@@ -57,7 +57,7 @@ export const defaultConf = {
  * The created sprite.
  */
 export function makeSprite(conf) {
-    const circle = Utils.makeCircle(conf.radius, conf);
+    const circle = Utils.makeCircle(conf, conf.radius);
     const sprite = Utils.makeCanvasSprite(circle);
     return sprite;
 };

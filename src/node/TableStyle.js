@@ -217,16 +217,18 @@ function makeBox(headerRowHeight, width, height, conf) {
     result.drawRect(
         -width  / 2,
         -height / 2,
-            width,
-            headerRowHeight
+        width,
+        headerRowHeight
     );
+
+    // TODO: use Utils ?
 
     result.beginFill(conf.backgroundColor.data.hex, conf.backgroundColor.data.alpha);
     result.drawRect(
         -width  / 2,
         -height / 2 + headerRowHeight,
-            width,
-            height - headerRowHeight
+        width,
+        height - headerRowHeight
     );
 
     return result;

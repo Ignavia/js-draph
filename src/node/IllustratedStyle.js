@@ -4,8 +4,6 @@ import {predefinedColors} from "@ignavia/util";
 
 import * as Utils from "../Utils.js";
 
-// TODO outsource illustration generation
-
 export const defaultConf = {
     imagePath: "../../img/default.png", // TODO:use loader
 
@@ -15,9 +13,10 @@ export const defaultConf = {
         width:  2
     },
 
-    caption: "<Placeholder>",
-    captionSide: "below", // below, above, left, right, center, none
-    captionGap: 5,
+    caption: {
+        side: "below", // below, above, left, right, center, none
+        gap:  5
+    },
 
     text: {
         align:  "left",
@@ -41,8 +40,8 @@ export const defaultConf = {
     }
 };
 
-export function makeSprite(conf) {
-    const container = makeContainer(conf);
+export function makeSprite(conf, imagePath, caption) {
+    const container = makeContainer(conf, imagePath, caption);
     const sprite    = Utils.makeCanvasSprite(container, {
         width:  conf.width,
         height: conf.height
@@ -55,25 +54,16 @@ export function makeSpriteWithDefaultConf() {
     return makeSprite(defaultConf);
 }
 
-function makeContainer(conf) {
+function makeContainer(conf, imagePath, s) {
     const result = new PIXI.Container();
-    const illustration = Utils.makeImage(conf.imagePath);
-    const caption = Utils.makeText(conf.caption, conf.text);
+    const illustration = Utils.makeImage(imagePath);
 
-    result.addChild(caption);
-    result.addChild(illustration);
-
-    if (conf.captionSide === "above") {
-        caption.y -= Math.max(illustration.height, caption.height) / 2 + conf.captionGap;
-    } else if (conf.captionSide === "right") {
-        caption.x += Math.max(illustration.width,  caption.width)  / 2 + conf.captionGap;
-    } else if (conf.captionSide === "below") {
-        caption.y += Math.max(illustration.height, caption.height) / 2 + conf.captionGap;
-    } else if (conf.captionSide === "left") {
-        caption.x -= Math.max(illustration.width,  caption.width)  / 2 + conf.captionGap;
-    } else if (conf.captionSide === "none") {
-        result.removeChild(caption);
+    if (conf.captionSide !== "none") {
+        const caption = Utils.makeCaption(conf, s, illustration);
+        result.addChild(caption);
     }
+
+    result.addChild(illustration);
 
     return result;
 }
