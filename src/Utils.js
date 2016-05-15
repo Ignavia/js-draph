@@ -13,8 +13,6 @@ const renderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
             backgroundColor: 0xFFFFFF
         });
 
-export const emptyDisplayObject = new PIXI.DisplayObject();
-
 export function makeCanvasSprite(displayObject, {width = "auto", height = "auto"} = {}) {
     const texture = displayObject.generateTexture(canvasRenderer);
     const sprite  = new PIXI.Sprite(texture);
@@ -33,6 +31,27 @@ export function makeWebGLSprite() {
     // TODO
 }
 
+/**
+ * An empty display object.
+ *
+ * @type {DisplayObject}
+ */
+export const emptyDisplayObject = new PIXI.DisplayObject();
+
+/**
+ * Replaces the properties in the base configuration with the ones listed in the
+ * adjustments object. Anything not listed in the adjustments object is taken
+ * unaltered from the base object.
+ *
+ * @param {Object} base
+ * The base configuration.
+ *
+ * @param {Object} adjustments
+ * The adjustments to make.
+ *
+ * @return {Object}
+ * The resulting configuration.
+ */
 export function adjustConf(base, adjustments) {
     return _.merge({}, base, adjustments);
 }
