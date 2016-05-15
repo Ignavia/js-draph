@@ -171,6 +171,13 @@ export const defaultConf = {
 export const makeSprite = _.curry(function (conf, imagePath, caption) {
     const container = makeContainer(conf, imagePath, caption);
     const sprite    = Utils.makeCanvasSprite(container);
+
+    // Placing the texture at the origin of the coordinate system of the sprite
+    sprite.anchor = {
+        x: 0.5,
+        y: 0.5
+    };
+
     return sprite;
 });
 
