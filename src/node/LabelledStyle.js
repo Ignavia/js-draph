@@ -88,7 +88,7 @@ function makeContainer(conf) {
     const container = new PIXI.Container();
     const label     = Utils.makeText(conf.label, conf.text);
     const box       = makeBox(label, conf);
-    const margin    = Utils.makeMargin(box.width, box.height, conf.margin);
+    const margin    = Utils.makeMargin(box, conf.margin);
     container.addChild(margin);
     container.addChild(box);
     container.addChild(label);

@@ -69,19 +69,73 @@ export function makeCircle(radius, style) {
     return result;
 }
 
-export function makeEllipse(width, height, style) {
+/**
+ * Creates a display object of an ellipse.
+ *
+ * @param {Number} halfWidth
+ * The half width of the ellipse.
+ *
+ * @param {Number} halfHeight
+ * The half height of the ellipse.
+ *
+ * @param {Object} style
+ * How the ellipse should look.
+ *
+ * @param {Object} style.border
+ * How the border around the ellipse should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the ellipse with.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export function makeEllipse(halfWidth, halfHeight, style) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
     result.drawEllipse(
         0,
         0,
-        width,
-        height
+        halfWidth,
+        halfHeight
     );
     return result;
 }
 
+/**
+ * Creates a display object of a rectangle.
+ *
+ * @param {Number} width
+ * The width of the rectangle.
+ *
+ * @param {Number} height
+ * The height of the rectangle.
+ *
+ * @param {Object} style
+ * How the rectangle should look.
+ *
+ * @param {Object} style.border
+ * How the border around the rectangle should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the rectangle with.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
 export function makeRect(width, height, style) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
@@ -95,6 +149,36 @@ export function makeRect(width, height, style) {
     return result;
 }
 
+/**
+ * Creates a display object of a rounded rectangle.
+ *
+ * @param {Number} width
+ * The width of the rounded rectangle.
+ *
+ * @param {Number} height
+ * The height of the rounded rectangle.
+ *
+ * @param {Number} radius
+ * The radius of the circles at the corners of the rectangle.
+ *
+ * @param {Object} style
+ * How the rounded rectangle should look.
+ *
+ * @param {Object} style.border
+ * How the border around the rounded rectangle should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the rounded rectangle with.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
 export function makeRoundedRect(width, height, radius, style) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
@@ -164,6 +248,9 @@ export function makeRoundedRect(width, height, radius, style) {
  *
  * @param {Number} style.wordWrapWidth
  * The width at which the text is going to wrap. Set this to 0 to disable it.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
  */
 export function makeText(content, style) {
     const result = new PIXI.Text(content, {
@@ -184,14 +271,26 @@ export function makeText(content, style) {
     return result;
 }
 
-export function makeMargin(contentWidth, contentHeight, margin) {
+/**
+ * Creates a transparent margin for the given display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make a margin for.
+ *
+ * @param {Number} margin
+ * How wide the margin at one side should be.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export function makeMargin(displayObject, margin) {
     const result = new PIXI.Graphics();
     result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
     result.drawRect(
-        -contentWidth  / 2 -     margin,
-        -contentHeight / 2 -     margin,
-         contentWidth      + 2 * margin,
-         contentHeight     + 2 * margin
+        -displayObject.width  / 2 -     margin,
+        -displayObject.height / 2 -     margin,
+         displayObject.width      + 2 * margin,
+         displayObject.height     + 2 * margin
     );
     return result;
 }
