@@ -62,37 +62,7 @@ export const defaultConf = {
             },
             wordWrapWidth:   0
         }
-    },
-
-    /**
-     * The height of this node. This can either be a number or the string
-     * "auto".
-     *
-     * @type {Number|String}
-     */
-    height: "auto",
-
-    /**
-     * The width of this node. This can either be a number or the string
-     * "auto".
-     *
-     * @type {Number|String}
-     */
-    width: "auto",
-
-    /**
-     * Whether to show the sprite.
-     *
-     * @type {Boolean}
-     */
-    visible: true,
-
-    /**
-     * Nodes with a higher value are going to be shown on top of others.
-     *
-     * @type {Number}
-     */
-    zIndex: 0
+    }
 };
 
 export const makeSprite = _.curry(function(conf, content) {
