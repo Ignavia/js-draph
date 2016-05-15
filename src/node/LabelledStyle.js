@@ -3,7 +3,7 @@ import {predefinedColors} from "@ignavia/util";
 import * as Utils from "../Utils.js";
 
 export const defaultConf = {
-    label: "<Placeholder>",
+    label: "<Placeholder>", // TODO: move style out
     backgroundColor: predefinedColors.white,
     border: {
         color:  predefinedColors.black,
@@ -88,7 +88,7 @@ function makeContainer(conf) {
     const container = new PIXI.Container();
     const label     = Utils.makeText(conf.label, conf.text);
     const box       = makeBox(label, conf);
-    const margin    = makeMargin(box, conf);
+    const margin    = Utils.makeMargin(box.width, box.height, conf.margin);
     container.addChild(margin);
     container.addChild(box);
     container.addChild(label);
@@ -96,51 +96,30 @@ function makeContainer(conf) {
 }
 
 function makeBox(label, conf) {
-    const result = new PIXI.Graphics();
-    result.lineStyle(conf.border.width, conf.border.color.hex, conf.border.color.alpha);
-    result.beginFill(conf.backgroundColor.hex, conf.backgroundColor.alpha);
-
-    if (conf.shape === "circle") {
-        result.drawCircle(
-            0,
-            0,
-            Math.max(label.width, label.height) / 2 + conf.padding
+    switch (conf.shape) {
+    case "circle":
+        return Utils.makeCircle(
+            Math.max(label.width, label.height) / 2 + conf.padding,
+            conf
         );
-    } else if (conf.shape === "ellipse") {
-        result.drawEllipse(
-            0,
-            0,
+    case "ellipse":
+        return Utils.makeEllipse(
             label.width  / Math.sqrt(2) + conf.padding,
-            label.height / Math.sqrt(2) + conf.padding
+            label.height / Math.sqrt(2) + conf.padding,
+            conf
         );
-    } else if (conf.shape === "rect") {
-        result.drawRect(
-            -label.width  / 2 -     conf.padding,
-            -label.height / 2 -     conf.padding,
-             label.width      + 2 * conf.padding,
-             label.height     + 2 * conf.padding
+    case "rect":
+        return Utils.makeRect(
+            label.width  + 2 * conf.padding,
+            label.height + 2 * conf.padding,
+            conf
         );
-    } else if (conf.shape === "roundedRect") {
-        result.drawRoundedRect(
-            -label.width  / 2 -     conf.padding,
-            -label.height / 2 -     conf.padding,
-             label.width      + 2 * conf.padding,
-             label.height     + 2 * conf.padding,
-            conf.border.radius
+    case "roundedRect":
+        return Utils.makeRoundedRect(
+            label.width  + 2 * conf.padding,
+            label.height + 2 * conf.padding,
+            conf.border.radius,
+            conf
         );
     }
-
-    return result;
-}
-
-function makeMargin(box, conf) {
-    const result = new PIXI.Graphics();
-    result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
-    result.drawRect(
-        -box.width  / 2 -     conf.margin,
-        -box.height / 2 -     conf.margin,
-         box.width      + 2 * conf.margin,
-         box.height     + 2 * conf.margin
-    );
-    return result;
 }

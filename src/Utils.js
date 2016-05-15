@@ -1,5 +1,7 @@
 import _ from "lodash";
 
+import {predefinedColors} from "@ignavia/util";
+
 export const canvasRenderer = new PIXI.CanvasRenderer({
     antialias:  true,
     resolution: window.devicePixelRatio || 1
@@ -34,6 +36,9 @@ export function adjustConf(base, adjustments) {
 /**
  * Creates a display object of a circle.
  *
+ * @param {Number} radius
+ * The radius of the circle.
+ *
  * @param {Object} style
  * How the circle should look.
  *
@@ -49,20 +54,57 @@ export function adjustConf(base, adjustments) {
  * @param {Color} style.backgroundColor
  * The color to fill the circle with.
  *
- * @param {Number} style.radius
- * The radius of the circle.
- *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeCircle(style) {
+export function makeCircle(radius, style) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
     result.drawCircle(
         0,
         0,
-        style.radius
+        radius
+    );
+    return result;
+}
+
+export function makeEllipse(width, height, style) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawEllipse(
+        0,
+        0,
+        width,
+        height
+    );
+    return result;
+}
+
+export function makeRect(width, height, style) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawRect(
+        -width  / 2,
+        -height / 2,
+        width,
+        height
+    );
+    return result;
+}
+
+export function makeRoundedRect(width, height, radius, style) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawRoundedRect(
+        -width  / 2,
+        -height / 2,
+        width,
+        height,
+        radius
     );
     return result;
 }
@@ -139,5 +181,17 @@ export function makeText(content, style) {
     });
     result.x = -result.width  / 2;
     result.y = -result.height / 2;
+    return result;
+}
+
+export function makeMargin(contentWidth, contentHeight, margin) {
+    const result = new PIXI.Graphics();
+    result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
+    result.drawRect(
+        -contentWidth  / 2 -     margin,
+        -contentHeight / 2 -     margin,
+         contentWidth      + 2 * margin,
+         contentHeight     + 2 * margin
+    );
     return result;
 }
