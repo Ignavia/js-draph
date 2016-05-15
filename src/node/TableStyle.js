@@ -4,82 +4,344 @@ import {predefinedColors} from "@ignavia/util";
 
 import * as Utils from "../Utils.js";
 
+/**
+ * The default configuration of this style.
+ *
+ * @type {Object}
+ */
 export const defaultConf = {
-    headers: ["<Placeholder>", "<Header>"],
-    data:    [["<Placeholder>", "Test"], ["<Placeholder>"], ["<Placeholder>"], ["<Placeholder>"]],
-    backgroundColor: {
-        header: predefinedColors.lightgray,
-        data:   predefinedColors.white
-    },
-    border: {
-        color:  predefinedColors.black,
-        width:  2,
-        vertical:   true,
-        horizontal: true,
-        around:     true
-    },
-    padding: 10,
 
-    text: {
-        header: {
-            align:  "left",
+    /**
+     * How the header cells should look.
+     *
+     * @type {Object}
+     */
+    headerCell: {
+
+        /**
+         * The background-color of header cells.
+         *
+         * @type {Color}
+         */
+        backgroundColor: predefinedColors.lightgray,
+
+        /**
+         * The padding around the text in header cells.
+         *
+         * @type {Number}
+         */
+        padding: 10,
+
+        /**
+         * The style of the text of the header cells.
+         *
+         * @type {Object}
+         */
+        text: {
+
+            /**
+             * How the text should be aligned. The possible values are "left", "center" and
+             * "right". For a single line of text this option has no effect.
+             *
+             * @type {String}
+             */
+            align: "left",
+
+            /**
+             * How the drop shadow of the text should look.
+             *
+             * @type {Object}
+             */
             dropShadow: {
-                angle:    Math.PI / 4,
-                color:    predefinedColors.gray,
+
+                /**
+                 * The angle of the drop shadow given in radian. An angle of 0 means that the
+                 * shadow goes to the right, increasing the angle moves the shadow clockwise.
+                 *
+                 * @type {Number}
+                 */
+                angle: Math.PI / 4,
+
+                /**
+                 * The color of the shadow.
+                 *
+                 * @type {Color}
+                 */
+                color: predefinedColors.gray,
+
+                /**
+                 * How long the drop shadow should be. Set this to 0 to remove it.
+                 *
+                 * @type {Number}
+                 */
                 distance: 0
             },
+
+            /**
+             * The color to fill the text with.
+             *
+             * @type {Color}
+             */
             fillColor: predefinedColors.black,
+
+            /**
+             * Configures the font of the text.
+             *
+             * @type {Object}
+             */
             font: {
+
+                /**
+                 * The font-family to use.
+                 *
+                 * @type {String}
+                 */
                 family: "Arial",
-                size:   24,
-                style:  "normal",
+
+                /**
+                 * The font-size to use.
+                 *
+                 * @type {Number}
+                 */
+                size: 20,
+
+                /**
+                 * The style of the font. This can either be "normal", "italic" or "oblique".
+                 *
+                 * @type {String}
+                 */
+                style: "normal",
+
+                /**
+                 * The weight of the font. This can either be "light", "normal" or "bold".
+                 */
                 weight: "bold"
             },
+
+            /**
+             * How the stroke around the text should look.
+             *
+             * @type {Object}
+             */
             stroke: {
+
+                /**
+                 * The color of the stroke around the text.
+                 *
+                 * @type {Color}
+                 */
                 color: predefinedColors.white,
+
+                /**
+                 * How thick the stroke should be. Set this to 0 to deactivate it.
+                 *
+                 * @type {Number}
+                 */
                 thickness: 0
             },
-            wordWrapWidth:   0
-        },
-        data: {
-            align:  "left",
+
+            /**
+             * The width at which the text is going to wrap. Set this to 0 to
+             * disable it.
+             *
+             * @type {Number}
+             */
+            wordWrapWidth: 0
+        }
+    },
+
+    /**
+     * The styling of data cells.
+     *
+     * @type {Object}
+     */
+    dataCell: {
+
+        /**
+         * The background-color of the data cells.
+         *
+         * @type {Color}
+         */
+        backgroundColor: predefinedColors.white,
+
+        /**
+         * The padding around the text in data cells.
+         *
+         * @type {Number}
+         */
+        padding: 10,
+
+        /**
+         * The style of the text of a data cell.
+         *
+         * @type {Object}
+         */
+        text: {
+
+            /**
+             * How the text should be aligned. The possible values are "left", "center" and
+             * "right". For a single line of text this option has no effect.
+             *
+             * @type {String}
+             */
+            align: "left",
+
+            /**
+             * How the drop shadow of the text should look.
+             *
+             * @type {Object}
+             */
             dropShadow: {
-                angle:    Math.PI / 4,
-                color:    predefinedColors.gray,
+
+                /**
+                 * The angle of the drop shadow given in radian. An angle of 0 means that the
+                 * shadow goes to the right, increasing the angle moves the shadow clockwise.
+                 *
+                 * @type {Number}
+                 */
+                angle: Math.PI / 4,
+
+                /**
+                 * The color of the shadow.
+                 *
+                 * @type {Color}
+                 */
+                color: predefinedColors.gray,
+
+                /**
+                 * How long the drop shadow should be. Set this to 0 to remove it.
+                 *
+                 * @type {Number}
+                 */
                 distance: 0
             },
+
+            /**
+             * The color to fill the text with.
+             *
+             * @type {Color}
+             */
             fillColor: predefinedColors.black,
+
+            /**
+             * Configures the font of the text.
+             *
+             * @type {Object}
+             */
             font: {
+
+                /**
+                 * The font-family to use.
+                 *
+                 * @type {String}
+                 */
                 family: "Arial",
-                size:   20,
-                style:  "normal",
-                weight: "normal"
+
+                /**
+                 * The font-size to use.
+                 *
+                 * @type {Number}
+                 */
+                size: 16,
+
+                /**
+                 * The style of the font. This can either be "normal", "italic" or "oblique".
+                 *
+                 * @type {String}
+                 */
+                style: "normal",
+
+                /**
+                 * The weight of the font. This can either be "light", "normal" or "bold".
+                 */
+                weight: "bold"
             },
+
+            /**
+             * How the stroke around the text should look.
+             *
+             * @type {Object}
+             */
             stroke: {
+
+                /**
+                 * The color of the stroke around the text.
+                 *
+                 * @type {Color}
+                 */
                 color: predefinedColors.white,
+
+                /**
+                 * How thick the stroke should be. Set this to 0 to deactivate it.
+                 *
+                 * @type {Number}
+                 */
                 thickness: 0
             },
-            wordWrapWidth:   0
+
+            /**
+             * The width at which the text is going to wrap. Set this to 0 to
+             * disable it.
+             *
+             * @type {Number}
+             */
+            wordWrapWidth: 0
         }
+    },
+
+    /**
+     * How the border between cells and around the table should look.
+     *
+     * @type {Object}
+     */
+    border: {
+
+        /**
+         * The color of the border.
+         *
+         * @type {Color}
+         */
+        color: predefinedColors.black,
+
+        /**
+         * The width of the border:
+         *
+         * @type {Number}
+         */
+        width: 2,
+
+        /**
+         * Whether to show vertical borders.
+         *
+         * @type {Boolean}
+         */
+        vertical: true,
+
+        /**
+         * Whether to show horizontal borders.
+         *
+         * @type {Boolean}
+         */
+        horizontal: true,
+
+        /**
+         * Whether to show a border around the table.
+         */
+        around: true
     }
 };
 
 export const makeSprite = _.curry(function(conf, content) {
     const container = makeContainer(conf);
-    const sprite    = Utils.makeCanvasSprite(container, {
-        width:  conf.width,
-        height: conf.height
-    });
-
-    sprite.visible = conf.visible;
+    const result    = Utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
-    sprite.anchor = {
+    result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
-    return sprite;
+    return result;
 });
 
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
@@ -107,8 +369,6 @@ function makeContainer(conf) {
 
     return container;
 }
-
-    // draw box, border, labels
 
 function makeBorders(columnWidths, rowHeights, width, height, conf) {
     const result = new PIXI.Container();
@@ -212,7 +472,7 @@ function computeHeight(rowHeights, conf) {
 function makeBox(headerRowHeight, width, height, conf) {
     const result = new PIXI.Graphics();
 
-    result.beginFill(conf.backgroundColor.header.hex, conf.backgroundColor.header.alpha);
+    result.beginFill(conf.headerCell.backgroundColor.hex, conf.headerCell.backgroundColor.alpha);
     result.drawRect(
         -width  / 2,
         -height / 2,
@@ -222,7 +482,7 @@ function makeBox(headerRowHeight, width, height, conf) {
 
     // TODO: use Utils ?
 
-    result.beginFill(conf.backgroundColor.data.hex, conf.backgroundColor.data.alpha);
+    result.beginFill(conf.dataCell.backgroundColor.hex, conf.dataCell.backgroundColor.alpha);
     result.drawRect(
         -width  / 2,
         -height / 2 + headerRowHeight,
