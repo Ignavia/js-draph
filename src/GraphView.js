@@ -92,7 +92,7 @@ export default class GraphView {
 
         // remove -------
 
-        const disp0 = IllustratedStyle.makeSprite();
+        const disp0 = IllustratedStyle.makeSpriteWithDefaultConf();
         this.edgeContainer.addChild(disp0);
 
         const disp = new EdgeTriangleArrowStyle().makeDisplayObject();

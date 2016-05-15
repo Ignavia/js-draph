@@ -26,26 +26,39 @@ export const defaultConf = {
             color:    predefinedColors.gray,
             distance: 0
         },
-        fill: predefinedColors.gray,
+        fillColor: predefinedColors.gray,
         font: {
             family: "Arial",
             size:   10,
             style:  "normal",
             weight: "bold"
         },
-        stroke:          predefinedColors.white,
-        strokeThickness: 0,
+        stroke: {
+            color: predefinedColors.white,
+            thickness: 0
+        },
         wordWrapWidth:   0
-    },
-
-    width: 1,
-    height: 100
+    }
 };
+
+export function makeSprite(conf) {
+    const container = makeContainer(conf);
+    const sprite    = Utils.makeCanvasSprite(container, {
+        width:  conf.width,
+        height: conf.height
+    });
+
+    return sprite;
+}
+
+export function makeSpriteWithDefaultConf() {
+    return makeSprite(defaultConf);
+}
 
 function makeContainer(conf) {
     const result = new PIXI.Container();
-    const illustration = makeIllustration(conf);
-    const caption = makeCaption(conf);
+    const illustration = Utils.makeImage(conf.imagePath);
+    const caption = Utils.makeText(conf.caption, conf.text);
 
     result.addChild(caption);
     result.addChild(illustration);
@@ -63,41 +76,4 @@ function makeContainer(conf) {
     }
 
     return result;
-}
-
-function makeIllustration(conf) {
-    const result = PIXI.Sprite.fromImage(conf.imagePath);
-    result.x = -result.width  / 2;
-    result.y = -result.height / 2;
-    return result;
-}
-
-function makeCaption(conf) {
-    const result = new PIXI.Text(conf.caption, {
-        align:              conf.text.align,
-        dropShadow:         conf.text.dropShadow.distance > 0,
-        dropShadowAngle:    conf.text.dropShadow.angle,
-        dropShadowColor:    conf.text.dropShadow.color.hex,
-        dropShadowDistance: conf.text.dropShadow.distance,
-        fill:               conf.text.fill.hex,
-        font:               `${conf.text.font.weight} ${conf.text.font.style} ${conf.text.font.size}px ${conf.text.font.family}`,
-        stroke:             conf.text.stroke.hex,
-        strokeThickness:    conf.text.strokeThickness,
-        wordWrap:           conf.text.wordWrapWidth > 0,
-        wordWrapWidth:      conf.text.wordWrapWidth
-    });
-    result.x = -result.width  / 2;
-    result.y = -result.height / 2;
-    return result;
-}
-
-export const makeSprite = function (conf = defaultConf) {
-    const container = makeContainer(conf);
-    const sprite    = Utils.makeCanvasSprite(container, {
-        width:  conf.width,
-        height: conf.height
-    });
-    console.log(sprite)
-
-    return sprite;
 }

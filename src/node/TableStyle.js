@@ -29,16 +29,17 @@ export const defaultConf = {
                 color:    predefinedColors.gray,
                 distance: 0
             },
-            fill: predefinedColors.black,
+            fillColor: predefinedColors.black,
             font: {
                 family: "Arial",
                 size:   24,
                 style:  "normal",
                 weight: "bold"
             },
-            stroke:          predefinedColors.white,
-            strokeThickness: 0,
-            textBaseline:    "center",
+            stroke: {
+                color: predefinedColors.white,
+                thickness: 0
+            },
             wordWrapWidth:   0
         },
         data: {
@@ -48,16 +49,17 @@ export const defaultConf = {
                 color:    predefinedColors.gray,
                 distance: 0
             },
-            fill: predefinedColors.black,
+            fillColor: predefinedColors.black,
             font: {
                 family: "Arial",
                 size:   20,
                 style:  "normal",
                 weight: "normal"
             },
-            stroke:          predefinedColors.white,
-            strokeThickness: 0,
-            textBaseline:    "center",
+            stroke: {
+                color: predefinedColors.white,
+                thickness: 0
+            },
             wordWrapWidth:   0
         }
     },
@@ -267,7 +269,7 @@ function makeLabels(conf) {
 
     // Header
     for (let c = 0; c < conf.headers.length; c++) {
-        const label     = makeLabel(conf.headers[c], conf.text.header);
+        const label     = Utils.makeText(conf.headers[c], conf.text.header);
         labels[0][c]    = label;
         columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
         rowHeights[0]   = adjustDimension(rowHeights[0],   label.height, conf);
@@ -277,7 +279,7 @@ function makeLabels(conf) {
     for (let r = 1; r <= conf.data.length; r++) {
         labels[r] = [];
         for (let c = 0; c < conf.data[r - 1].length; c++) {
-            const label     = makeLabel(conf.data[r - 1][c], conf.text.data);
+            const label     = Utils.makeText(conf.data[r - 1][c], conf.text.data);
             labels[r][c]    = label;
             columnWidths[c] = adjustDimension(columnWidths[c], label.width, conf);
             rowHeights[r]   = adjustDimension(rowHeights[r],   label.height, conf);
@@ -293,23 +295,4 @@ function adjustDimension(old, current, conf) {
         return current;
     }
     return Math.max(old, current);
-}
-
-function makeLabel(content, conf) {
-    const result = new PIXI.Text(content, {
-        align:              conf.align,
-        dropShadow:         conf.dropShadow.distance > 0,
-        dropShadowAngle:    conf.dropShadow.angle,
-        dropShadowColor:    conf.dropShadow.color.hex,
-        dropShadowDistance: conf.dropShadow.distance,
-        fill:               conf.fill.hex,
-        font:               `${conf.font.weight} ${conf.font.style} ${conf.font.size}px ${conf.font.family}`,
-        stroke:             conf.stroke.hex,
-        strokeThickness:    conf.strokeThickness,
-        wordWrap:           conf.wordWrapWidth > 0,
-        wordWrapWidth:      conf.wordWrapWidth
-    });
-    result.x = -result.width  / 2;
-    result.y = -result.height / 2;
-    return result;
 }

@@ -271,6 +271,35 @@ export function makeText(content, style) {
     return result;
 }
 
+export function makeBox(content, style) {
+    switch (style.shape) {
+    case "circle":
+        return makeCircle(
+            Math.max(content.width, content.height) / 2 + style.padding,
+            style
+        );
+    case "ellipse":
+        return makeEllipse(
+            content.width  / Math.sqrt(2) + style.padding,
+            content.height / Math.sqrt(2) + style.padding,
+            style
+        );
+    case "rect":
+        return makeRect(
+            content.width  + 2 * style.padding,
+            content.height + 2 * style.padding,
+            style
+        );
+    case "roundedRect":
+        return makeRoundedRect(
+            content.width  + 2 * style.padding,
+            content.height + 2 * style.padding,
+            style.border.radius,
+            style
+        );
+    }
+}
+
 /**
  * Creates a transparent margin for the given display object.
  *
@@ -292,5 +321,12 @@ export function makeMargin(displayObject, margin) {
          displayObject.width      + 2 * margin,
          displayObject.height     + 2 * margin
     );
+    return result;
+}
+
+export function makeImage(path) {
+    const result = PIXI.Sprite.fromImage(path);
+    result.x = -result.width  / 2;
+    result.y = -result.height / 2;
     return result;
 }

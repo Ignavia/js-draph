@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import StraightStyle from "./lineStyles/StraightStyle.js";
-import LabelledStyle from "./decalStyles/LabelledStyle.js";
+import * as LabelledStyle from "./decalStyles/LabelledStyle.js";
 
 export default class Visualizer {
     constructor(conf) {
@@ -11,7 +11,7 @@ export default class Visualizer {
     makeDisplayObject(edgeObj, graphicalComponent) {
         const container = new PIXI.Container();
         const line = this.lineStyle.makeDisplayObject(edgeObj, graphicalComponent);
-        const decal = this.decalStyle.makeDisplayObject(edgeObj, graphicalComponent);
+        const decal = this.decalStyle.makeSpriteWithDefaultConf();
 
         decal.position.x = line.decalAnchor.x;
         decal.position.y = line.decalAnchor.y;
@@ -25,5 +25,5 @@ export default class Visualizer {
 
 Visualizer.default = {
     lineStyle:  new StraightStyle(),
-    decalStyle: new LabelledStyle()
+    decalStyle: LabelledStyle
 };

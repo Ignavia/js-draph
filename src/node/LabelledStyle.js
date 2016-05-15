@@ -87,39 +87,10 @@ export function makeSpriteWithDefaultConf() {
 function makeContainer(conf) {
     const container = new PIXI.Container();
     const label     = Utils.makeText(conf.label, conf.text);
-    const box       = makeBox(label, conf);
+    const box       = Utils.makeBox(label, conf);
     const margin    = Utils.makeMargin(box, conf.margin);
     container.addChild(margin);
     container.addChild(box);
     container.addChild(label);
     return container;
-}
-
-function makeBox(label, conf) {
-    switch (conf.shape) {
-    case "circle":
-        return Utils.makeCircle(
-            Math.max(label.width, label.height) / 2 + conf.padding,
-            conf
-        );
-    case "ellipse":
-        return Utils.makeEllipse(
-            label.width  / Math.sqrt(2) + conf.padding,
-            label.height / Math.sqrt(2) + conf.padding,
-            conf
-        );
-    case "rect":
-        return Utils.makeRect(
-            label.width  + 2 * conf.padding,
-            label.height + 2 * conf.padding,
-            conf
-        );
-    case "roundedRect":
-        return Utils.makeRoundedRect(
-            label.width  + 2 * conf.padding,
-            label.height + 2 * conf.padding,
-            conf.border.radius,
-            conf
-        );
-    }
 }
