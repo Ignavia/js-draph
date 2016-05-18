@@ -1,6 +1,6 @@
 export EdgeVisualizer                 from "./Visualizer.js";
 
-export EdgeTriangleArrowStyle         from "./arrowStyles/TriangleStyle.js";
+export * as EdgeTriangleArrowStyle    from "./arrowStyles/TriangleStyle.js";
 
 export * as EdgeEmptyDecalStyle       from "./decalStyles/EmptyStyle.js";
 export * as EdgeLabelledDecalStyle    from "./decalStyles/LabelledStyle.js";

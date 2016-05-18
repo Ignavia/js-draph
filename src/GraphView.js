@@ -95,7 +95,7 @@ export default class GraphView {
         const disp0 = IllustratedStyle.makeSpriteWithDefaultConf("img/default.png", "Caption");
         this.edgeContainer.addChild(disp0);
 
-        const disp = new EdgeTriangleArrowStyle().makeDisplayObject();
+        const disp = EdgeTriangleArrowStyle.makeSpriteWithDefaultConf();
         this.edgeContainer.addChild(disp);
 
         const disp2 = NodeTableStyle.makeSpriteWithDefaultConf({
