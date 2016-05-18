@@ -38,7 +38,7 @@ export const defaultConf = {
      * Where to position the decal. Set this to "auto" to automatically determine
      * it based on the source and target positions.
      *
-     * @type {Vec2|Vec2Builder|String}
+     * @type {Vec2|String}
      */
     decalAnchor: "auto"
 };
@@ -50,10 +50,10 @@ export const defaultConf = {
  * Check the documentation of the default configuration for the structure of
  * this object.
  *
- * @param {Vec2|Vec2Builder} sourcePos
+ * @param {Vec2} sourcePos
  * The position of the source node.
  *
- * @param {Vec2|Vec2Builder} targetPos
+ * @param {Vec2} targetPos
  * The position of the target node.
  *
  * @return {DisplayObject}
@@ -93,10 +93,10 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
 /**
  * Creates a sprite using the default configuration.
  *
- * @param {Vec2|Vec2Builder} sourcePos
+ * @param {Vec2} sourcePos
  * The position of the source node.
  *
- * @param {Vec2|Vec2Builder} targetPos
+ * @param {Vec2} targetPos
  * The position of the target node.
  *
  * @return {DisplayObject}

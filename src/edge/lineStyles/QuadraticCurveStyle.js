@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
 /**
@@ -49,8 +50,8 @@ export const defaultConf = {
         parallel: 0.5,
 
         /**
-         * From the point you reached, you move this amount of pixels to the
-         * right.
+         * From the point you reached, you move this amount of pixels
+         * perpendicular to the connecting line.
          *
          * @type {Number}
          */
@@ -61,7 +62,7 @@ export const defaultConf = {
      * Where to position the decal. Set this to "auto" to automatically determine
      * it based on the source and target positions.
      *
-     * @type {Vec2|Vec2Builder|String}
+     * @type {Vec2|String}
      */
     decalAnchor: "auto"
 };
@@ -73,35 +74,36 @@ export const defaultConf = {
  * Check the documentation of the default configuration for the structure of
  * this object.
  *
- * @param {Vec2|Vec2Builder} sourcePos
+ * @param {Vec2} sourcePos
  * The position of the source node.
  *
- * @param {Vec2|Vec2Builder} targetPos
+ * @param {Vec2} targetPos
  * The position of the target node.
  *
  * @return {DisplayObject}
  * The created sprite.
  */
 export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
-    const centerX = (sourcePos.x + targetPos.x) / 2;
-    const centerY = (sourcePos.y + targetPos.y) / 2; // TODO: compute vertex position
+    const parallel      = targetPos.sub(sourcePos).mul(conf.vertex.parallel);
+    const perpendicular = parallel.rotate(Math.PI / 2).normalize().mul(conf.vertex.perpendicular);
+    const vertex        = sourcePos.add(parallel).add(perpendicular);
 
     const line = new PIXI.Graphics();
     line.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
-    line.moveTo(sourcePos.x - centerX, sourcePos.y - centerY);
+    line.moveTo(sourcePos.x - vertex.x, sourcePos.y - vertex.y);
     line.quadraticCurveTo(
-        centerX,
-        centerY,
-        targetPos.x - centerX,
-        targetPos.y - centerY
+        vertex.x,
+        vertex.y,
+        targetPos.x - vertex.x,
+        targetPos.y - vertex.y
     );
 
     const texture = line.generateTexture(graphicalComponent.canvasRenderer);
     const sprite  = new PIXI.Sprite(texture);
 
     // Placing the sprite between the two nodes
-    sprite.x = centerX;
-    sprite.y = centerY;
+    sprite.x = vertex.x;
+    sprite.y = vertex.y;
     sprite.anchor = {
         x: 0.5, // Problem: 0.5, 0.5 is no longer the correct value
                 // I want the anchor to be the place where the decal should be, which is the control point most likely
@@ -114,10 +116,10 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
 /**
  * Creates a sprite using the default configuration.
  *
- * @param {Vec2|Vec2Builder} sourcePos
+ * @param {Vec2} sourcePos
  * The position of the source node.
  *
- * @param {Vec2|Vec2Builder} targetPos
+ * @param {Vec2} targetPos
  * The position of the target node.
  *
  * @return {DisplayObject}
