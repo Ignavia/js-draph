@@ -1,6 +1,5 @@
 import _ from "lodash";
 
-import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
 /**
