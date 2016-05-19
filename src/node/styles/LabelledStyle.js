@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-import * as Utils from "../Utils.js";
+import * as Utils from "../../Utils.js";
 
 /**
  * The default configuration of the style.

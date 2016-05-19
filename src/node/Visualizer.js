@@ -1,37 +1,114 @@
-import _ from "lodash";
+import {Vec2} from "@ignavia/ella";
 
-import {Vec2}        from "@ignavia/ella";
-import * as LabelledStyle from "./LabelledStyle.js";
-import Behavior      from "./Behavior.js";
+import {makeSpriteWithDefaultConf} from "./styles/SimpleStyle.js";
+import {addBehavior}               from "./behaviors/EmptyBehavior.js";
+import * as Utils                  from "../Utils.js";
 
-export default class Visualizer {
-    constructor(conf = {}) {
-        _.merge(this, Visualizer.default, conf);
+/**
+ * The default configuration of this visualizer.
+ *
+ * @type {Object}
+ */
+export const defaultConf = {
 
-        this.position =new Vec2(Math.random(), Math.random());// TODO: remove
-    }
+    /**
+     * The configuration of the style to use.
+     *
+     * @type {Object}
+     */
+    style: {
 
+        /**
+         * The function to call to make the sprite.
+         *
+         * @type {Function}
+         */
+        function: makeSpriteWithDefaultConf,
 
-}
+        /**
+         * The parameters to pass to the function.
+         */
+        params: []
+    },
 
-export function makeDisplayObject(nodeObj, graphicalComponent) {
-    const displayObject = this.style.makeDisplayObject(nodeObj, graphicalComponent);
-    this.addBehavior(displayObject);
+    /**
+     * The configuration of the behavior to use.
+     */
+    behavior: {
 
-    displayObject.x        += this.position.x * graphicalComponent.width;
-    displayObject.y        += this.position.y * graphicalComponent.height;
-    displayObject.scale    = this.scale;
-    displayObject.pivot    = this.pivot;
-    displayObject.rotation = this.rotation;
+        /**
+         * The function to call to add the behavior.
+         *
+         * @type {Function}
+         */
+        function: addBehavior,
 
-    return displayObject;
-}
+        /**
+         * The parameters to pass to the function.
+         */
+        params: []
+    },
 
-Visualizer.default = {
-    style:    LabelledStyle,
-    behavior: new Behavior(),
+    /**
+     * Where to place the sprite.
+     *
+     * @type {Vec2}
+     */
     position: new Vec2(0, 0),
-    scale:    new Vec2(1, 1),
-    pivot:    new Vec2(0, 0),
+
+    /**
+     * How to scale the sprite. x- and y-scales can be set seperately.
+     *
+     * @type {Number|Vec2}
+     */
+    scale: 1,
+
+    /**
+     * The point to rotate the display object about.
+     *
+     * @type {Vec2}
+     */
+    pivot: new Vec2(0, 0),
+
+    /**
+     * The rotation angle of the display object.
+     *
+     * @type {Number}
+     */
     rotation: 0
 };
+
+/**
+ * Makes a sprite with behavior and positions, rotates and scales it according
+ * to the given configuration.
+ *
+ * @param {Object} conf
+ * The configuration of the visualizer. Check the default configuration to see
+ * the structure of this object.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeEnhancedSprite = function (conf) {
+    const result = conf.style.function(...conf.style.params);
+
+    conf.behavior.function(...conf.behavior.params, result);
+
+    Utils.setPosition(conf.position, result);
+    Utils.setScale(conf.scale, result);
+    Utils.setPivot(conf.pivot, result);
+    Utils.setRotation(conf.rotation);
+
+    return result;
+};
+
+/**
+ * Makes a sprite with behavior and positions, rotates and scales it according
+ * to the default configuration.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export function makeEnhancedSpriteWithDefaultConf() {
+    return makeEnhancedSprite(defaultConf);
+}

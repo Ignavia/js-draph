@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import * as Utils from "../Utils.js";
+import * as Utils from "../../Utils.js";
 
 
 /**
@@ -15,14 +15,14 @@ export const defaultConf = {
      *
      * @type {Function}
      */
-    handleMouseover:() => { console.log("Mouseover"); },
+    handleMouseover: () => {},
 
     /**
      * Is triggered when the mouse leaves the display object.
      *
      * @type {Function}
      */
-    handleMouseout: () => { console.log("Mouseout"); },
+    handleMouseout: () => {},
 
     /**
      * Is triggered when the left mousebutton is pressed when the mouse is on
@@ -30,7 +30,7 @@ export const defaultConf = {
      *
      * @type {Function}
      */
-    handleMousedown: () => { console.log("Mousedown"); },
+    handleMousedown: () => {},
 
     /**
      * Is triggered when the left mousebutton is released when the mouse is on
@@ -38,35 +38,35 @@ export const defaultConf = {
      *
      * @type {Function}
      */
-    handleMouseup: () => { console.log("Mouseup"); },
+    handleMouseup: () => {},
 
     /**
      * Is triggered right after the mouseup event.
      *
      * @type {Function}
      */
-    handleClick: () => { console.log("Click"); },
+    handleClick: () => {},
 
     /**
      * Is triggered when the display object is touched.
      *
      * @type {Function}
      */
-    handleTouchstart: () => { console.log("Touchstart"); },
+    handleTouchstart: () => {},
 
     /**
      * Is triggered when the display object is no longer touched.
      *
      * @type {Function}
      */
-    handleTouchend: () => { console.log("Touchend"); },
+    handleTouchend: () => {},
 
     /**
      * Is triggered right after the touchend event.
      *
      * @type {Function}
      */
-    handleTap: () => { console.log("Tap"); },
+    handleTap: () => {},
 };
 
 /**

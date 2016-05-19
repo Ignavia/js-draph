@@ -612,3 +612,64 @@ export const addInteraction = _.curry(function (conf, displayObject) {
     displayObject.touchend    = conf.handleTouchend;
     displayObject.tap         = conf.handleTap;
 });
+
+/**
+ * Sets the position of the given display object.
+ *
+ * @param {Vec2} position
+ * Where to place the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to place.
+ */
+export function setPosition(position, displayObject) {
+    displayObject.position.x = position.x;
+    displayObject.position.y = position.y;
+}
+
+/**
+ * Sets the scale of the given display object.
+ *
+ * @param {Vec2|Number} scale
+ * The factor to enlarge or shrink the display object by. If a single number
+ * is provided, it is use for the x- and y-directions.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to scale.
+ */
+export function setScale(scale, displayObject) {
+    if (typeof scale === "number") {
+        displayObject.scale.x = scale;
+        displayObject.scale.y = scale;
+    } else if (typeof scale.x === "number" && typeof scale.y === "number") {
+        displayObject.scale.x = scale.x;
+        displayObject.scale.y = scale.y;
+    }
+}
+
+/**
+ * Sets the point to rotate the given display object about.
+ *
+ * @param {Vec2} pivot
+ * Where to rotate the display object around.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to configure.
+ */
+export function setPivot(pivot, displayObject) {
+    displayObject.pivot.x = pivot.x;
+    displayObject.pivot.y = pivot.y;
+}
+
+/**
+ * Sets the rotation angle of the given display object.
+ *
+ * @param {Vec2} pivot
+ * The rotation angle of the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to rotate.
+ */
+export function setRotation(angle, displayObject) {
+    displayObject.rotation = angle;
+}

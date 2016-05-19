@@ -64,6 +64,8 @@ export const defaultConf = {
      * @type {Vec2|String}
      */
     decalAnchor: "auto"
+
+    // TODO: arrowAnchor (orientation and position)
 };
 
 /**
