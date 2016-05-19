@@ -3,13 +3,7 @@ import _ from "lodash";
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
-export default class Style {
-    constructor(conf) {
-        _.merge(this, Style.default, conf);
-    }
-}
-
-Style.default = {
+export const defaultConf = {
     backgroundColor: predefinedColors.white,
     dropShadow: {
         angle:    Math.PI / 4,

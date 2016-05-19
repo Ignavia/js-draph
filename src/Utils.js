@@ -564,3 +564,51 @@ export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
 
     return result;
 });
+
+/**
+ * Adds event handlers to the given display object.
+ *
+ * @param {Object} conf
+ * Contains the event handlers to add.
+ *
+ * @param {Function} conf.mouseover
+ * Is triggered when the mouse moves onto the display object.
+ *
+ * @param {Function} conf.mouseout
+ * Is triggered when the mouse leaves the display object.
+ *
+ * @param {Function} conf.mousedown
+ * Is triggered when the left mousebutton is pressed when the mouse is on the
+ * display object.
+ *
+ * @param {Function} conf.mouseup
+ * Is triggered when the left mousebutton is released when the mouse is on the
+ * display object.
+ *
+ * @param {Function} conf.click
+ * Is triggered right after the mouseup event.
+ *
+ * @param {Function} conf.touchstart
+ * Is triggered when the display object is touched.
+ *
+ * @param {Function} conf.touchend
+ * Is triggered when the display object is no longer touched.
+ *
+ * @param {Function} conf.tap
+ * Is triggered right after the touchend event.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make interactive.
+ */
+export const addInteraction = _.curry(function (conf, displayObject) {
+    displayObject.interactive = true;
+    displayObject.buttonMode  = true;
+    displayObject.mouseover   = conf.handleMouseover;
+    displayObject.mouseout    = conf.handleMouseout;
+    displayObject.mousedown   = conf.handleMousedown;
+    displayObject.mouseup     = conf.handleMouseup;
+    displayObject.click       = conf.handleClick;
+    displayObject.touchstart  = conf.handleTouchstart;
+    displayObject.touchend    = conf.handleTouchend;
+    displayObject.tap         = conf.handleTap;
+});
