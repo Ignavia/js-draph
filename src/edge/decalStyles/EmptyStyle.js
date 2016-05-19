@@ -7,5 +7,5 @@ import {emptyDisplayObject} from "../../utils.js";
  * The created sprite.
  */
 export function makeSprite() {
-    emptyDisplayObject;
+    return emptyDisplayObject;
 }

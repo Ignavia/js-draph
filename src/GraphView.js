@@ -1,6 +1,7 @@
 import PIXI from "pixi.js";
+import $    from "jquery";
 
-import $          from "jquery";
+import {Vec2} from "@ignavia/ella";
 
 import * as draph from "./draph.js";
 
@@ -11,9 +12,8 @@ export default class GraphView {
             stage,
             nodeContainer,
             edgeContainer
-        } = draph.graphStyle.makeViewWithDefaultConf();
+        } = draph.graphVisualizer.makeEnhancedViewWithDefaultConf();
 
-console.log(renderer, stage, nodeContainer, edgeContainer)
 this.renderer = renderer;
 this.stage = stage;
 this.nodeContainer = nodeContainer;
@@ -46,13 +46,22 @@ this.edgeContainer = edgeContainer;
             console.log(displayObject)
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
+
+            displayObject.x = Math.random() * width;
+            displayObject.y = Math.random() * height;
         }
-        // for (let edgeObj of graphObj.iterEdges()) {
-        //     const displayObject = draph.EdgeVisualizer.makeEnhancedSpriteWithDefaultConf();
-        //     console.log(displayObject)
-        //     this.edgeContainer.addChild(displayObject);
-        //     this.edges.set(edgeObj.id, displayObject);
-        // }
+        for (let edgeObj of graphObj.iterEdges()) {
+            const source = edgeObj.sourceId;
+            const target = edgeObj.targetId;
+            const sourcePos = this.nodes.get(source).position;
+            const targetPos = this.nodes.get(target).position;
+            const displayObject = draph.edgeVisualizer.makeEnhancedSpriteWithDefaultConf(
+                new Vec2(sourcePos.x, sourcePos.y),
+                new Vec2(targetPos.x, targetPos.y)
+            );
+            this.edgeContainer.addChild(displayObject);
+            this.edges.set(edgeObj.id, displayObject);
+        }
 
         if (width !== window.innerWidth || height !== window.innerHeight) {
             this.resize();

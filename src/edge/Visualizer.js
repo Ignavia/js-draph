@@ -6,6 +6,7 @@ import * as straightLineStyle from "./lineStyles/straightStyle.js";
 import * as emptyDecalStyle   from "./decalStyles/emptyStyle.js";
 import * as emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
 import * as emptyBehavior     from "./behaviors/emptyBehavior.js";
+import * as utils             from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -133,27 +134,33 @@ export const defaultConf = {
 
 /**
  * Makes a sprite with behavior and positions, rotates and scales it according
- * to the given configuration.
+ * to the given configuration. This function is curried.
  *
  * @param {Object} conf
  * The configuration of the visualizer. Check the default configuration to see
  * the structure of this object.
  *
+ * @param {Vec2} sourcePos
+ * The position of the source node.
+ *
+ * @param {Vec2} targetPos
+ * The position of the target node.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeEnhancedSprite(conf) {
-    const container = makeContainer(conf);
-    const result    = Utils.makeCanvasSprite(container);
+export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) {
+    const container = makeContainer(conf, sourcePos, targetPos);
+    const result    = utils.makeCanvasSprite(container);
 
     for (let behavior of conf.behaviors) {
         behavior.function(...behavior.params, result);
     }
 
-    Utils.setPosition(conf.position, result);
-    Utils.setScale(conf.scale, result);
-    Utils.setPivot(conf.pivot, result);
-    Utils.setRotation(conf.rotation, result);
+    utils.setPosition(conf.position, result);
+    utils.setScale(conf.scale, result);
+    utils.setPivot(conf.pivot, result);
+    utils.setRotation(conf.rotation, result);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {
@@ -162,18 +169,22 @@ export function makeEnhancedSprite(conf) {
     };
 
     return result;
-}
+});
 
 /**
  * Makes a sprite with behavior and positions, rotates and scales it according
  * to the default configuration.
  *
+ * @param {Vec2} sourcePos
+ * The position of the source node.
+ *
+ * @param {Vec2} targetPos
+ * The position of the target node.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export function makeEnhancedSpriteWithDefaultConf() {
-    return makeEnhancedSprite(defaultConf);
-}
+export const makeEnhancedSpriteWithDefaultConf = makeEnhancedSprite(defaultConf);
 
 /**
  * Creates container used to make the final sprite.
@@ -181,25 +192,31 @@ export function makeEnhancedSpriteWithDefaultConf() {
  * @param {Object} conf
  * The configuration to use.
  *
+ * @param {Vec2} sourcePos
+ * The position of the source node.
+ *
+ * @param {Vec2} targetPos
+ * The position of the target node.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-function makeContainer(conf) {
+function makeContainer(conf, sourcePos, targetPos) {
     const result = new PIXI.Container();
 
     // Make the line
-    const line = conf.lineStyle.function(...conf.lineStyle.params);
+    const line = conf.lineStyle.function(...conf.lineStyle.params, sourcePos, targetPos);
     result.addChild(line);
 
     // Make the decal
     const decal = conf.decalStyle.function(...conf.decalStyle.params);
-    Utils.setPosition(line.decalAnchor, decal);
+    utils.setPosition(line.decalAnchor, decal);
     result.addChild(decal);
 
     // Make the arrow
     const arrow = conf.arrowStyle.function(...conf.arrowStyle.params);
-    Utils.setPosition(line.arrow.anchor, decal);
-    Utils.setRotation(line.arrow.angle, decal);
+    //utils.setPosition(line.arrow.anchor, decal);
+    //utils.setRotation(line.arrow.angle, decal); TODO
     result.addChild(arrow);
 
     return result;

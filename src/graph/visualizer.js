@@ -42,7 +42,7 @@ export const defaultConf = {
          *
          * @
          */
-        function: zoomBehavior.addBehavior,
+        function: zoomBehavior.addBehaviorWithDefaultConf,
         params: []
     }]
 };
@@ -50,9 +50,11 @@ export const defaultConf = {
 export function makeEnhancedView(conf)  {
     const result = conf.style.function(...conf.style.params);
 
-    for (let behavior of conf.behaviors) {
+    for (let behavior of conf.behaviors) {console.log(behavior, conf.behaviors)
         behavior.function(...behavior.params, result.stage, result.renderer);
     }
+
+    return result;
 }
 
 export function makeEnhancedViewWithDefaultConf() {
