@@ -3,7 +3,7 @@ import _ from "lodash";
 import {predefinedColors} from "@ignavia/util";
 import {Vec2}             from "@ignavia/ella";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -65,7 +65,7 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
     const centerX = (sourcePos.x + targetPos.x) / 2;
     const centerY = (sourcePos.y + targetPos.y) / 2;
 
-    const line = Utils.makeLine(conf.line, {
+    const line = utils.makeLine(conf.line, {
         x: sourcePos.x - centerX,
         y: sourcePos.y - centerY
     }, {
@@ -73,7 +73,7 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
         y: targetPos.y - centerY
     });
 
-    const result  = Utils.makeCanvasSprite(line);
+    const result  = utils.makeCanvasSprite(line);
 
     // Placing the sprite between the two nodes
     result.x = centerX;

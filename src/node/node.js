@@ -1,9 +1,9 @@
-export * as NodeVisualizer          from "./Visualizer.js";
+export * as nodeVisualizer          from "./visualizer.js";
 
-export * as NodeSimpleStyle         from "./styles/SimpleStyle.js";
-export * as NodeLabelledStyle       from "./styles/LabelledStyle.js";
-export * as NodeIllustratedStyle    from "./styles/IllustratedStyle.js";
-export * as NodeTableStyle          from "./styles/TableStyle.js";
+export * as nodeSimpleStyle         from "./styles/simpleStyle.js";
+export * as nodeLabelledStyle       from "./styles/labelledStyle.js";
+export * as nodeIllustratedStyle    from "./styles/illustratedStyle.js";
+export * as nodeTableStyle          from "./styles/tableStyle.js";
 
-export * as NodeEmptyBehavior       from "./behaviors/EmptyBehavior.js";
-export * as NodeInteractiveBehavior from "./behaviors/InteractiveBehavior.js";
+export * as nodeEmptyBehavior       from "./behaviors/emptyBehavior.js";
+export * as nodeInteractiveBehavior from "./behaviors/interactiveBehavior.js";

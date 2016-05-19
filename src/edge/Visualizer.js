@@ -1,9 +1,11 @@
 import _ from "lodash";
 
-import * as straightLineStyle from "./lineStyles/StraightStyle.js";
-import * as emptyDecalStyle   from "./decalStyles/EmptyStyle.js";
-import * as emptyArrowStyle   from "./arrowStyles/EmptyStyle.js";
-import * as emptyBehavior     from "./behaviors/EmptyBehavior.js";
+import {Vec2} from "@ignavia/ella";
+
+import * as straightLineStyle from "./lineStyles/straightStyle.js";
+import * as emptyDecalStyle   from "./decalStyles/emptyStyle.js";
+import * as emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
+import * as emptyBehavior     from "./behaviors/emptyBehavior.js";
 
 /**
  * The default configuration of this visualizer.
@@ -24,7 +26,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: straightStyle.makeSpriteWithDefaultConf,
+        function: straightLineStyle.makeSpriteWithDefaultConf,
 
         /**
          * The parameters to pass to the function.
@@ -46,7 +48,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: emptyArrowStyle.makeSprite,
+        function: emptyDecalStyle.makeSprite,
 
         /**
          * The parameters to pass to the function.
@@ -79,11 +81,11 @@ export const defaultConf = {
     },
 
      /**
-     * The configuration of the behavior to use.
+     * The configuration of the behaviors to use.
      *
-     * @type {Object}
+     * @type {Array<Object>}
      */
-    behavior: {
+    behaviors: [{
 
         /**
          * The function to call to add the behavior.
@@ -94,9 +96,11 @@ export const defaultConf = {
 
         /**
          * The parameters to pass to the function.
+         *
+         * @type {Array}
          */
         params: []
-    },
+    }],
 
     /**
      * Where to place the sprite.
@@ -142,12 +146,14 @@ export function makeEnhancedSprite(conf) {
     const container = makeContainer(conf);
     const result    = Utils.makeCanvasSprite(container);
 
-    conf.behavior.function(...conf.behavior.params, result);
+    for (let behavior of conf.behaviors) {
+        behavior.function(...behavior.params, result);
+    }
 
     Utils.setPosition(conf.position, result);
     Utils.setScale(conf.scale, result);
     Utils.setPivot(conf.pivot, result);
-    Utils.setRotation(conf.rotation);
+    Utils.setRotation(conf.rotation, result);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {

@@ -2,7 +2,7 @@ import {Vec2} from "@ignavia/ella";
 
 import {makeSpriteWithDefaultConf} from "./styles/SimpleStyle.js";
 import {addBehavior}               from "./behaviors/EmptyBehavior.js";
-import * as Utils                  from "../Utils.js";
+import * as utils                  from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -34,11 +34,11 @@ export const defaultConf = {
     },
 
     /**
-     * The configuration of the behavior to use.
+     * The configuration of the behaviors to use.
      *
      * @type {Object}
      */
-    behavior: {
+    behaviors: [{
 
         /**
          * The function to call to add the behavior.
@@ -53,7 +53,7 @@ export const defaultConf = {
          * @type {Array}
          */
         params: []
-    },
+    }],
 
     /**
      * Where to place the sprite.
@@ -98,12 +98,14 @@ export const defaultConf = {
 export const makeEnhancedSprite = function (conf) {
     const result = conf.style.function(...conf.style.params);
 
-    conf.behavior.function(...conf.behavior.params, result);
+    for (let behavior of conf.behaviors) {
+        behavior.function(...behavior.params, result);
+    }
 
-    Utils.setPosition(conf.position, result);
-    Utils.setScale(conf.scale, result);
-    Utils.setPivot(conf.pivot, result);
-    Utils.setRotation(conf.rotation);
+    utils.setPosition(conf.position, result);
+    utils.setScale(conf.scale, result);
+    utils.setPivot(conf.pivot, result);
+    utils.setRotation(conf.rotation, result);
 
     return result;
 };

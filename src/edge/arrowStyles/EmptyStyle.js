@@ -1,4 +1,4 @@
-import {emptyDisplayObject} from "../../Utils.js";
+import {emptyDisplayObject} from "../../utils.js";
 
 /**
  * Creates a sprite.

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 
 /**
@@ -79,7 +79,7 @@ export const defaultConf = {
  * @param {DisplayObject} displayObject
  * The display object to make interactive.
  */
-export const addBehavior = Utils.addInteraction;
+export const addBehavior = utils.addInteraction;
 
 /**
  * Adds the default event handlers to the given display object.

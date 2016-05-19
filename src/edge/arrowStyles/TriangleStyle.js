@@ -3,7 +3,7 @@ import _ from "lodash";
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -87,7 +87,7 @@ export const defaultConf = {
  */
 export function makeSprite(conf) {
     const container = makeBox(conf);
-    const result    = Utils.makeCanvasSprite(container);
+    const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {

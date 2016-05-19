@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -195,8 +195,8 @@ export const defaultConf = {
  * The created sprite.
  */
 export const makeSprite = _.curry(function (conf, imagePath, caption) {
-    const container = Utils.makeCaptionedImage(conf, imagePath, caption);
-    const result    = Utils.makeCanvasSprite(container);
+    const container = utils.makeCaptionedImage(conf, imagePath, caption);
+    const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {

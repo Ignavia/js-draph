@@ -1,6 +1,6 @@
 import {predefinedColors} from "@ignavia/util";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of the style.
@@ -57,8 +57,8 @@ export const defaultConf = {
  * The created sprite.
  */
 export function makeSprite(conf) {
-    const circle = Utils.makeCircle(conf, conf.radius);
-    const result = Utils.makeCanvasSprite(circle);
+    const circle = utils.makeCircle(conf, conf.radius);
+    const result = utils.makeCanvasSprite(circle);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {

@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
-import * as Utils from "../../Utils.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -345,7 +345,7 @@ export const defaultConf = {
  */
 export const makeSprite = _.curry(function(conf, content) {
     const container = makeContainer(conf, content);
-    const result    = Utils.makeCanvasSprite(container);
+    const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = {
@@ -417,7 +417,7 @@ function makeLabels(conf, content) {
 
     // Header
     for (let c = 0; c < content.headers.length; c++) {
-        const label     = Utils.makeText(conf.headerCell.text, content.headers[c]);
+        const label     = utils.makeText(conf.headerCell.text, content.headers[c]);
         labels[0][c]    = label;
         columnWidths[c] = adjustDimension(conf, columnWidths[c], label.width);
         rowHeights[0]   = adjustDimension(conf, rowHeights[0],   label.height);
@@ -427,7 +427,7 @@ function makeLabels(conf, content) {
     for (let r = 1; r <= content.data.length; r++) {
         labels[r] = [];
         for (let c = 0; c < content.data[r - 1].length; c++) {
-            const label     = Utils.makeText(conf.dataCell.text, content.data[r - 1][c]);
+            const label     = utils.makeText(conf.dataCell.text, content.data[r - 1][c]);
             labels[r][c]    = label;
             columnWidths[c] = adjustDimension(conf, columnWidths[c], label.width);
             rowHeights[r]   = adjustDimension(conf, rowHeights[r],   label.height);
