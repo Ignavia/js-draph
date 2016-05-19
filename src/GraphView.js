@@ -1,29 +1,16 @@
-import $ from  "jquery";
+import PIXI from "pixi.js";
+
+import $          from "jquery";
 import mousewheel from "jquery-mousewheel";
 mousewheel($);
 
-import {NodeVisualizer} from "./draph.js";
-import {GraphVisualizer} from "./draph.js";
-import {EdgeVisualizer} from "./draph.js";
-
-import {EdgeTriangleArrowStyle} from "./draph.js";
-
-import * as SimpleStyle from "./node/styles/SimpleStyle.js";
-import * as IllustratedStyle from "./node/styles/IllustratedStyle.js";
-import * as LabelledStyle from "./node/styles/LabelledStyle.js";
-import * as NodeTableStyle from "./node/styles/TableStyle.js";
-
-import PIXI from "pixi.js";
+import {GraphStyle} from "./draph.js";
+import {NodeVisualizer}  from "./draph.js";
+import {EdgeVisualizer}  from "./draph.js";
 
 export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
         this.gVisualizer = new GraphVisualizer();
-
-        this.renderer = new PIXI.WebGLRenderer(width, height, {
-            autoResize:      true,
-            resolution:      window.devicePixelRatio || 1,
-            backgroundColor: this.gVisualizer.style.backgroundColor.hex
-        });
 
         $("#container").html(this.renderer.view);
 
@@ -53,21 +40,10 @@ export default class GraphView {
         this.edges = new Map();
 
         // Set up containers
-        this.stage         = new PIXI.Container();
-        this.nodeContainer = new PIXI.Container();
-        this.edgeContainer = new PIXI.Container();
-        this.stage.addChild(this.edgeContainer);
-        this.stage.addChild(this.nodeContainer);
+
 
         // Apply drop shadows to all node graphics
-        const dropShadow = new PIXI.filters.DropShadowFilter();
-        dropShadow.color = this.gVisualizer.style.dropShadow.color.hex;
-        dropShadow.alpha = this.gVisualizer.style.dropShadow.color.alpha;
-        dropShadow.angle = this.gVisualizer.style.dropShadow.angle;
-        dropShadow.blurX = this.gVisualizer.style.dropShadow.blur.x;
-        dropShadow.blurY = this.gVisualizer.style.dropShadow.blur.y;
-        dropShadow.distance = this.gVisualizer.style.dropShadow.distance;
-        this.nodeContainer.filters = [dropShadow];
+
 
         for (let nodeObj of graphObj.iterNodes()) {
             const displayObject = LabelledStyle.makeSpriteWithDefaultConf("Placeholder");
@@ -84,26 +60,6 @@ export default class GraphView {
         if (width !== window.innerWidth || height !== window.innerHeight) {
             this.resize();
         }
-
-        // remove -------
-
-        const disp0 = IllustratedStyle.makeSpriteWithDefaultConf("img/default.png", "Caption");
-        this.edgeContainer.addChild(disp0);
-
-        const disp = EdgeTriangleArrowStyle.makeSpriteWithDefaultConf();
-        this.edgeContainer.addChild(disp);
-
-        const disp2 = NodeTableStyle.makeSpriteWithDefaultConf({
-            headers: ["hi"],
-            data: [["hello", "world"], ["bla"]]
-        });
-        console.log(disp2);
-        this.nodeContainer.addChild(disp2);
-
-        const disp3 = SimpleStyle.makeSpriteWithDefaultConf();
-        this.nodeContainer.addChild(disp3);
-
-        // end remove ------
 
         this.animate();
     }
