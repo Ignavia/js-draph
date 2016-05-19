@@ -25,11 +25,6 @@ export default class GraphView {
             backgroundColor: this.gVisualizer.style.backgroundColor.hex
         });
 
-        this.canvasRenderer = new PIXI.CanvasRenderer({
-            antialias:  true,
-            resolution: window.devicePixelRatio || 1
-        });
-
         $("#container").html(this.renderer.view);
 
         $(this.renderer.view).mousewheel((e) => {
