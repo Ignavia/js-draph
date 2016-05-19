@@ -27,12 +27,16 @@ export const defaultConf = {
 
         /**
          * The parameters to pass to the function.
+         *
+         * @type {Array}
          */
         params: []
     },
 
     /**
      * The configuration of the behavior to use.
+     *
+     * @type {Object}
      */
     behavior: {
 
@@ -45,6 +49,8 @@ export const defaultConf = {
 
         /**
          * The parameters to pass to the function.
+         *
+         * @type {Array}
          */
         params: []
     },

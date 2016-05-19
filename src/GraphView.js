@@ -8,10 +8,10 @@ import {EdgeVisualizer} from "./draph.js";
 
 import {EdgeTriangleArrowStyle} from "./draph.js";
 
-import * as SimpleStyle from "./node/SimpleStyle.js";
-import * as IllustratedStyle from "./node/IllustratedStyle.js";
-import * as LabelledStyle from "./node/LabelledStyle.js";
-import * as NodeTableStyle from "./node/TableStyle.js";
+import * as SimpleStyle from "./node/styles/SimpleStyle.js";
+import * as IllustratedStyle from "./node/styles/IllustratedStyle.js";
+import * as LabelledStyle from "./node/styles/LabelledStyle.js";
+import * as NodeTableStyle from "./node/styles/TableStyle.js";
 
 import PIXI from "pixi.js";
 
