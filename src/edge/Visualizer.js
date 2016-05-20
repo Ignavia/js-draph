@@ -104,13 +104,6 @@ export const defaultConf = {
     }],
 
     /**
-     * Where to place the sprite.
-     *
-     * @type {Vec2}
-     */
-    position: new Vec2(0, 0),
-
-    /**
      * How to scale the sprite. x- and y-scales can be set seperately.
      *
      * @type {Number|Vec2}
@@ -157,7 +150,12 @@ export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) 
         behavior.function(...behavior.params, result);
     }
 
-    utils.setPosition(conf.position, result);
+    const center = new Vec2(
+        (sourcePos.x + targetPos.x) / 2,
+        (sourcePos.y + targetPos.y) / 2
+    );
+
+    utils.setPosition(center, result);
     utils.setScale(conf.scale, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);

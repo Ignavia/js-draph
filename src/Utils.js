@@ -8,23 +8,14 @@ export const canvasRenderer = new PIXI.CanvasRenderer({
 });
 
 const renderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
-            autoResize:      true,
-            resolution:      window.devicePixelRatio || 1,
-            backgroundColor: 0xFFFFFF
-        });
+    autoResize:      true,
+    resolution:      window.devicePixelRatio || 1,
+    backgroundColor: 0xFFFFFF
+});
 
-export function makeCanvasSprite(displayObject, {width = "auto", height = "auto"} = {}) {
+export function makeCanvasSprite(displayObject) {
     const texture = displayObject.generateTexture(canvasRenderer);
-    const sprite  = new PIXI.Sprite(texture);
-
-    if (width !== "auto") {
-        sprite.width = width;
-    }
-    if (height !== "auto") {
-        sprite.height = height;
-    }
-
-    return sprite;
+    return new PIXI.Sprite(texture);
 }
 
 export function makeWebGLSprite() {
@@ -59,7 +50,23 @@ export function adjustConf(base, adjustments) {
 /**
  * Creates a display object of line.
  *
- * @
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
  */
 export const makeLine = _.curry(function (style, startPos, endPos) {
     const result = new PIXI.Graphics();

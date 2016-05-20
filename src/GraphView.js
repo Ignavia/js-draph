@@ -5,6 +5,9 @@ import {Vec2} from "@ignavia/ella";
 
 import * as draph from "./draph.js";
 
+import * as utils from "./utils.js";
+import {predefinedColors} from "@ignavia/util";
+
 export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
         const {
@@ -18,6 +21,7 @@ this.renderer = renderer;
 this.stage = stage;
 this.nodeContainer = nodeContainer;
 this.edgeContainer = edgeContainer;
+
         $("#container").html(renderer.view);
 
         $(renderer.view).mousedown((e) => {
@@ -53,8 +57,8 @@ this.edgeContainer = edgeContainer;
         for (let edgeObj of graphObj.iterEdges()) {
             const source = edgeObj.sourceId;
             const target = edgeObj.targetId;
-            const sourcePos = this.nodes.get(source).position;
-            const targetPos = this.nodes.get(target).position;
+            const sourcePos = this.nodes.get(source);
+            const targetPos = this.nodes.get(target);
             const displayObject = draph.edgeVisualizer.makeEnhancedSpriteWithDefaultConf(
                 new Vec2(sourcePos.x, sourcePos.y),
                 new Vec2(targetPos.x, targetPos.y)

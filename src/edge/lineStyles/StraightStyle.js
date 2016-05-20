@@ -62,29 +62,17 @@ export const defaultConf = {
  * The created sprite.
  */
 export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
-    const centerX = (sourcePos.x + targetPos.x) / 2;
-    const centerY = (sourcePos.y + targetPos.y) / 2;
-
-    const line = utils.makeLine(conf.line, {
-        x: sourcePos.x - centerX,
-        y: sourcePos.y - centerY
-    }, {
-        x: targetPos.x - centerX,
-        y: targetPos.y - centerY
-    });
-
-    const result  = utils.makeCanvasSprite(line);
+    const line   = utils.makeLine(conf.line, sourcePos, targetPos);
+    const result = utils.makeCanvasSprite(line);
 
     // Placing the sprite between the two nodes
-    result.x = centerX;
-    result.y = centerY;
     result.anchor = {
         x: 0.5,
         y: 0.5
     };
 
     if (conf.decalAnchor === "auto") {
-        result.decalAnchor = new Vec2(centerX, centerY);
+        result.decalAnchor = new Vec2(0, 0);
     } else {
         result.decalAnchor = conf.decalAnchor;
     }
