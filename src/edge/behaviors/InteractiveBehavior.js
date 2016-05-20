@@ -2,7 +2,6 @@ import _ from "lodash";
 
 import * as utils from "../../utils.js";
 
-
 /**
  * The default configuration of this behavior.
  *
