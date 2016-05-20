@@ -6,7 +6,7 @@ import {Vec2} from "@ignavia/ella";
 import * as draph from "./draph.js";
 
 export default class GraphView {
-    constructor(graphObj, width = screen.width, height = screen.height) {
+    constructor(graphObj) {
         const {
             renderer,
             stage,
@@ -14,46 +14,90 @@ export default class GraphView {
             edgeContainer
         } = draph.graphVisualizer.makeEnhancedViewWithDefaultConf();
 
-this.renderer = renderer;
-this.stage = stage;
-this.nodeContainer = nodeContainer;
-this.edgeContainer = edgeContainer;
+        /**
+         * The renderer used to draw the stage.
+         *
+         * @type {Renderer}
+         */
+        this.renderer = renderer;
 
-        $("#container").html(renderer.view);
+        /**
+         * The display object to draw with the renderer.
+         *
+         * @type {DisplayObject}
+         */
+        this.stage = stage;
 
-        this.width = width;
-        this.height = height;
+        /**
+         * The container for the node display objects.
+         *
+         * @type {DisplayObject}
+         */
+        this.nodeContainer = nodeContainer;
 
+        /**
+         * The container for the edge display object.
+         *
+         * @type {DisplayObject}
+         */
+        this.edgeContainer = edgeContainer;
+
+        /**
+         * The graph getting displayed.
+         *
+         * @type {Graph}
+         */
         this.graph = graphObj;
+
+        /**
+         * Maps from node IDs to their display objects.
+         *
+         * @type {Map<String, DisplayObject>}
+         */
         this.nodes = new Map();
+
+        /**
+         * Maps from edge IDs to their display objects.
+         *
+         * @type {Map<String, DisplayObject>}
+         */
         this.edges = new Map();
 
-        for (let nodeObj of graphObj.iterNodes()) {
+        this.init();
+        this.animate();
+    }
+
+    init() {
+
+        // Add view to container
+        $("#container").html(this.renderer.view); // TODO: pass id of container as param
+
+        // Nodes
+        for (let nodeObj of this.graph.iterNodes()) {
             const displayObject = draph.nodeVisualizer.makeEnhancedSpriteWithDefaultConf();
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
 
-            displayObject.x = Math.random() * width;
-            displayObject.y = Math.random() * height;
+            displayObject.x = Math.random() * this.renderer.width;
+            displayObject.y = Math.random() * this.renderer.height;
         }
-        for (let edgeObj of graphObj.iterEdges()) {
-            const source = edgeObj.sourceId;
-            const target = edgeObj.targetId;
-            const sourcePos = this.nodes.get(source);
-            const targetPos = this.nodes.get(target);
+
+        // Edges
+        for (let edgeObj of this.graph.iterEdges()) {
+            const sourceG = this.nodes.get(edgeObj.sourceId);
+            const targetG = this.nodes.get(edgeObj.targetId);
             const displayObject = draph.edgeVisualizer.makeEnhancedSpriteWithDefaultConf(
-                new Vec2(sourcePos.x, sourcePos.y),
-                new Vec2(targetPos.x, targetPos.y)
+                new Vec2(sourceG.x, sourceG.y),
+                new Vec2(targetG.x, targetG.y)
             );
             this.edgeContainer.addChild(displayObject);
             this.edges.set(edgeObj.id, displayObject);
         }
 
-        if (width !== window.innerWidth || height !== window.innerHeight) {
+        // Resize
+        if (this.renderer.width !== window.innerWidth || this.renderer.height !== window.innerHeight) {
             this.resize();
         }
-
-        this.animate();
     }
 
     /**
@@ -86,18 +130,19 @@ this.edgeContainer = edgeContainer;
         this.renderer.resize(width, height);
     }
 
-    animate() {
-        // this is the main render call that makes pixi draw your container and its children.
-        this.renderer.render(this.stage);
-        //console.log(this.renderer.plugins.interaction.mouse);
-        requestAnimationFrame(() => this.animate());
-    }
-
     addNode(visualizer) {
 
     }
 
     addEdge() {
 
+    }
+
+    /**
+     * Starts the render loop and repeatedly draws the stage.
+     */
+    animate() {
+        this.renderer.render(this.stage);
+        requestAnimationFrame(() => this.animate());
     }
 }
