@@ -5,9 +5,6 @@ import {Vec2} from "@ignavia/ella";
 
 import * as draph from "./draph.js";
 
-import * as utils from "./utils.js";
-import {predefinedColors} from "@ignavia/util";
-
 export default class GraphView {
     constructor(graphObj, width = screen.width, height = screen.height) {
         const {
@@ -24,20 +21,6 @@ this.edgeContainer = edgeContainer;
 
         $("#container").html(renderer.view);
 
-        $(renderer.view).mousedown((e) => {
-            this.lastPos = {x: e.offsetX, y: e.offsetY};
-        }).mouseup((e) => {
-            this.lastPos = undefined;
-        }).mousemove((e) => {
-            if (this.lastPos) {
-                this.stage.x += e.offsetX - this.lastPos.x;
-                this.stage.y += e.offsetY - this.lastPos.y;
-                this.lastPos = {x: e.offsetX, y: e.offsetY};
-            }
-        }).mouseleave((e) => {
-            this.lastPos = undefined;
-        });
-
         this.width = width;
         this.height = height;
 
@@ -47,7 +30,6 @@ this.edgeContainer = edgeContainer;
 
         for (let nodeObj of graphObj.iterNodes()) {
             const displayObject = draph.nodeVisualizer.makeEnhancedSpriteWithDefaultConf();
-            console.log(displayObject)
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
 
@@ -74,10 +56,28 @@ this.edgeContainer = edgeContainer;
         this.animate();
     }
 
+    /**
+     * Returns the display object for the given node ID.
+     *
+     * @param {String} nodeId
+     * The ID of the node to get the display object for.
+     *
+     * @return {DisplayObject}
+     * The display object for the node.
+     */
     getNodeDisplayObjectById(nodeId) {
         return this.nodes.get(nodeId);
     }
 
+    /**
+     * Returns the display object for the given edge ID.
+     *
+     * @param {String} edgeId
+     * The ID of the edge to get the display object for.
+     *
+     * @return {DisplayObject}
+     * The display object for the edge.
+     */
     getEdgeDisplayObjectById(edgeId) {
         return this.edges.get(edgeId);
     }
@@ -101,7 +101,3 @@ this.edgeContainer = edgeContainer;
 
     }
 }
-
-GraphView.defaultConf = {
-
-};

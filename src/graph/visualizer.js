@@ -1,4 +1,5 @@
 import * as style        from "./styles/style.js";
+import * as panBehavior  from "./behaviors/panBehavior.js"
 import * as zoomBehavior from "./behaviors/zoomBehavior.js";
 
 /**
@@ -40,9 +41,19 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @
+         * @type {Function}
          */
         function: zoomBehavior.addBehaviorWithDefaultConf,
+
+        /**
+         * The parameters to pass to the function. The function also gets the
+         * stage and the renderer as their last parameters.
+         *
+         * @type {Array}
+         */
+        params: []
+    }, {
+        function: panBehavior.addBehavior,
         params: []
     }]
 };
@@ -50,7 +61,7 @@ export const defaultConf = {
 export function makeEnhancedView(conf)  {
     const result = conf.style.function(...conf.style.params);
 
-    for (let behavior of conf.behaviors) {console.log(behavior, conf.behaviors)
+    for (let behavior of conf.behaviors) {
         behavior.function(...behavior.params, result.stage, result.renderer);
     }
 
