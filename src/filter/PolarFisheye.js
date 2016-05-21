@@ -1,14 +1,13 @@
-import * as utils from "../utils.js";
+import {Vec2} from "@ignavia/ella";
 
-const fragmentSrc = utils.shaderStringToArray(`
+const fragmentSrc = `
     precision mediump float;
 
     varying vec2 vTextureCoord;
     varying vec4 vColor;
     uniform sampler2D uSampler;
     uniform float d;
-
-    const vec2 f = vec2(0.5, 0.5);
+    uniform vec2 f;
 
     vec2 frameIntersection(vec2 v) {
         float slope = (v.y - f.y) / (v.x - f.x);
@@ -33,25 +32,25 @@ const fragmentSrc = utils.shaderStringToArray(`
 
     vec2 distort(vec2 v) {
         vec2 i = frameIntersection(v);
-        float a = length(f - v) / length(f - i);
+        float a = length(v - f) / length(i - f);
         return f + h(a) * (i - f);
     }
 
     void main(void) {
         gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
     }
-`);
+`;
 
 export default class extends PIXI.AbstractFilter {
 
     constructor() {
-        super([], fragmentSrc, {
+        super(null, fragmentSrc, {
             d: {
                 type: "1f",
                 value: 0
             },
             f: {
-                type: "2f",
+                type: "v2",
                 value: {x: 0.5, y: 0.5}
             }
         });

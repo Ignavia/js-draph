@@ -1,8 +1,6 @@
 import {Vec2} from "@ignavia/ella";
 
-import * as utils from "../utils.js";
-
-const fragmentSrc = utils.shaderStringToArray(`
+const fragmentSrc = `
     precision mediump float;
 
     varying vec2 vTextureCoord;
@@ -31,12 +29,12 @@ const fragmentSrc = utils.shaderStringToArray(`
     void main(void) {
         gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
     }
-`);
+`;
 
 export default class extends PIXI.AbstractFilter {
 
     constructor() {
-        super([], fragmentSrc, {
+        super(null, fragmentSrc, {
             dx: {
                 type: "1f",
                 value: 0
@@ -46,7 +44,7 @@ export default class extends PIXI.AbstractFilter {
                 value: 0
             },
             f: {
-                type: "2f",
+                type: "v2",
                 value: { x: 0.5, y: 0.5 }
             }
         });

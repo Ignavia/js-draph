@@ -694,3 +694,27 @@ export function setRotation(angle, displayObject) {
 export function shaderStringToArray(s) {
     return s.split("\n").map(s => s.trim()).filter(s => s.length > 0);
 }
+
+/**
+ * Creates a new event listener covering the two cases, that another event
+ * listener exists already and that the opposite is true.
+ *
+ * @param {*} current
+ * The current value of the event handler.
+ *
+ * @param {Function}
+ * The new event handler to register.
+ *
+ * @return {Function}
+ * The created event listener.
+ */
+export function composeEventListeners(current, next) {
+    if (typeof current === "function") {
+        return e => {
+            current(e);
+            next(e);
+        };
+    } else {
+        return next;
+    }
+}
