@@ -680,3 +680,17 @@ export function setPivot(pivot, displayObject) {
 export function setRotation(angle, displayObject) {
     displayObject.rotation = angle;
 }
+
+/**
+ * Turns a string into an array of its lines. This is the expected format for
+ * the shader source code.
+ *
+ * @param {String} s
+ * The source code of the shader as a string.
+ *
+ * @return {Array<String>}
+ * The split string.
+ */
+export function shaderStringToArray(s) {
+    return s.split("\n").map(s => s.trim()).filter(s => s.length > 0);
+}

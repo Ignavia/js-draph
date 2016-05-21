@@ -5,6 +5,8 @@ import {Vec2} from "@ignavia/ella";
 
 import * as draph from "./draph.js";
 
+import def from "./filter/PolarFisheye.js";
+
 export default class GraphView {
     constructor(graphObj) {
         const {
