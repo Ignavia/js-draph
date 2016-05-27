@@ -6,6 +6,7 @@ import * as straightLineStyle from "./lineStyles/straightStyle.js";
 import * as emptyDecalStyle   from "./decalStyles/emptyStyle.js";
 import * as emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
 import * as emptyBehavior     from "./behaviors/emptyBehavior.js";
+import registry               from "../registry.js";
 import * as utils             from "../utils.js";
 
 /**
@@ -56,7 +57,7 @@ export const defaultConf = {
          *
          * @type {Array}
          */
-        params: []
+        params: ["label"]
     },
 
     /**
@@ -168,6 +169,8 @@ export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) 
 
     return result;
 });
+makeEnhancedSprite.path = ["edge", "visualizer"];
+registry.add(makeEnhancedSprite.path, makeEnhancedSprite);
 
 /**
  * Makes a sprite with behavior and positions, rotates and scales it according
@@ -183,6 +186,8 @@ export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) 
  * The created display object.
  */
 export const makeEnhancedSpriteWithDefaultConf = makeEnhancedSprite(defaultConf);
+makeEnhancedSpriteWithDefaultConf.path = ["edge", "visualizerDefault"];
+registry.add(makeEnhancedSpriteWithDefaultConf.path, makeEnhancedSpriteWithDefaultConf);
 
 /**
  * Creates container used to make the final sprite.

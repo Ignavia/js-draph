@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -81,6 +82,8 @@ export const defaultConf = {
 export const addBehavior = _.curry(function (conf, stage, renderer) {
     utils.addInteraction(conf, stage);
 });
+addBehavior.path = ["graph", "behavior", "interactive"];
+registry.add(addBehavior.path, addBehavior);
 
 /**
  * Adds the default event handlers to the given display object.
@@ -89,3 +92,5 @@ export const addBehavior = _.curry(function (conf, stage, renderer) {
  * The display object to make interactive.
  */
 export const addBehaviorWithDefaultConf = addBehavior(defaultConf);
+addBehaviorWithDefaultConf.path = ["graph", "behavior", "interactiveDefault"];
+registry.add(addBehaviorWithDefaultConf.path, addBehaviorWithDefaultConf);

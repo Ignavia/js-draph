@@ -1,6 +1,7 @@
 import * as style        from "./styles/style.js";
 import * as panBehavior  from "./behaviors/panBehavior.js"
 import * as zoomBehavior from "./behaviors/zoomBehavior.js";
+import registry          from "../registry.js";
 
 /**
  * The default configuration of this visualizer.

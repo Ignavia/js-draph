@@ -1,5 +1,7 @@
 import $ from "jquery";
 
+import registry from "../../registry.js";
+
 /**
  * Adds this behavior to the given stage and renderer.
  *
@@ -24,3 +26,5 @@ export const addBehavior = function (stage, renderer) {
         stage.lastPos = undefined;
     });
 };
+addBehavior.path = ["graph", "behavior", "pan"];
+registry.add(addBehavior.path, addBehavior);

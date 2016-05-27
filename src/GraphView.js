@@ -5,11 +5,16 @@ import {Vec2} from "@ignavia/ella";
 
 import * as draph from "./draph.js";
 
-import PolarFisheye from "./filter/PolarFisheye.js";
-import CartesianFisheye from "./filter/CartesianFisheye.js";
+import PolarFisheye     from "./filter/PolarFisheyeFragment.js";
+import CartesianFisheye from "./filter/CartesianFisheyeFragment.js";
 
 export default class GraphView {
-    constructor(graphObj) {
+
+    /**
+     * @param {Graph} graphObj
+     * The graph object to display.
+     */
+    constructor(graphObj, {graphVisualizer, nodeVisualizers, edgeVisualizers, layout} = {}) {
         const {
             renderer,
             stage,
@@ -75,18 +80,13 @@ export default class GraphView {
         // Add view to container
         $("#container").html(this.renderer.view); // TODO: pass id of container as param
 
-        const polar = new PolarFisheye();
-        polar.p = 0.6;
-        // polar.focus.x = 0.5;
-        // polar.focus.y = 0.5;
-        const cartesian = new CartesianFisheye();
         this.stage.filterArea = new PIXI.Rectangle(
             0,
             0,
             this.renderer.width,
             this.renderer.height
         );
-        this.stage.filters = [cartesian]
+        this.stage.filters = [];
 
         // Nodes
         for (let nodeObj of this.graph.iterNodes()) {

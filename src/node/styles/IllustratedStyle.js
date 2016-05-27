@@ -2,6 +2,7 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -206,6 +207,8 @@ export const makeSprite = _.curry(function (conf, imagePath, caption) {
 
     return result;
 });
+makeSprite.path = ["node", "style", "illustrated"];
+registry.add(makeSprite.path, makeSprite);
 
 /**
  * Creates a sprite using the default configuration.
@@ -220,3 +223,5 @@ export const makeSprite = _.curry(function (conf, imagePath, caption) {
  * The created sprite.
  */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
+makeSpriteWithDefaultConf.path = ["node", "style", "illustratedDefault"];
+registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

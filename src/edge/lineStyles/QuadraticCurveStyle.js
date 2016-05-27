@@ -2,6 +2,8 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
+import registry from "../../registry.js";
+
 /**
  * The default configuration of this style.
  *
@@ -113,6 +115,9 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
 
     return sprite;
 });
+makeSprite.path = ["edge", "lineStyle", "quadraticCurve"];
+registry.add(makeSprite.path, makeSprite);
+
 
 /**
  * Creates a sprite using the default configuration.
@@ -127,3 +132,5 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
  * The created sprite.
  */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
+makeSpriteWithDefaultConf.path = ["edge", "lineStyle", "quadraticCurveDefault"];
+registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

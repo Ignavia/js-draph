@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -79,6 +80,8 @@ export const defaultConf = {
  * The display object to make interactive.
  */
 export const addBehavior = utils.addInteraction;
+addBehavior.path = ["node", "behavior", "interactive"];
+registry.add(addBehavior.path, addBehavior);
 
 /**
  * Adds the default event handlers to the given display object.
@@ -87,3 +90,5 @@ export const addBehavior = utils.addInteraction;
  * The display object to make interactive.
  */
 export const addBehaviorWithDefaultConf = addBehavior(defaultConf);
+addBehaviorWithDefaultConf.path = ["node", "behavior", "interactiveDefault"];
+registry.add(addBehaviorWithDefaultConf.path, addBehaviorWithDefaultConf);

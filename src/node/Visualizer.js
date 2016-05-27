@@ -2,6 +2,7 @@ import {Vec2} from "@ignavia/ella";
 
 import {makeSpriteWithDefaultConf} from "./styles/SimpleStyle.js";
 import {addBehavior}               from "./behaviors/EmptyBehavior.js";
+import registry                    from "../registry.js";
 import * as utils                  from "../utils.js";
 
 /**
@@ -109,6 +110,8 @@ export const makeEnhancedSprite = function (conf) {
 
     return result;
 };
+makeEnhancedSprite.path = ["node", "visualizer"];
+registry.add(makeEnhancedSprite.path, makeEnhancedSprite);
 
 /**
  * Makes a sprite with behavior and positions, rotates and scales it according
@@ -120,3 +123,5 @@ export const makeEnhancedSprite = function (conf) {
 export function makeEnhancedSpriteWithDefaultConf() {
     return makeEnhancedSprite(defaultConf);
 }
+makeEnhancedSpriteWithDefaultConf.path = ["node", "visualizerDefault"];
+registry.add(makeEnhancedSpriteWithDefaultConf.path, makeEnhancedSpriteWithDefaultConf);

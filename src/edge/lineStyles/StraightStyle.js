@@ -3,6 +3,7 @@ import _ from "lodash";
 import {predefinedColors} from "@ignavia/util";
 import {Vec2}             from "@ignavia/ella";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -79,6 +80,8 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
 
     return result;
 });
+makeSprite.path = ["edge", "lineStyle", "straight"];
+registry.add(makeSprite.path, makeSprite);
 
 /**
  * Creates a sprite using the default configuration.
@@ -93,3 +96,5 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
  * The created sprite.
  */
 export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
+makeSpriteWithDefaultConf.path = ["edge", "lineStyle", "straightDefault"];
+registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

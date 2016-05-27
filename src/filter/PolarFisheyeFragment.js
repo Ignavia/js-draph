@@ -1,5 +1,10 @@
 import {Vec2} from "@ignavia/ella";
 
+/**
+ * The source code of the fragment shader.
+ *
+ * @type {String}
+ */
 const fragmentSrc = `
     precision mediump float;
 
@@ -12,13 +17,13 @@ const fragmentSrc = `
     vec2 frameIntersection(vec2 v) {
         float slope = (v.y - f.y) / (v.x - f.x);
         if (-1. <= slope && slope <= 1.) {
-            if (v.x <= 0.5) { // intersects line segment from (0, 0) to (0, 1)
+            if (v.x <= f.x) { // intersects line segment from (0, 0) to (0, 1)
                 return vec2(0., f.y - f.y * slope);
             } else {          // intersects line segment from (1, 0) to (1, 1)
                 return vec2(1., f.y + (1. - f.y) * slope);
             }
         } else {
-            if (v.y <= 0.5) { // intersects line segment from (0, 0) to (1, 0)
+            if (v.y <= f.y) { // intersects line segment from (0, 0) to (1, 0)
                 return vec2(f.x - f.x / slope, 0.);
             } else {          // intersects line segment from (1, 0) to (1, 1)
                 return vec2(f.y + (1. - f.x) / slope, 1.);
@@ -41,13 +46,20 @@ const fragmentSrc = `
     }
 `;
 
+/**
+ * A polar fisheye filter build as a fragment shader. Polar means that the
+ * distortion occurs radially around the focus point.
+ */
 export default class extends PIXI.AbstractFilter {
 
+    /**
+     *
+     */
     constructor() {
         super(null, fragmentSrc, {
             d: {
                 type: "1f",
-                value: 0
+                value: 0.5
             },
             f: {
                 type: "v2",
@@ -56,11 +68,27 @@ export default class extends PIXI.AbstractFilter {
         });
     }
 
+    /**
+     * Gets how strong the distortion is. A value of 0 means no distortion at
+     * all, a value close to 1 means that everything gets pushed to the edge of
+     * the screen. Not that 1 is not allowed anymore.
+     *
+     * @return {Number}
+     * How strong the distortion is.
+     */
     get p() {
         const d = this.uniforms.d.value;
         return d / (d + 1);
     }
 
+    /**
+     * Sets how strong the distortion is. A value of 0 means no distortion at
+     * all, a value close to 1 means that everything gets pushed to the edge of
+     * the screen. Not that 1 is not allowed anymore.
+     *
+     * @param {Number} p
+     * How strong the distortion should be.
+     */
     set p(p) {
         this.uniforms.d.value = p / (1 - p);
     }

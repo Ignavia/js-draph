@@ -1,3 +1,4 @@
+import registry from "../../registry.js";
 import {emptyDisplayObject} from "../../utils.js";
 
 /**
@@ -9,3 +10,5 @@ import {emptyDisplayObject} from "../../utils.js";
 export function makeSprite() {
     return emptyDisplayObject;
 }
+makeSprite.path = ["edge", "decalStyle", "empty"];
+registry.add(makeSprite.path, makeSprite);

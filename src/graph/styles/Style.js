@@ -3,6 +3,8 @@ import _ from "lodash";
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
+import registry from "../../registry.js";
+
 /**
  * The default configuration of this style.
  */
@@ -120,6 +122,8 @@ export function makeView(conf) {
         edgeContainer
     };
 }
+makeView.path = ["graph", "style"];
+registry.add(makeView.path, makeView);
 
 /**
  * Creates renderer, stage, nodeContainer and edgeContainers based on the
@@ -131,6 +135,8 @@ export function makeView(conf) {
 export function makeViewWithDefaultConf() {
     return makeView(defaultConf);
 }
+makeViewWithDefaultConf.path = ["graph", "styleDefault"];
+registry.add(makeViewWithDefaultConf.path, makeViewWithDefaultConf);
 
 /**
  * Creates a renderer using the given configuration.

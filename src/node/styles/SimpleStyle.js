@@ -1,5 +1,6 @@
 import {predefinedColors} from "@ignavia/util";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -68,6 +69,8 @@ export function makeSprite(conf) {
 
     return result;
 };
+makeSprite.path = ["node", "style", "simple"];
+registry.add(makeSprite.path, makeSprite);
 
 /**
  * Creates a sprite using the default configuration.
@@ -78,3 +81,5 @@ export function makeSprite(conf) {
 export function makeSpriteWithDefaultConf() {
     return makeSprite(defaultConf);
 }
+makeSpriteWithDefaultConf.path = ["node", "style", "simpleDefault"];
+registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

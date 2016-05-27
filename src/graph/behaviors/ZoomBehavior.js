@@ -4,6 +4,8 @@ import $          from "jquery";
 import mousewheel from "jquery-mousewheel";
 mousewheel($);
 
+import registry from "../../registry.js";
+
 /**
  * The default configuration of this behavior.
  *
@@ -69,6 +71,8 @@ export const addBehavior = _.curry(function (conf, stage, renderer) {
         }
     });
 });
+addBehavior.path = ["graph", "behavior", "zoom"];
+registry.add(addBehavior.path, addBehavior);
 
 /**
  * Adds this behavior to the given stage and renderer using the default
@@ -81,6 +85,9 @@ export const addBehavior = _.curry(function (conf, stage, renderer) {
  * The renderer to add the event listener to.
  */
 export const addBehaviorWithDefaultConf = addBehavior(defaultConf);
+addBehaviorWithDefaultConf.path = ["graph", "behavior", "zoomDefault"];
+registry.add(addBehaviorWithDefaultConf.path, addBehaviorWithDefaultConf);
+
 
 /**
  * The actual zoom function. It applies the zoom factor and moves the stage to

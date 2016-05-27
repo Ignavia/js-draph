@@ -3,6 +3,7 @@ import _ from "lodash";
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
+import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
 /**
@@ -97,6 +98,8 @@ export function makeSprite(conf) {
 
     return result;
 }
+makeSprite.path = ["edge", "arrowStyle", "triangle"];
+registry.add(makeSprite.path, makeSprite);
 
 /**
  * Creates a sprite using the default configuration.
@@ -107,6 +110,8 @@ export function makeSprite(conf) {
 export function makeSpriteWithDefaultConf() {
     return makeSprite(defaultConf);
 }
+makeSpriteWithDefaultConf.path = ["edge", "arrowStyle", "triangleDefault"];
+registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);
 
 /**
  * Creates the display object of the triangle.
