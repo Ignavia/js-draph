@@ -1,6 +1,6 @@
 {
   "name": "@ignavia/draph",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A graph drawing library.",
   "keywords": [
     "drawing",
@@ -123,4 +123,3 @@
     }
   }
 }
-
