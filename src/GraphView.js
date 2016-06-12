@@ -14,7 +14,7 @@ export default class GraphView {
      * @param {Graph} graphObj
      * The graph object to display.
      */
-    constructor(graphObj, {graphVisualizer, nodeVisualizers, edgeVisualizers, layout} = {}) {
+    constructor(graphObj, containerId, {graphVisualizer, nodeVisualizers, edgeVisualizers, layout} = {}) {
         const {
             renderer,
             stage,
@@ -28,6 +28,7 @@ export default class GraphView {
          * @type {Renderer}
          */
         this.renderer = renderer;
+        $("#" + containerId).html(this.renderer.view);
 
         /**
          * The display object to draw with the renderer.
@@ -76,19 +77,42 @@ export default class GraphView {
     }
 
     init() {
+        this.setupFilters();
+        this.visualizeNodes();
+        this.visualizeEdges();
 
-        // Add view to container
-        $("#container").html(this.renderer.view); // TODO: pass id of container as param
+        // Resize
+        if (this.renderer.width !== window.innerWidth || this.renderer.height !== window.innerHeight) {
+            this.resize();
+        }
+    }
 
+    setupFilters() {
         this.stage.filterArea = new PIXI.Rectangle(
             0,
             0,
             this.renderer.width,
             this.renderer.height
         );
-        this.stage.filters = [];
+    }
 
-        // Nodes
+    setEdgeSelection() {
+
+    }
+
+    setNodeSelection() {
+
+    }
+
+    setEdgeFilter() {
+
+    }
+
+    addFilter() {
+
+    }
+
+    visualizeNodes() {
         for (let nodeObj of this.graph.iterNodes()) {
             const displayObject = draph.nodeVisualizer.makeEnhancedSpriteWithDefaultConf();
             this.nodeContainer.addChild(displayObject);
@@ -97,8 +121,9 @@ export default class GraphView {
             displayObject.x = Math.random() * this.renderer.width;
             displayObject.y = Math.random() * this.renderer.height;
         }
+    }
 
-        // Edges
+    visualizeEdges() {
         for (let edgeObj of this.graph.iterEdges()) {
             const sourceG = this.nodes.get(edgeObj.sourceId);
             const targetG = this.nodes.get(edgeObj.targetId);
@@ -108,11 +133,6 @@ export default class GraphView {
             );
             this.edgeContainer.addChild(displayObject);
             this.edges.set(edgeObj.id, displayObject);
-        }
-
-        // Resize
-        if (this.renderer.width !== window.innerWidth || this.renderer.height !== window.innerHeight) {
-            this.resize();
         }
     }
 

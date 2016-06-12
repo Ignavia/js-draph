@@ -6,4 +6,3 @@ export registry   from "./registry.js";
 export * as utils from "./utils.js";
 
 import registry from "./registry.js";
-console.log([...registry.paths()].map(path => path.toString()))

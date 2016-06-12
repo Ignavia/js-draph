@@ -19,7 +19,7 @@ const e4 = new earl.Edge("n2", "n0");
 const e5 = new earl.Edge("n3", "n1");
 g.addEdges(e0, e1, e2, e3, e4, e5);
 
-const view = new GraphView(g);
+const view = new GraphView("container", g);
 
 $(window).on("resize", () => {
     view.resize();

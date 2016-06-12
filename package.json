@@ -19,7 +19,7 @@
     "url": "https://github.com/Ignavia/js-draph.git"
   },
   "scripts": {
-    "build": "jspm build ./src/draph.js - lodash ./dist/draph.js --format cjs --skip-source-maps --minify",
+    "build": "jspm build ./src/draph.js - lodash - @ignavia/earl - @ignavia/ella - @ignavia/util - jquery - jquery-mousewheel - pixi.js ./dist/draph.js --format cjs --skip-source-maps --minify",
     "doc": "esdoc -c esdoc.json"
   },
   "dependencies": {},
@@ -46,14 +46,14 @@
       "jquery": "^2.2.3",
       "jquery-mousewheel": "^3.1.13",
       "lodash": "^4.11.1",
-      "pixi.js": "^3.0.11",
-      "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.7"
+      "pixi.js": "^3.0.11"
     },
     "devDependencies": {
       "babel-plugin-transform-export-extensions": "^6.5.0",
       "babel-preset-stage-0": "^6.5.0",
       "babel-regenerator-runtime": "^6.5.0",
-      "plugin-babel": "systemjs-plugin-babel@^0.0.8"
+      "plugin-babel": "systemjs-plugin-babel@^0.0.8",
+      "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.7"
     },
     "peerDependencies": {
       "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
@@ -122,4 +122,5 @@
       }
     }
   }
-}
+}
+
