@@ -1,7 +1,7 @@
 import {Vec2} from "@ignavia/ella";
 
-import {makeSpriteWithDefaultConf} from "./styles/SimpleStyle.js";
-import {addBehavior}               from "./behaviors/EmptyBehavior.js";
+import {makeSpriteWithDefaultConf} from "./styles/simpleStyle.js";
+import {addBehavior}               from "./behaviors/emptyBehavior.js";
 import registry                    from "../registry.js";
 import * as utils                  from "../utils.js";
 
