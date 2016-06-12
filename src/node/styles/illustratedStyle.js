@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import {predefinedColors} from "@ignavia/util";
 
 import registry   from "../../registry.js";
@@ -182,20 +180,22 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration. This function is curried.
  *
- * @param {Object} conf
- * Check the documentation of the default configuration for the structure of
- * this object.
- *
  * @param {String} imagePath
  * The path to the image to display.
  *
  * @param {String} caption
  * The caption to display.
  *
+ * @param {Object} [conf]
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
  * @return {DisplayObject}
  * The created sprite.
  */
-export const makeSprite = _.curry(function (conf, imagePath, caption) {
+export default function makeSprite(imagePath, caption, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const container = utils.makeCaptionedImage(conf, imagePath, caption);
     const result    = utils.makeCanvasSprite(container);
 
@@ -206,22 +206,6 @@ export const makeSprite = _.curry(function (conf, imagePath, caption) {
     };
 
     return result;
-});
+};
 makeSprite.path = ["node", "style", "illustrated"];
 registry.add(makeSprite.path, makeSprite);
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @param {String} imagePath
- * The path to the image to display.
- *
- * @param {String} caption
- * The caption to display.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-makeSpriteWithDefaultConf.path = ["node", "style", "illustratedDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

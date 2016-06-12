@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
@@ -79,14 +77,16 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Object} conf
+ * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
  * this object.
  *
  * @return {DisplayObject}
  * The created sprite.
  */
-export function makeSprite(conf) {
+export default function makeSprite(conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const container = makeBox(conf);
     const result    = utils.makeCanvasSprite(container);
 
@@ -100,18 +100,6 @@ export function makeSprite(conf) {
 }
 makeSprite.path = ["edge", "arrowStyle", "triangle"];
 registry.add(makeSprite.path, makeSprite);
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export function makeSpriteWithDefaultConf() {
-    return makeSprite(defaultConf);
-}
-makeSpriteWithDefaultConf.path = ["edge", "arrowStyle", "triangleDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);
 
 /**
  * Creates the display object of the triangle.

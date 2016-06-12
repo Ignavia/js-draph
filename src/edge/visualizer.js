@@ -2,12 +2,12 @@ import _ from "lodash";
 
 import {Vec2} from "@ignavia/ella";
 
-import * as straightLineStyle from "./lineStyles/straightStyle.js";
-import * as emptyDecalStyle   from "./decalStyles/emptyStyle.js";
-import * as emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
-import * as emptyBehavior     from "./behaviors/emptyBehavior.js";
-import registry               from "../registry.js";
-import * as utils             from "../utils.js";
+import straightLineStyle from "./lineStyles/straightStyle.js";
+import emptyDecalStyle   from "./decalStyles/emptyStyle.js";
+import emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
+import emptyBehavior     from "./behaviors/emptyBehavior.js";
+import registry          from "../registry.js";
+import * as utils        from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -28,7 +28,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: straightLineStyle.makeSpriteWithDefaultConf,
+        function: straightLineStyle,
 
         /**
          * The parameters to pass to the function.
@@ -50,7 +50,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: emptyDecalStyle.makeSprite,
+        function: emptyDecalStyle,
 
         /**
          * The parameters to pass to the function.
@@ -72,7 +72,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: emptyArrowStyle.makeSprite,
+        function: emptyArrowStyle,
 
         /**
          * The parameters to pass to the function.
@@ -94,7 +94,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: emptyBehavior.addBehavior,
+        function: emptyBehavior,
 
         /**
          * The parameters to pass to the function.
@@ -130,25 +130,27 @@ export const defaultConf = {
  * Makes a sprite with behavior and positions, rotates and scales it according
  * to the given configuration. This function is curried.
  *
- * @param {Object} conf
- * The configuration of the visualizer. Check the default configuration to see
- * the structure of this object.
- *
  * @param {Vec2} sourcePos
  * The position of the source node.
  *
  * @param {Vec2} targetPos
  * The position of the target node.
  *
+ * @param {Object} conf
+ * The configuration of the visualizer. Check the default configuration to see
+ * the structure of this object.
+ *
  * @return {DisplayObject}
  * The created display object.
  */
-export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) {
+export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const container = makeContainer(conf, sourcePos, targetPos);
     const result    = utils.makeCanvasSprite(container);
 
     for (let behavior of conf.behaviors) {
-        behavior.function(...behavior.params, result);
+        behavior.function(result, ...behavior.params);
     }
 
     const center = new Vec2(
@@ -168,26 +170,9 @@ export const makeEnhancedSprite = _.curry(function (conf, sourcePos, targetPos) 
     };
 
     return result;
-});
+};
 makeEnhancedSprite.path = ["edge", "visualizer"];
 registry.add(makeEnhancedSprite.path, makeEnhancedSprite);
-
-/**
- * Makes a sprite with behavior and positions, rotates and scales it according
- * to the default configuration.
- *
- * @param {Vec2} sourcePos
- * The position of the source node.
- *
- * @param {Vec2} targetPos
- * The position of the target node.
- *
- * @return {DisplayObject}
- * The created display object.
- */
-export const makeEnhancedSpriteWithDefaultConf = makeEnhancedSprite(defaultConf);
-makeEnhancedSpriteWithDefaultConf.path = ["edge", "visualizerDefault"];
-registry.add(makeEnhancedSpriteWithDefaultConf.path, makeEnhancedSpriteWithDefaultConf);
 
 /**
  * Creates container used to make the final sprite.
@@ -208,7 +193,7 @@ function makeContainer(conf, sourcePos, targetPos) {
     const result = new PIXI.Container();
 
     // Make the line
-    const line = conf.lineStyle.function(...conf.lineStyle.params, sourcePos, targetPos);
+    const line = conf.lineStyle.function(sourcePos, targetPos, ...conf.lineStyle.params);
     result.addChild(line);
 
     // Make the decal

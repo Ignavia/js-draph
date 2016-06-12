@@ -57,7 +57,9 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export function makeSprite(conf) {
+export default function makeSprite(conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const circle = utils.makeCircle(conf, conf.radius);
     const result = utils.makeCanvasSprite(circle);
 
@@ -71,15 +73,3 @@ export function makeSprite(conf) {
 };
 makeSprite.path = ["node", "style", "simple"];
 registry.add(makeSprite.path, makeSprite);
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export function makeSpriteWithDefaultConf() {
-    return makeSprite(defaultConf);
-}
-makeSpriteWithDefaultConf.path = ["node", "style", "simpleDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

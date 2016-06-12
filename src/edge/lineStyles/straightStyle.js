@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import {predefinedColors} from "@ignavia/util";
 import {Vec2}             from "@ignavia/ella";
 
@@ -49,20 +47,22 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Object} conf
- * Check the documentation of the default configuration for the structure of
- * this object.
- *
  * @param {Vec2} sourcePos
  * The position of the source node.
  *
  * @param {Vec2} targetPos
  * The position of the target node.
  *
+ * @param {Object} [conf]
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
  * @return {DisplayObject}
  * The created sprite.
  */
-export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
+export default function makeSprite(sourcePos, targetPos, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const line   = utils.makeLine(conf.line, sourcePos, targetPos);
     const result = utils.makeCanvasSprite(line);
 
@@ -79,22 +79,6 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
     }
 
     return result;
-});
+};
 makeSprite.path = ["edge", "lineStyle", "straight"];
 registry.add(makeSprite.path, makeSprite);
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @param {Vec2} sourcePos
- * The position of the source node.
- *
- * @param {Vec2} targetPos
- * The position of the target node.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-makeSpriteWithDefaultConf.path = ["edge", "lineStyle", "straightDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

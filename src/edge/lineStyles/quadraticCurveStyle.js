@@ -1,8 +1,7 @@
-import _ from "lodash";
-
 import {predefinedColors} from "@ignavia/util";
 
-import registry from "../../registry.js";
+import registry   from "../../registry.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -73,20 +72,22 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Object} conf
- * Check the documentation of the default configuration for the structure of
- * this object.
- *
  * @param {Vec2} sourcePos
  * The position of the source node.
  *
  * @param {Vec2} targetPos
  * The position of the target node.
  *
+ * @param {Object} conf
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
  * @return {DisplayObject}
  * The created sprite.
  */
-export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
+export default function makeSprite(sourcePos, targetPos, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const parallel      = targetPos.sub(sourcePos).mul(conf.vertex.parallel);
     const perpendicular = parallel.rotate(Math.PI / 2).normalize().mul(conf.vertex.perpendicular);
     const vertex        = sourcePos.add(parallel).add(perpendicular);
@@ -114,23 +115,6 @@ export const makeSprite = _.curry(function (conf, sourcePos, targetPos) {
     };
 
     return sprite;
-});
+};
 makeSprite.path = ["edge", "lineStyle", "quadraticCurve"];
 registry.add(makeSprite.path, makeSprite);
-
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @param {Vec2} sourcePos
- * The position of the source node.
- *
- * @param {Vec2} targetPos
- * The position of the target node.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-makeSpriteWithDefaultConf.path = ["edge", "lineStyle", "quadraticCurveDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);

@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
 
@@ -72,25 +70,17 @@ export const defaultConf = {
 /**
  * Adds event handlers to the given display object.
  *
- * @param {Object} conf
+ * @param {DisplayObject} displayObject
+ * The display object to make interactive.
+ *
+ * @param {Object} [conf]
  * Contains the event handlers to add. Check the documentation of the default
  * configuration to see how this object is structured.
- *
- * @param {DisplayObject} displayObject
- * The display object to make interactive.
  */
-export const addBehavior = _.curry(function (conf, displayObject) {
+export default function addBehavior(displayObject, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     utils.addInteraction(conf, displayObject);
-});
+};
 addBehavior.path = ["edge", "behavior", "interactive"];
 registry.add(addBehavior.path, addBehavior);
-
-/**
- * Adds the default event handlers to the given display object.
- *
- * @param {DisplayObject} displayObject
- * The display object to make interactive.
- */
-export const addBehaviorWithDefaultConf = addBehavior(defaultConf);
-addBehaviorWithDefaultConf.path = ["edge", "behavior", "interactiveDefault"];
-registry.add(addBehaviorWithDefaultConf.path, addBehaviorWithDefaultConf);

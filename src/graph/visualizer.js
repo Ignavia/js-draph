@@ -1,7 +1,8 @@
-import * as style        from "./styles/style.js";
-import * as panBehavior  from "./behaviors/panBehavior.js";
-import * as zoomBehavior from "./behaviors/zoomBehavior.js";
-import registry          from "../registry.js";
+import style        from "./styles/style.js";
+import panBehavior  from "./behaviors/panBehavior.js";
+import zoomBehavior from "./behaviors/zoomBehavior.js";
+import registry     from "../registry.js";
+import * as utils   from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -22,7 +23,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: style.makeViewWithDefaultConf,
+        function: style,
 
         /**
          * The parameters to pass to that function.
@@ -44,7 +45,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: zoomBehavior.addBehaviorWithDefaultConf,
+        function: zoomBehavior,
 
         /**
          * The parameters to pass to the function. The function also gets the
@@ -54,21 +55,17 @@ export const defaultConf = {
          */
         params: []
     }, {
-        function: panBehavior.addBehavior,
+        function: panBehavior,
         params: []
     }]
 };
 
-export function makeEnhancedView(conf)  {
+export default function makeEnhancedView(conf = {})  {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const result = conf.style.function(...conf.style.params);
-
     for (let behavior of conf.behaviors) {
-        behavior.function(...behavior.params, result.stage, result.renderer);
+        behavior.function(result.stage, result.renderer, ...behavior.params);
     }
-
     return result;
-}
-
-export function makeEnhancedViewWithDefaultConf() {
-    return makeEnhancedView(defaultConf);
 }

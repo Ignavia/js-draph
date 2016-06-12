@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import {predefinedColors} from "@ignavia/util";
 
 import registry   from "../../registry.js";
@@ -328,10 +326,6 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Object} conf
- * Check the documentation of the default configuration for the structure of
- * this object.
- *
  * @param {Object} content
  * The content of the table.
  *
@@ -341,10 +335,16 @@ export const defaultConf = {
  * @param {Array} content.data
  * A two-dimensional array of the data. Each entry represents one row.
  *
+ * @param {Object} [conf]
+ * Check the documentation of the default configuration for the structure of
+ * this object.
+ *
  * @return {DisplayObject}
  * The created sprite.
  */
-export const makeSprite = _.curry(function(conf, content) {
+export default function makeSprite(content, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const container = makeContainer(conf, content);
     const result    = utils.makeCanvasSprite(container);
 
@@ -355,19 +355,9 @@ export const makeSprite = _.curry(function(conf, content) {
     };
 
     return result;
-});
+};
 makeSprite.path = ["node", "style", "table"];
 registry.add(makeSprite.path, makeSprite);
-
-/**
- * Creates a sprite using the default configuration.
- *
- * @return {DisplayObject}
- * The created sprite.
- */
-export const makeSpriteWithDefaultConf = makeSprite(defaultConf);
-makeSpriteWithDefaultConf.path = ["node", "style", "tableDefault"];
-registry.add(makeSpriteWithDefaultConf.path, makeSpriteWithDefaultConf);
 
 /**
  * Creates the container that is used to make the final sprite.

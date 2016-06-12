@@ -1,10 +1,9 @@
-import _ from "lodash";
-
 import $          from "jquery";
 import mousewheel from "jquery-mousewheel";
 mousewheel($);
 
-import registry from "../../registry.js";
+import registry   from "../../registry.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this behavior.
@@ -54,40 +53,27 @@ export const defaultConf = {
 /**
  * Adds this behavior to the given stage and renderer.
  *
- * @type {Object} conf
- * The configuration of this behavior. Check the default configuration for the
- * structure of this document.
- *
- * @type {DisplayObject} stage
+ * @param {DisplayObject} stage
  * The stage to scale when zooming.
  *
- * @type {Renderer} renderer
+ * @param {Renderer} renderer
  * The renderer to add the event listener to.
+ *
+ * @param {Object} [conf]
+ * The configuration of this behavior. Check the default configuration for the
+ * structure of this document.
  */
-export const addBehavior = _.curry(function (conf, stage, renderer) {
+export default function addBehavior(stage, renderer, conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     $(renderer.view).mousewheel((e) => {
         if (e.deltaY !== 0) {
             zoom(conf, stage, renderer, e.deltaY < 0 ? "out" : "in");
         }
     });
-});
+};
 addBehavior.path = ["graph", "behavior", "zoom"];
 registry.add(addBehavior.path, addBehavior);
-
-/**
- * Adds this behavior to the given stage and renderer using the default
- * configuration.
- *
- * @type {DisplayObject} stage
- * The stage to scale when zooming.
- *
- * @type {Renderer} renderer
- * The renderer to add the event listener to.
- */
-export const addBehaviorWithDefaultConf = addBehavior(defaultConf);
-addBehaviorWithDefaultConf.path = ["graph", "behavior", "zoomDefault"];
-registry.add(addBehaviorWithDefaultConf.path, addBehaviorWithDefaultConf);
-
 
 /**
  * The actual zoom function. It applies the zoom factor and moves the stage to

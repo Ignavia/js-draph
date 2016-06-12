@@ -1,9 +1,8 @@
-import _ from "lodash";
-
 import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
-import registry from "../../registry.js";
+import registry   from "../../registry.js";
+import * as utils from "../../utils.js";
 
 /**
  * The default configuration of this style.
@@ -102,10 +101,15 @@ export const defaultConf = {
  * Creates renderer, stage, nodeContainer and edgeContainers based on the
  * default confguration. All those are bundled in an object and returned.
  *
+ * @param {Object} [conf]
+ * The configuration to use.
+ *
  * @return {Object}
  * The created object.
  */
-export function makeView(conf) {
+export default function makeView(conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const stage         = new PIXI.Container();
     const nodeContainer = new PIXI.Container();
     const edgeContainer = new PIXI.Container();
@@ -124,19 +128,6 @@ export function makeView(conf) {
 }
 makeView.path = ["graph", "style"];
 registry.add(makeView.path, makeView);
-
-/**
- * Creates renderer, stage, nodeContainer and edgeContainers based on the
- * default confguration.
- *
- * @return {Object}
- * The created object.
- */
-export function makeViewWithDefaultConf() {
-    return makeView(defaultConf);
-}
-makeViewWithDefaultConf.path = ["graph", "styleDefault"];
-registry.add(makeViewWithDefaultConf.path, makeViewWithDefaultConf);
 
 /**
  * Creates a renderer using the given configuration.

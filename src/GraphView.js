@@ -2,11 +2,16 @@ import PIXI from "pixi.js";
 import $    from "jquery";
 
 import {Vec2} from "@ignavia/ella";
+import {Layout} from "@ignavia/earl";
 
 import * as draph from "./draph.js";
 
-import PolarFisheye     from "./filter/PolarFisheyeFragment.js";
-import CartesianFisheye from "./filter/CartesianFisheyeFragment.js";
+import {graphVisualizer as defaultGraphVisualizer} from "./graph/graph.js";
+import {nodeVisualizer as defaultNodeVisualizer} from "./node/node.js";
+import {edgeVisualizer as defaultEdgeVisualizer} from "./edge/edge.js";
+
+import PolarFisheye     from "./filters/PolarFisheye.js";
+import CartesianFisheye from "./filters/CartesianFisheye.js";
 
 export default class GraphView {
 
@@ -14,13 +19,19 @@ export default class GraphView {
      * @param {Graph} graphObj
      * The graph object to display.
      */
-    constructor(graphObj, containerId, {graphVisualizer, nodeVisualizers, edgeVisualizers, layout} = {}) {
+    constructor(graphObj, containerId, {
+            graphVisualizer = defaultGraphVisualizer,
+            nodeVisualizers = new Map(),
+            edgeVisualizers = new Map(),
+            layout = new Layout()
+        } = {}) {
+
         const {
             renderer,
             stage,
             nodeContainer,
             edgeContainer
-        } = draph.graphVisualizer.makeEnhancedViewWithDefaultConf();
+        } = defaultGraphVisualizer.makeEnhancedViewWithDefaultConf();
 
         /**
          * The renderer used to draw the stage.

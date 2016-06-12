@@ -1,9 +1,9 @@
 import {Vec2} from "@ignavia/ella";
 
-import {makeSpriteWithDefaultConf} from "./styles/simpleStyle.js";
-import {addBehavior}               from "./behaviors/emptyBehavior.js";
-import registry                    from "../registry.js";
-import * as utils                  from "../utils.js";
+import simpleStyle   from "./styles/simpleStyle.js";
+import emptyBehavior from "./behaviors/emptyBehavior.js";
+import registry      from "../registry.js";
+import * as utils    from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -24,7 +24,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: makeSpriteWithDefaultConf,
+        function: simpleStyle,
 
         /**
          * The parameters to pass to the function.
@@ -46,7 +46,7 @@ export const defaultConf = {
          *
          * @type {Function}
          */
-        function: addBehavior,
+        function: emptyBehavior,
 
         /**
          * The parameters to pass to the function.
@@ -89,18 +89,20 @@ export const defaultConf = {
  * Makes a sprite with behavior and positions, rotates and scales it according
  * to the given configuration.
  *
- * @param {Object} conf
+ * @param {Object} [conf]
  * The configuration of the visualizer. Check the default configuration to see
  * the structure of this object.
  *
  * @return {DisplayObject}
  * The created display object.
  */
-export const makeEnhancedSprite = function (conf) {
+export default function makeEnhancedSprite(conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
     const result = conf.style.function(...conf.style.params);
 
     for (let behavior of conf.behaviors) {
-        behavior.function(...behavior.params, result);
+        behavior.function(result, ...behavior.params);
     }
 
     utils.setPosition(conf.position, result);
@@ -112,16 +114,3 @@ export const makeEnhancedSprite = function (conf) {
 };
 makeEnhancedSprite.path = ["node", "visualizer"];
 registry.add(makeEnhancedSprite.path, makeEnhancedSprite);
-
-/**
- * Makes a sprite with behavior and positions, rotates and scales it according
- * to the default configuration.
- *
- * @return {DisplayObject}
- * The created display object.
- */
-export function makeEnhancedSpriteWithDefaultConf() {
-    return makeEnhancedSprite(defaultConf);
-}
-makeEnhancedSpriteWithDefaultConf.path = ["node", "visualizerDefault"];
-registry.add(makeEnhancedSpriteWithDefaultConf.path, makeEnhancedSpriteWithDefaultConf);

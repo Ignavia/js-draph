@@ -6,6 +6,6 @@ import registry from "../../registry.js";
  * @param {DisplayObject} displayObject
  * The display object to add behavior to.
  */
-export function addBehavior(displayObject) {}
+export default function addBehavior(displayObject) {}
 addBehavior.path = ["node", "behavior", "empty"];
 registry.add(addBehavior.path, addBehavior);

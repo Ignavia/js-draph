@@ -7,7 +7,7 @@ import {emptyDisplayObject} from "../../utils.js";
  * @return {DisplayObject}
  * The created sprite.
  */
-export function makeSprite() {
+export default function makeSprite() {
     return emptyDisplayObject;
 }
 makeSprite.path = ["edge", "decalStyle", "empty"];
