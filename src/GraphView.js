@@ -1,14 +1,14 @@
 import PIXI from "pixi.js";
 import $    from "jquery";
 
-import {Vec2} from "@ignavia/ella";
+import {Vec2}   from "@ignavia/ella";
 import {Layout} from "@ignavia/earl";
 
 import * as draph from "./draph.js";
 
 import {graphVisualizer as defaultGraphVisualizer} from "./graph/graph.js";
-import {nodeVisualizer as defaultNodeVisualizer} from "./node/node.js";
-import {edgeVisualizer as defaultEdgeVisualizer} from "./edge/edge.js";
+import {nodeVisualizer  as defaultNodeVisualizer}  from "./node/node.js";
+import {edgeVisualizer  as defaultEdgeVisualizer}  from "./edge/edge.js";
 
 import PolarFisheye     from "./filters/PolarFisheye.js";
 import CartesianFisheye from "./filters/CartesianFisheye.js";
@@ -23,7 +23,7 @@ export default class GraphView {
             graphVisualizer = defaultGraphVisualizer,
             nodeVisualizers = new Map(),
             edgeVisualizers = new Map(),
-            layout = new Layout()
+            //layout = new Layout()
         } = {}) {
 
         const {
@@ -31,7 +31,7 @@ export default class GraphView {
             stage,
             nodeContainer,
             edgeContainer
-        } = defaultGraphVisualizer.makeEnhancedViewWithDefaultConf();
+        } = defaultGraphVisualizer();
 
         /**
          * The renderer used to draw the stage.
@@ -125,7 +125,7 @@ export default class GraphView {
 
     visualizeNodes() {
         for (let nodeObj of this.graph.iterNodes()) {
-            const displayObject = draph.nodeVisualizer.makeEnhancedSpriteWithDefaultConf();
+            const displayObject = draph.nodeVisualizer();
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
 
@@ -138,7 +138,7 @@ export default class GraphView {
         for (let edgeObj of this.graph.iterEdges()) {
             const sourceG = this.nodes.get(edgeObj.sourceId);
             const targetG = this.nodes.get(edgeObj.targetId);
-            const displayObject = draph.edgeVisualizer.makeEnhancedSpriteWithDefaultConf(
+            const displayObject = draph.edgeVisualizer(
                 new Vec2(sourceG.x, sourceG.y),
                 new Vec2(targetG.x, targetG.y)
             );
