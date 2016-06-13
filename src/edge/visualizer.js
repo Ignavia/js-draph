@@ -26,16 +26,16 @@ export const defaultConf = {
         /**
          * The function to call to draw the line.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: straightLineStyle,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {},
     },
 
     /**
@@ -48,16 +48,16 @@ export const defaultConf = {
         /**
          * The function to call to make the decal.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: emptyDecalStyle,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: ["label"]
+        conf: ["label"],
     },
 
     /**
@@ -70,16 +70,16 @@ export const defaultConf = {
         /**
          * The function to call to make the arrow.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: emptyArrowStyle,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {},
     },
 
      /**
@@ -92,16 +92,16 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: emptyBehavior,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {},
     }],
 
     /**
@@ -123,7 +123,7 @@ export const defaultConf = {
      *
      * @type {Number}
      */
-    rotation: 0
+    rotation: 0,
 };
 
 /**
@@ -150,7 +150,8 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     const result    = utils.makeCanvasSprite(container);
 
     for (let behavior of conf.behaviors) {
-        behavior.function(result, ...behavior.params);
+        const behaviorFunction = registry.toFunction(behavior.function);
+        behaviorFunction(result, behavior.conf);
     }
 
     const center = new Vec2(
@@ -193,16 +194,19 @@ function makeContainer(conf, sourcePos, targetPos) {
     const result = new PIXI.Container();
 
     // Make the line
-    const line = conf.lineStyle.function(sourcePos, targetPos, ...conf.lineStyle.params);
+    const lineStyle = registry.toFunction(conf.lineStyle.function);
+    const line      = lineStyle(sourcePos, targetPos, conf.lineStyle.conf);
     result.addChild(line);
 
     // Make the decal
-    const decal = conf.decalStyle.function(...conf.decalStyle.params);
+    const decalStyle = registry.toFunction(conf.decalStyle.function);
+    const decal      = decalStyle(conf.decalStyle.conf);
     utils.setPosition(line.decalAnchor, decal);
     result.addChild(decal);
 
     // Make the arrow
-    const arrow = conf.arrowStyle.function(...conf.arrowStyle.params);
+    const arrowStyle = registry.toFunction(conf.arrowStyle.function);
+    const arrow      = arrowStyle(conf.arrowStyle.conf);
     //utils.setPosition(line.arrow.anchor, decal);
     //utils.setRotation(line.arrow.angle, decal); TODO
     result.addChild(arrow);

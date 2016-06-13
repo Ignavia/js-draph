@@ -22,16 +22,16 @@ export const defaultConf = {
         /**
          * The function to call to make the sprite.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: simpleStyle,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {}
     },
 
     /**
@@ -44,16 +44,16 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: emptyBehavior,
 
         /**
-         * The parameters to pass to the function.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {}
     }],
 
     /**
@@ -99,10 +99,12 @@ export const defaultConf = {
 export default function makeEnhancedSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const result = conf.style.function(...conf.style.params);
+    const style  = registry.toFunction(conf.style.function);
+    const result = style(conf.style.conf);
 
     for (let behavior of conf.behaviors) {
-        behavior.function(result, ...behavior.params);
+        const behaviorFunction = registry.toFunction(behavior.function);
+        behaviorFunction(result, behavior.conf);
     }
 
     utils.setPosition(conf.position, result);

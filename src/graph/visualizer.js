@@ -21,16 +21,16 @@ export const defaultConf = {
         /**
          * The function to call to make the stage and renderer.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: style,
 
         /**
-         * The parameters to pass to that function.
+         * The configuration to pass to that function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {}
     },
 
     /**
@@ -43,29 +43,31 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function}
+         * @type {Function|GumpPath}
          */
         function: zoomBehavior,
 
         /**
-         * The parameters to pass to the function. The function also gets the
-         * stage and the renderer as their last parameters.
+         * The configuration to pass to the function.
          *
-         * @type {Array}
+         * @type {Object}
          */
-        params: []
+        conf: {}
     }, {
         function: panBehavior,
-        params: []
+        conf: {}
     }]
 };
 
 export default function makeEnhancedView(conf = {})  {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const result = conf.style.function(...conf.style.params);
+    const style  = registry.toFunction(conf.style.function);
+    const result = style(conf.style.conf);
     for (let behavior of conf.behaviors) {
-        behavior.function(result.stage, result.renderer, ...behavior.params);
+        const behaviorFunction = registry.toFunction(behavior.function);
+        behaviorFunction(result.stage, result.renderer, behavior.conf);
     }
+
     return result;
 }
