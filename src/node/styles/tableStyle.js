@@ -11,6 +11,22 @@ import * as utils from "../../utils.js";
 export const defaultConf = {
 
     /**
+     * The content of the table.
+     *
+     * @type {Object}
+     *
+     * @property {Array} content.headers
+     * The headers of the table.
+     *
+     * @property {Array} content.data
+     * A two-dimensional array of the data. Each entry represents one row.
+     */
+    content: {
+        headers: [],
+        data:    [],
+    },
+
+    /**
      * How the header cells should look.
      *
      * @type {Object}
@@ -326,15 +342,6 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Object} content
- * The content of the table.
- *
- * @param {Array} content.headers
- * The headers of the table.
- *
- * @param {Array} content.data
- * A two-dimensional array of the data. Each entry represents one row.
- *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
  * this object.
@@ -342,10 +349,10 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export default function makeSprite(content, conf = {}) {
+export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = makeContainer(conf, content);
+    const container = makeContainer(conf, conf.content);
     const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite

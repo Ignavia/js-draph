@@ -86,6 +86,13 @@ export const defaultConf = {
     text: {
 
         /**
+         * The label to use.
+         *
+         * @type {String}
+         */
+        label: "",
+
+        /**
          * How the text should be aligned. The possible values are "left", "center" and
          * "right". For a single line of text this option has no effect.
          *
@@ -199,9 +206,6 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration. This function is curried.
  *
- * @param {String} label
- * The label to use.
- *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
  * this object.
@@ -209,10 +213,10 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export default function makeSprite(label, conf = {}) {
+export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = utils.makeBoxedLabel(conf, label);
+    const container = utils.makeBoxedLabel(conf, conf.text.label);
     const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite

@@ -158,6 +158,20 @@ export const defaultConf = {
     image: {
 
         /**
+         * The path to the image to display.
+         *
+         * @type {String}
+         */
+        imagePath: "", // TODO: path to default picture
+
+        /**
+         * The caption to display.
+         *
+         * @type {String}
+         */
+        caption: "",
+
+        /**
          * The width of the image. Set this to "orig" to use the width of the
          * original image and to "auto" to keep the aspect ratio when setting
          * the height.
@@ -180,12 +194,6 @@ export const defaultConf = {
 /**
  * Creates a sprite using the given configuration. This function is curried.
  *
- * @param {String} imagePath
- * The path to the image to display.
- *
- * @param {String} caption
- * The caption to display.
- *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
  * this object.
@@ -193,10 +201,10 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export default function makeSprite(imagePath, caption, conf = {}) {
+export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = utils.makeCaptionedImage(conf, imagePath, caption);
+    const container = utils.makeCaptionedImage(conf, conf.image.imagePath, conf.image.caption);
     const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite
