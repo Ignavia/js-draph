@@ -10,5 +10,4 @@ import {emptyDisplayObject} from "../../utils.js";
 export default function makeSprite() {
     return emptyDisplayObject;
 }
-makeSprite.path = ["edge", "arrowStyle", "empty"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeArrowStyle("empty", makeSprite);

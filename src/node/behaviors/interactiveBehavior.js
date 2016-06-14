@@ -82,5 +82,4 @@ export default function addBehavior(displayObject, conf = {}) {
 
     utils.addInteraction(conf, displayObject);
 }
-addBehavior.path = ["node", "behavior", "interactive"];
-registry.add(addBehavior.path, addBehavior);
+registry.addNodeBehavior("interactive", addBehavior);

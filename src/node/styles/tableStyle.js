@@ -363,8 +363,7 @@ export default function makeSprite(conf = {}) {
 
     return result;
 };
-makeSprite.path = ["node", "style", "table"];
-registry.add(makeSprite.path, makeSprite);
+registry.addNodeStyle("table", makeSprite);
 
 /**
  * Creates the container that is used to make the final sprite.

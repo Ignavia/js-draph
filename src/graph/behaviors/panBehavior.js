@@ -26,5 +26,4 @@ export default function addBehavior(stage, renderer) {
         stage.lastPos = undefined;
     });
 };
-addBehavior.path = ["graph", "behavior", "pan"];
-registry.add(addBehavior.path, addBehavior);
+registry.addGraphBehavior("pan", addBehavior);

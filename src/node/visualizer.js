@@ -1,7 +1,5 @@
 import {Vec2} from "@ignavia/ella";
 
-import simpleStyle   from "./styles/simpleStyle.js";
-import emptyBehavior from "./behaviors/emptyBehavior.js";
 import registry      from "../registry.js";
 import * as utils    from "../utils.js";
 
@@ -22,9 +20,9 @@ export const defaultConf = {
         /**
          * The function to call to make the sprite.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: simpleStyle,
+        type: "simple",
 
         /**
          * The configuration to pass to the function.
@@ -44,9 +42,9 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: emptyBehavior,
+        type: "empty",
 
         /**
          * The configuration to pass to the function.
@@ -99,11 +97,11 @@ export const defaultConf = {
 export default function makeEnhancedSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const style  = registry.toFunction(conf.style.function);
+    const style  = registry.get(["node", "style", conf.style.type]);
     const result = style(conf.style.conf);
 
     for (let behavior of conf.behaviors) {
-        const behaviorFunction = registry.toFunction(behavior.function);
+        const behaviorFunction = registry.get(["node", "behavior", behavior.type]);
         behaviorFunction(result, behavior.conf);
     }
 
@@ -114,5 +112,3 @@ export default function makeEnhancedSprite(conf = {}) {
 
     return result;
 };
-makeEnhancedSprite.path = ["node", "visualizer"];
-registry.add(makeEnhancedSprite.path, makeEnhancedSprite);

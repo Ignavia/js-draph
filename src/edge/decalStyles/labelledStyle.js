@@ -227,5 +227,4 @@ export default function makeSprite(conf = {}) {
 
     return result;
 };
-makeSprite.path = ["edge", "decalStyle", "labelled"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeDecalStyle("labelled", makeSprite);

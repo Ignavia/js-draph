@@ -1,8 +1,5 @@
-import style        from "./styles/style.js";
-import panBehavior  from "./behaviors/panBehavior.js";
-import zoomBehavior from "./behaviors/zoomBehavior.js";
-import registry     from "../registry.js";
-import * as utils   from "../utils.js";
+import registry   from "../registry.js";
+import * as utils from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -21,9 +18,9 @@ export const defaultConf = {
         /**
          * The function to call to make the stage and renderer.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: style,
+        type: "default",
 
         /**
          * The configuration to pass to that function.
@@ -43,9 +40,9 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: zoomBehavior,
+        type: "zoom",
 
         /**
          * The configuration to pass to the function.
@@ -54,7 +51,19 @@ export const defaultConf = {
          */
         conf: {}
     }, {
-        function: panBehavior,
+
+        /**
+         * The function to call to add the behavior.
+         *
+         * @type {String}
+         */
+        type: "pan",
+
+        /**
+         * The configuration to pass to the function.
+         *
+         * @type {Object}
+         */
         conf: {}
     }]
 };
@@ -62,10 +71,10 @@ export const defaultConf = {
 export default function makeEnhancedView(conf = {})  {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const style  = registry.toFunction(conf.style.function);
+    const style  = registry.get(["graph", "style", conf.style.type]);
     const result = style(conf.style.conf);
     for (let behavior of conf.behaviors) {
-        const behaviorFunction = registry.toFunction(behavior.function);
+        const behaviorFunction = registry.get(["graph", "behavior", behavior.type]);
         behaviorFunction(result.stage, result.renderer, behavior.conf);
     }
 

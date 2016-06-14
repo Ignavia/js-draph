@@ -26,9 +26,9 @@ export const defaultConf = {
         /**
          * The function to call to draw the line.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: straightLineStyle,
+        type: "straight",
 
         /**
          * The configuration to pass to the function.
@@ -48,9 +48,9 @@ export const defaultConf = {
         /**
          * The function to call to make the decal.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: emptyDecalStyle,
+        type: "empty",
 
         /**
          * The configuration to pass to the function.
@@ -70,9 +70,9 @@ export const defaultConf = {
         /**
          * The function to call to make the arrow.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: emptyArrowStyle,
+        type: "empty",
 
         /**
          * The configuration to pass to the function.
@@ -92,9 +92,9 @@ export const defaultConf = {
         /**
          * The function to call to add the behavior.
          *
-         * @type {Function|GumpPath}
+         * @type {String}
          */
-        function: emptyBehavior,
+        type: "empty",
 
         /**
          * The configuration to pass to the function.
@@ -150,7 +150,7 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     const result    = utils.makeCanvasSprite(container);
 
     for (let behavior of conf.behaviors) {
-        const behaviorFunction = registry.toFunction(behavior.function);
+        const behaviorFunction = registry.get(["edge", "behavior", behavior.type]);
         behaviorFunction(result, behavior.conf);
     }
 
@@ -172,8 +172,6 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
 
     return result;
 };
-makeEnhancedSprite.path = ["edge", "visualizer"];
-registry.add(makeEnhancedSprite.path, makeEnhancedSprite);
 
 /**
  * Creates container used to make the final sprite.
@@ -194,18 +192,18 @@ function makeContainer(conf, sourcePos, targetPos) {
     const result = new PIXI.Container();
 
     // Make the line
-    const lineStyle = registry.toFunction(conf.lineStyle.function);
+    const lineStyle = registry.get(["edge", "lineStyle", conf.lineStyle.type]);
     const line      = lineStyle(sourcePos, targetPos, conf.lineStyle.conf);
     result.addChild(line);
 
     // Make the decal
-    const decalStyle = registry.toFunction(conf.decalStyle.function);
+    const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
     utils.setPosition(line.decalAnchor, decal);
     result.addChild(decal);
 
     // Make the arrow
-    const arrowStyle = registry.toFunction(conf.arrowStyle.function);
+    const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
     //utils.setPosition(line.arrow.anchor, decal);
     //utils.setRotation(line.arrow.angle, decal); TODO

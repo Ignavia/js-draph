@@ -10,5 +10,4 @@ import {emptyDisplayObject} from "../../utils.js";
 export default function makeSprite() {
     return emptyDisplayObject;
 }
-makeSprite.path = ["edge", "decalStyle", "empty"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeDecalStyle("empty", makeSprite);

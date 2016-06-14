@@ -72,8 +72,7 @@ export default function addBehavior(stage, renderer, conf = {}) {
         }
     });
 };
-addBehavior.path = ["graph", "behavior", "zoom"];
-registry.add(addBehavior.path, addBehavior);
+registry.addGraphBehavior("zoom", addBehavior);
 
 /**
  * The actual zoom function. It applies the zoom factor and moves the stage to

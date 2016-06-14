@@ -7,5 +7,4 @@ import registry from "../../registry.js";
  * The display object to add behavior to.
  */
 export default function addBehavior(displayObject) {}
-addBehavior.path = ["edge", "behavior", "empty"];
-registry.add(addBehavior.path, addBehavior);
+registry.addEdgeBehavior("empty", addBehavior);

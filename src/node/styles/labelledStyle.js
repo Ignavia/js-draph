@@ -227,5 +227,4 @@ export default function makeSprite(conf = {}) {
 
     return result;
 };
-makeSprite.path = ["node", "style", "labelled"];
-registry.add(makeSprite.path, makeSprite);
+registry.addNodeStyle("labelled", makeSprite);

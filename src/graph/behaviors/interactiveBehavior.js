@@ -85,5 +85,4 @@ export default function addBehavior(stage, renderer, conf = {}) {
 
     utils.addInteraction(conf, stage);
 };
-addBehavior.path = ["graph", "behavior", "interactive"];
-registry.add(addBehavior.path, addBehavior);
+registry.addGraphBehavior("interactive", addBehavior);

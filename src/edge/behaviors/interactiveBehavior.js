@@ -82,5 +82,4 @@ export default function addBehavior(displayObject, conf = {}) {
 
     utils.addInteraction(conf, displayObject);
 };
-addBehavior.path = ["edge", "behavior", "interactive"];
-registry.add(addBehavior.path, addBehavior);
+registry.addEdgeBehavior("interactive", addBehavior);

@@ -19,7 +19,7 @@ export default class GraphView {
      * @param {Graph} graphObj
      * The graph object to display.
      */
-    constructor(graphObj, containerId, {
+    constructor(graphObj, {
             graphVisualizer = defaultGraphVisualizer,
             nodeVisualizers = new Map(),
             edgeVisualizers = new Map(),
@@ -39,7 +39,7 @@ export default class GraphView {
          * @type {Renderer}
          */
         this.renderer = renderer;
-        $("#" + containerId).html(this.renderer.view);
+        //$("#" + containerId).html(this.renderer.view);
 
         /**
          * The display object to draw with the renderer.
@@ -138,6 +138,7 @@ export default class GraphView {
         for (let edgeObj of this.graph.iterEdges()) {
             const sourceG = this.nodes.get(edgeObj.sourceId);
             const targetG = this.nodes.get(edgeObj.targetId);
+            console.log(sourceG, targetG)
             const displayObject = draph.edgeVisualizer(
                 new Vec2(sourceG.x, sourceG.y),
                 new Vec2(targetG.x, targetG.y)

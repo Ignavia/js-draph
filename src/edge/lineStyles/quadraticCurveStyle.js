@@ -116,5 +116,4 @@ export default function makeSprite(sourcePos, targetPos, conf = {}) {
 
     return sprite;
 };
-makeSprite.path = ["edge", "lineStyle", "quadraticCurve"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeLineStyle("quadraticCurve", makeSprite);

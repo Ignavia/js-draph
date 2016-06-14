@@ -80,5 +80,4 @@ export default function makeSprite(sourcePos, targetPos, conf = {}) {
 
     return result;
 };
-makeSprite.path = ["edge", "lineStyle", "straight"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeLineStyle("straight", makeSprite);

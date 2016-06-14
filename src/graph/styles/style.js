@@ -126,8 +126,7 @@ export default function makeView(conf = {}) {
         edgeContainer
     };
 }
-makeView.path = ["graph", "style"];
-registry.add(makeView.path, makeView);
+registry.addGraphStyle("default", makeView);
 
 /**
  * Creates a renderer using the given configuration.

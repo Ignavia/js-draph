@@ -10,5 +10,4 @@ import registry from "../../registry.js";
  * The renderer in use.
  */
 export default function addBehavior(stage, renderer) {}
-addBehavior.path = ["graph", "behavior", "empty"];
-registry.add(addBehavior.path, addBehavior);
+registry.addGraphBehavior("empty", addBehavior);

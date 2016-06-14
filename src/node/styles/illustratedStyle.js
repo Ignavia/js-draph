@@ -215,5 +215,4 @@ export default function makeSprite(conf = {}) {
 
     return result;
 };
-makeSprite.path = ["node", "style", "illustrated"];
-registry.add(makeSprite.path, makeSprite);
+registry.addNodeStyle("illustrated", makeSprite);

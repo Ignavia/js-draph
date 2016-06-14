@@ -98,8 +98,7 @@ export default function makeSprite(conf = {}) {
 
     return result;
 }
-makeSprite.path = ["edge", "arrowStyle", "triangle"];
-registry.add(makeSprite.path, makeSprite);
+registry.addEdgeArrowStyle("triangle", makeSprite);
 
 /**
  * Creates the display object of the triangle.
