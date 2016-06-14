@@ -189,7 +189,7 @@ class Registry {
      * The functions listed under the given path.
      */
     get(path) {
-        return this.map.get(path);
+        return [...this.map.get(path)][0];
     }
 };
 

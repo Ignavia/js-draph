@@ -1,14 +1,11 @@
 import PIXI from "pixi.js";
-import $    from "jquery";
 
 import {Vec2}   from "@ignavia/ella";
 import {Layout} from "@ignavia/earl";
 
-import * as draph from "./draph.js";
-
-import {graphVisualizer as defaultGraphVisualizer} from "./graph/graph.js";
-import {nodeVisualizer  as defaultNodeVisualizer}  from "./node/node.js";
-import {edgeVisualizer  as defaultEdgeVisualizer}  from "./edge/edge.js";
+import {graphVisualizer} from "./graph/graph.js";
+import {nodeVisualizer}  from "./node/node.js";
+import {edgeVisualizer}  from "./edge/edge.js";
 
 import PolarFisheye     from "./filters/PolarFisheye.js";
 import CartesianFisheye from "./filters/CartesianFisheye.js";
@@ -20,47 +17,11 @@ export default class GraphView {
      * The graph object to display.
      */
     constructor(graphObj, {
-            graphVisualizer = defaultGraphVisualizer,
-            nodeVisualizers = new Map(),
-            edgeVisualizers = new Map(),
-            //layout = new Layout()
+            graphConf = {},
+            nodeConfs = new Map(),
+            edgeConfs = new Map(),
+            layout    = new Layout(),
         } = {}) {
-
-        const {
-            renderer,
-            stage,
-            nodeContainer,
-            edgeContainer
-        } = defaultGraphVisualizer();
-
-        /**
-         * The renderer used to draw the stage.
-         *
-         * @type {Renderer}
-         */
-        this.renderer = renderer;
-        //$("#" + containerId).html(this.renderer.view);
-
-        /**
-         * The display object to draw with the renderer.
-         *
-         * @type {DisplayObject}
-         */
-        this.stage = stage;
-
-        /**
-         * The container for the node display objects.
-         *
-         * @type {DisplayObject}
-         */
-        this.nodeContainer = nodeContainer;
-
-        /**
-         * The container for the edge display object.
-         *
-         * @type {DisplayObject}
-         */
-        this.edgeContainer = edgeContainer;
 
         /**
          * The graph getting displayed.
@@ -69,10 +30,68 @@ export default class GraphView {
          */
         this.graph = graphObj;
 
+        const {
+            renderer,
+            stage,
+            selectedNodeContainer,
+            nodeContainer,
+            selectedEdgeContainer,
+            edgeContainer
+        } = graphVisualizer(graphConf);
+
+        /**
+         * The renderer used to draw the stage.
+         *
+         * @type {Renderer}
+         * @private
+         */
+        this.renderer = renderer;
+
+        /**
+         * The display object to draw with the renderer.
+         *
+         * @type {DisplayObject}
+         * @private
+         */
+        this.stage = stage;
+
+        /**
+         * The container for selected node display objects.
+         *
+         * @type {DisplayObject}
+         * @private
+         */
+        this.selectedNodeContainer = selectedNodeContainer;
+
+        /**
+         * The container for the node display objects.
+         *
+         * @type {DisplayObject}
+         * @private
+         */
+        this.nodeContainer = nodeContainer;
+
+        /**
+         * The container for selected edge display objects.
+         *
+         * @type {DisplayObject}
+         * @private
+         */
+        this.selectedEdgeContainer = selectedEdgeContainer;
+
+        /**
+         * The container for the edge display object.
+         *
+         * @type {DisplayObject}
+         * @private
+         */
+        this.edgeContainer = edgeContainer;
+
         /**
          * Maps from node IDs to their display objects.
          *
          * @type {Map<String, DisplayObject>}
+         * @private
          */
         this.nodes = new Map();
 
@@ -80,68 +99,57 @@ export default class GraphView {
          * Maps from edge IDs to their display objects.
          *
          * @type {Map<String, DisplayObject>}
+         * @private
          */
         this.edges = new Map();
 
-        this.init();
-        this.animate();
+        /**
+         * A flag whether the render loop is active.
+         *
+         * @type {Boolean}
+         * @private
+         */
+        this.renderLoopIsActive = false;
+
+        this.init(nodeConfs, edgeConfs, layout);
+        this.startRenderLoop();
     }
 
-    init() {
+
+    init(nodeConfs, edgeConfs, layout) {
         this.setupFilters();
-        this.visualizeNodes();
-        this.visualizeEdges();
-
-        // Resize
-        if (this.renderer.width !== window.innerWidth || this.renderer.height !== window.innerHeight) {
-            this.resize();
-        }
+        this.visualizeNodes(nodeConfs, layout);
+        this.visualizeEdges(edgeConfs);
     }
 
-    setupFilters() {
-        this.stage.filterArea = new PIXI.Rectangle(
-            0,
-            0,
-            this.renderer.width,
-            this.renderer.height
-        );
-    }
-
-    setEdgeSelection() {
-
-    }
-
-    setNodeSelection() {
-
-    }
-
-    setEdgeFilter() {
-
-    }
-
-    addFilter() {
-
-    }
-
-    visualizeNodes() {
+    visualizeNodes(nodeConfs, layout) {
         for (let nodeObj of this.graph.iterNodes()) {
-            const displayObject = draph.nodeVisualizer();
+            const conf          = nodeConfs.get(nodeObj.id);
+            const position      = layout.getPosition(nodeObj);
+            const displayObject = nodeVisualizer(conf);
             this.nodeContainer.addChild(displayObject);
             this.nodes.set(nodeObj.id, displayObject);
 
-            displayObject.x = Math.random() * this.renderer.width;
-            displayObject.y = Math.random() * this.renderer.height;
+            if (position) {
+                displayObject.x = position.x * this.renderer.width;
+                displayObject.y = position.y * this.renderer.height;
+            } else {
+                displayObject.x = Math.random() * this.renderer.width;
+                displayObject.y = Math.random() * this.renderer.height;
+            }
         }
     }
 
-    visualizeEdges() {
+    visualizeEdges(edgeConfs) {
         for (let edgeObj of this.graph.iterEdges()) {
             const sourceG = this.nodes.get(edgeObj.sourceId);
             const targetG = this.nodes.get(edgeObj.targetId);
+            const conf    = edgeConfs.get(edgeObj.id);
             console.log(sourceG, targetG)
-            const displayObject = draph.edgeVisualizer(
+            const displayObject = edgeVisualizer(
                 new Vec2(sourceG.x, sourceG.y),
-                new Vec2(targetG.x, targetG.y)
+                new Vec2(targetG.x, targetG.y),
+                conf
             );
             this.edgeContainer.addChild(displayObject);
             this.edges.set(edgeObj.id, displayObject);
@@ -174,6 +182,31 @@ export default class GraphView {
         return this.edges.get(edgeId);
     }
 
+    setupFilters() {
+        this.stage.filterArea = new PIXI.Rectangle(
+            0,
+            0,
+            this.renderer.width,
+            this.renderer.height
+        );
+    }
+
+    setEdgeSelection() {
+
+    }
+
+    setNodeSelection() {
+
+    }
+
+    setEdgeFilter() {
+
+    }
+
+    addFilter() {
+
+    }
+
     resize(width = window.innerWidth, height = window.innerHeight) {
         this.renderer.resize(width, height);
     }
@@ -191,6 +224,17 @@ export default class GraphView {
      */
     animate() {
         this.renderer.render(this.stage);
-        requestAnimationFrame(() => this.animate());
+        if (this.renderLoopIsActive) {
+            requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    startRenderLoop() {
+        this.renderLoopIsActive = true;
+        this.animate();
+    }
+
+    stopRenderLoop() {
+        this.renderLoopIsActive = false;
     }
 }

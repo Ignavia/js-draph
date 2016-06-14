@@ -345,7 +345,7 @@ SystemJS.config({
     "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
     "lodash": "npm:lodash@4.13.1",
     "@ignavia/util": "npm:@ignavia/util@1.3.3",
-    "@ignavia/earl": "npm:@ignavia/earl@1.3.1",
+    "@ignavia/earl": "npm:@ignavia/earl@1.3.4",
     "@ignavia/ella": "npm:@ignavia/ella@1.0.15",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
@@ -390,11 +390,6 @@ SystemJS.config({
     "github:jspm/nodelibs-url@0.2.0-alpha": {
       "map": {
         "url-browserify": "npm:url@0.11.0"
-      }
-    },
-    "npm:@ignavia/earl@1.3.1": {
-      "map": {
-        "@ignavia/util": "npm:@ignavia/util@1.3.3"
       }
     },
     "npm:@ignavia/util@1.3.3": {
@@ -634,7 +629,7 @@ SystemJS.config({
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
         "bn.js": "npm:bn.js@4.11.4",
         "parse-asn1": "npm:parse-asn1@5.0.0",
-        "elliptic": "npm:elliptic@6.2.8"
+        "elliptic": "npm:elliptic@6.3.0"
       }
     },
     "npm:create-hash@1.1.2": {
@@ -694,14 +689,6 @@ SystemJS.config({
         "asn1.js": "npm:asn1.js@4.6.2"
       }
     },
-    "npm:elliptic@6.2.8": {
-      "map": {
-        "inherits": "npm:inherits@2.0.1",
-        "bn.js": "npm:bn.js@4.11.4",
-        "brorand": "npm:brorand@1.0.5",
-        "hash.js": "npm:hash.js@1.0.3"
-      }
-    },
     "npm:browserify-des@1.0.0": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
@@ -742,7 +729,7 @@ SystemJS.config({
     "npm:create-ecdh@4.0.0": {
       "map": {
         "bn.js": "npm:bn.js@4.11.4",
-        "elliptic": "npm:elliptic@6.2.8"
+        "elliptic": "npm:elliptic@6.3.0"
       }
     },
     "npm:asn1.js@4.6.2": {
@@ -766,6 +753,21 @@ SystemJS.config({
     "github:jspm/nodelibs-string_decoder@0.2.0-alpha": {
       "map": {
         "string_decoder-browserify": "npm:string_decoder@0.10.31"
+      }
+    },
+    "npm:@ignavia/earl@1.3.4": {
+      "map": {
+        "@ignavia/ella": "npm:@ignavia/ella@1.0.15",
+        "@ignavia/util": "npm:@ignavia/util@1.3.3",
+        "lodash": "npm:lodash@4.13.1"
+      }
+    },
+    "npm:elliptic@6.3.0": {
+      "map": {
+        "inherits": "npm:inherits@2.0.1",
+        "bn.js": "npm:bn.js@4.11.4",
+        "hash.js": "npm:hash.js@1.0.3",
+        "brorand": "npm:brorand@1.0.5"
       }
     }
   }

@@ -1,6 +1,8 @@
 import $ from "jquery";
 import GraphView from "./src/GraphView.js";
 
+import {predefinedColors} from "@ignavia/util";
+
 import 'systemjs-hot-reloader/default-listener.js';
 
 import * as earl from "@ignavia/earl";
@@ -19,7 +21,15 @@ const e4 = new earl.Edge("n2", "n0");
 const e5 = new earl.Edge("n3", "n1");
 g.addEdges(e0, e1, e2, e3, e4, e5);
 
-const view = new GraphView(g);
+const view = new GraphView(g, {
+    graphConf: {
+        style: {
+            conf: {
+                backgroundColor: predefinedColors.blue
+            },
+        },
+    }
+});
 $("#container").html(view.renderer.view);
 
 $(window).on("resize", () => {

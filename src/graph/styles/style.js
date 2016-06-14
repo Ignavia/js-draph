@@ -17,11 +17,11 @@ export const defaultConf = {
     backgroundColor: predefinedColors.white,
 
     /**
-     * The drop shadow to apply. Set to distance to 0 to disable it.
+     * The drop shadow to apply to nodes. Set the distance to 0 to disable it.
      *
      * @type {Object}
      */
-    dropShadow: {
+    nodeDropShadow: {
 
         /**
          * The angle of the drop shadow in radians.
@@ -49,7 +49,7 @@ export const defaultConf = {
          *
          * @type {Number}
          */
-        distance: 5
+        distance: 5,
     },
 
     /**
@@ -93,7 +93,7 @@ export const defaultConf = {
          *
          * @type {Boolean}
          */
-        autoResize: true
+        autoResize: true,
     }
 };
 
@@ -110,20 +110,34 @@ export const defaultConf = {
 export default function makeView(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const stage         = new PIXI.Container();
-    const nodeContainer = new PIXI.Container();
-    const edgeContainer = new PIXI.Container();
-    stage.addChild(edgeContainer);
-    stage.addChild(nodeContainer);
+    const stage                 = new PIXI.Container();
+
+    const edges                 = new PIXI.Container();
+    const selectedEdgeContainer = new PIXI.Container();
+    const edgeContainer         = new PIXI.Container();
+    edges.addChild(edgeContainer);
+    edges.addChild(selectedEdgeContainer);
+    stage.addChild(edges);
+
+    const nodes                 = new PIXI.Container();
+    const selectedNodeContainer = new PIXI.Container();
+    const nodeContainer         = new PIXI.Container();
+    nodes.addChild(nodeContainer);
+    nodes.addChild(selectedNodeContainer);
+    stage.addChild(nodes);
 
     // Add filters
-    nodeContainer.filters = [makeDropShadow(conf)];
+    selectedNodeContainer.filters = [makeSelectionHighlight()];
+    nodes.filters                 = [makeDropShadow(conf)];
+    selectedEdgeContainer.filters = [makeSelectionHighlight()];
 
     return {
         renderer: makeRenderer(conf),
         stage,
+        selectedNodeContainer,
         nodeContainer,
-        edgeContainer
+        selectedEdgeContainer,
+        edgeContainer,
     };
 }
 registry.addGraphStyle("default", makeView);
@@ -210,11 +224,17 @@ function makeCanvasRenderer(conf) {
  */
 function makeDropShadow(conf) {
     const dropShadow    = new PIXI.filters.DropShadowFilter();
-    dropShadow.color    = conf.dropShadow.color.hex;
-    dropShadow.alpha    = conf.dropShadow.color.alpha;
-    dropShadow.angle    = conf.dropShadow.angle;
-    dropShadow.blurX    = conf.dropShadow.blur.x;
-    dropShadow.blurY    = conf.dropShadow.blur.y;
-    dropShadow.distance = conf.dropShadow.distance;
+    dropShadow.color    = conf.nodeDropShadow.color.hex;
+    dropShadow.alpha    = conf.nodeDropShadow.color.alpha;
+    dropShadow.angle    = conf.nodeDropShadow.angle;
+    dropShadow.blurX    = conf.nodeDropShadow.blur.x;
+    dropShadow.blurY    = conf.nodeDropShadow.blur.y;
+    dropShadow.distance = conf.nodeDropShadow.distance;
     return dropShadow;
+}
+
+function makeSelectionHighlight() {
+    const filter = new PIXI.filters.ColorMatrixFilter();
+    filter.negative();
+    return filter;
 }
