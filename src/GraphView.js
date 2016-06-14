@@ -124,36 +124,77 @@ export default class GraphView {
 
     visualizeNodes(nodeConfs, layout) {
         for (let nodeObj of this.graph.iterNodes()) {
-            const conf          = nodeConfs.get(nodeObj.id);
-            const position      = layout.getPosition(nodeObj);
-            const displayObject = nodeVisualizer(conf);
-            this.nodeContainer.addChild(displayObject);
-            this.nodes.set(nodeObj.id, displayObject);
-
-            if (position) {
-                displayObject.x = position.x * this.renderer.width;
-                displayObject.y = position.y * this.renderer.height;
-            } else {
-                displayObject.x = Math.random() * this.renderer.width;
-                displayObject.y = Math.random() * this.renderer.height;
-            }
+            const conf     = nodeConfs.get(nodeObj.id);
+            const position = layout.getPosition(nodeObj);
+            this.addNode(nodeObj, conf, position);
         }
+    }
+
+    addNode(nodeObj, conf, position) {
+        const displayObject = nodeVisualizer(conf);
+
+        if (position) {
+            displayObject.x = position.x * this.renderer.width;
+            displayObject.y = position.y * this.renderer.height;
+        } else {
+            displayObject.x = Math.random() * this.renderer.width;
+            displayObject.y = Math.random() * this.renderer.height;
+        }
+
+        this.nodeContainer.addChild(displayObject);
+        this.nodes.set(nodeObj.id, displayObject);
     }
 
     visualizeEdges(edgeConfs) {
         for (let edgeObj of this.graph.iterEdges()) {
-            const sourceG = this.nodes.get(edgeObj.sourceId);
-            const targetG = this.nodes.get(edgeObj.targetId);
-            const conf    = edgeConfs.get(edgeObj.id);
-            console.log(sourceG, targetG)
-            const displayObject = edgeVisualizer(
-                new Vec2(sourceG.x, sourceG.y),
-                new Vec2(targetG.x, targetG.y),
-                conf
-            );
-            this.edgeContainer.addChild(displayObject);
-            this.edges.set(edgeObj.id, displayObject);
+            const conf = edgeConfs.get(edgeObj.id);
+            this.addEdge(edgeObj, conf);
         }
+    }
+
+    addEdge(edgeObj, conf) {
+        const sourceG = this.nodes.get(edgeObj.sourceId);
+        const targetG = this.nodes.get(edgeObj.targetId);
+
+        const displayObject = edgeVisualizer(
+            new Vec2(sourceG.x, sourceG.y),
+            new Vec2(targetG.x, targetG.y),
+            conf
+        );
+
+        this.edgeContainer.addChild(displayObject);
+        this.edges.set(edgeObj.id, displayObject);
+    }
+
+    center() {
+        const boundingRectangle = this.getBoundingRectangle();
+        const nodeCenterX = (boundingRectangle.minX + boundingRectangle.maxX) / 2;
+        const nodeCenterY = (boundingRectangle.minY + boundingRectangle.maxY) / 2;
+
+        const renderCenterX = this.renderer.width  / 2;
+        const renderCenterY = this.renderer.height / 2;
+
+        // TODO move stage to rendercenter
+    }
+
+    getBoundingRectangle() {
+        const result = {
+            minX: Number.POSITIVE_INFINITY,
+            maxX: Number.NEGATIVE_INFINITY,
+            minY: Number.POSITIVE_INFINITY,
+            maxY: Number.NEGATIVE_INFINITY,
+        };
+
+        for (let [, node] of this.nodes) {
+            if (node.visible) {
+                result.minX = Math.min(result.minX, node.x);
+                result.maxX = Math.max(result.maxX, node.x);
+                result.minY = Math.min(result.minY, node.y);
+                result.maxY = Math.max(result.maxY, node.y);
+            }
+        }
+
+        return result;
     }
 
     /**
@@ -191,50 +232,72 @@ export default class GraphView {
         );
     }
 
-    setEdgeSelection() {
-
+    selectNodes(nodesToSelect) {
+        for (let [id, node] of this.nodes) {
+            if (nodesToSelect.has(id)) {
+                this.nodeContainer.removeChild(node);
+                this.selectedNodeContainer.addChild(node);
+            } else {
+                this.selectedNodeContainer.removeChild(node);
+                this.nodeContainer.addChild(node);
+            }
+        }
     }
 
-    setNodeSelection() {
-
+    selectEdges(edgesToSelect) {
+        for (let [id, edge] of this.edges) {
+            if (edgesToSelect.has(id)) {
+                this.edgeContainer.removeChild(edge);
+                this.selectedEdgeContainer.addChild(edge);
+            } else {
+                this.selectedEdgeContainer.removeChild(edge);
+                this.edgeContainer.addChild(edge);
+            }
+        }
     }
 
-    setEdgeFilter() {
+    filterGraph(nodesToKeep, edgesToKeep) {
+        for (let [id, node] of this.nodes) {
+            node.visible = nodesToKeep.has(id);
+        }
 
+        this.filterEdges(edgesToKeep);
     }
 
-    addFilter() {
-
+    filterEdges(edgesToKeep) {
+        for (let [id, edge] of this.edges) {
+            edge.visible = edgesToKeep.has(id);
+        }
     }
 
     resize(width = window.innerWidth, height = window.innerHeight) {
         this.renderer.resize(width, height);
     }
 
-    addNode(visualizer) {
-
-    }
-
-    addEdge() {
-
+    /**
+     * Starts the render loop.
+     */
+    startRenderLoop() {
+        this.renderLoopIsActive = true;
+        this.animate();
     }
 
     /**
-     * Starts the render loop and repeatedly draws the stage.
+     * Stops the render loop.
+     */
+    stopRenderLoop() {
+        this.renderLoopIsActive = false;
+    }
+
+    /**
+     * Repeatedly draws the stage.
+     *
+     * @private
      */
     animate() {
         this.renderer.render(this.stage);
         if (this.renderLoopIsActive) {
             requestAnimationFrame(() => this.animate());
         }
-    }
-
-    startRenderLoop() {
-        this.renderLoopIsActive = true;
-        this.animate();
-    }
-
-    stopRenderLoop() {
-        this.renderLoopIsActive = false;
     }
 }
