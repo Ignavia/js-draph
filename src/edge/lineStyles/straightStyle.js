@@ -49,11 +49,18 @@ export const defaultConf = {
  */
 export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
-console.log(targetPos)
+
     const result = utils.makeLine(conf.line, new Vec2(0, 0), targetPos);
     result.decalAnchor = targetPos.div(2);
-    // TODO arrow anchor
+    result.arrow = {
+        anchor: targetPos.mul(0.75),
+        angle: 0,
+    };
 
     return result;
 };
 registry.addEdgeLineStyle("straight", makeSprite);
+
+function computeArrowAngle(targetPos) {
+
+}

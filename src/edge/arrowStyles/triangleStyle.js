@@ -115,7 +115,7 @@ function makeBox(conf) {
 }
 
 /**
- * Computes the positions of the cornes of the triangles.
+ * Computes the positions of the corners of the triangles.
  *
  * @param {Object} conf
  * The configuration of the style.

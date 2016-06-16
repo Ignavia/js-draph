@@ -72,7 +72,7 @@ export const defaultConf = {
          *
          * @type {String}
          */
-        type: "empty",
+        type: "triangle",
 
         /**
          * The configuration to pass to the function.
@@ -155,11 +155,10 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     }
 
     utils.setPosition(sourcePos, result);
-    console.log(sourcePos,result);
     utils.setScale(conf.scale, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);
-console.log(container)
+
     // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = computeAnchor(container);
 
@@ -198,8 +197,9 @@ function makeContainer(conf, sourcePos, targetPos) {
     // Make the arrow
     const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
-    //utils.setPosition(line.arrow.anchor, arrow);
-    //utils.setRotation(line.arrow.angle, arrow); TODO
+    console.log(line.arrow, arrow);
+    utils.setPosition(line.arrow.anchor, arrow);
+    utils.setRotation(line.arrow.angle, arrow);
     result.addChild(arrow);
 
     return result;
