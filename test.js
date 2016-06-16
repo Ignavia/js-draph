@@ -55,6 +55,18 @@ const view = new GraphView(g, {
     ]]),
     edgeConfs: new Map([[
         "e0", {
+            arrowStyle: {
+                conf: {
+                    backgroundColor: predefinedColors.green,
+                    border: {
+                        width: 2,
+                    },
+                    measures: {
+                        tipAngle: Math.PI / 4,
+                        baseLength: 20,
+                    }
+                },
+            },
             lineStyle: {
                 type: "quadraticCurve",
                 conf: {

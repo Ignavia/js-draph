@@ -77,9 +77,6 @@ export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const controlPoint = computeControlPoint(targetPos, conf);
-
-    console.log("test",computeControlPoint(new Vec2(0, 100), conf));
-    console.log(controlPoint, targetPos);
     const result = utils.makeQuadraticCurve(
         conf.line,
         new Vec2(0, 0),
@@ -116,7 +113,17 @@ function computePoint(controlPoint, targetPos, x, conf) {
     const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
 
     const y             = a * x**2 + b * x;
-    console.log("a", a, "b", b, "y",y);
+    const parallel      = targetPos.mul(x);
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
+    return parallel.add(perpendicular);
+}
+
+function computeY(conf, x) {
+    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
+    return a * x**2 + b * x;
+}
+
+function toUprightCoordinates(targetPos, x, y) {
     const parallel      = targetPos.mul(x);
     const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
     return parallel.add(perpendicular);
@@ -125,8 +132,18 @@ function computePoint(controlPoint, targetPos, x, conf) {
 function computeAngle(controlPoint, targetPos, x,conf) {
     const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
     console.log(a,b);
+
+    const y1 = computeY(conf, x);
+    const startPoint = toUprightCoordinates(targetPos, x, y1);
+
     const slope = 2 * a * x + b;
-    return Math.atan(slope);
+    const x2 = x + 1;
+    const y2 = y1 + slope;
+    const endPoint = toUprightCoordinates(targetPos, x2, y2);
+
+    const diff = endPoint.sub(startPoint);
+
+    return Math.atan2(diff.y, diff.x);
 }
 
 function computeCoefficients(x_cp, y_cp) {

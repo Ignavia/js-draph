@@ -49,8 +49,8 @@ export const defaultConf = {
     measures: {
 
         /**
-         * The angle at the tip of the triangle. Set this to "auto" to
-         * automatically determine this.
+         * The angle at the tip of the triangle in radians. Set this to "auto"
+         * to automatically determine this.
          *
          * @type {Number|String}
          */
@@ -110,6 +110,7 @@ function makeBox(conf) {
     result.moveTo(baseLeft.x,  baseLeft.y);
     result.lineTo(0,           0);
     result.lineTo(baseRight.x, baseRight.y);
+    result.lineTo(baseLeft.x,  baseLeft.y);
 
     return result;
 }
