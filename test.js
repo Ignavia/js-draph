@@ -25,7 +25,7 @@ const view = new GraphView(g, {
     graphConf: {
         style: {
             conf: {
-                backgroundColor: predefinedColors.gray
+                backgroundColor: predefinedColors.gray,
             },
         },
     },
@@ -59,7 +59,8 @@ const view = new GraphView(g, {
                 type: "quadraticCurve",
                 conf: {
                     line: {
-                        color: predefinedColors.blue
+                        color: predefinedColors.blue,
+                        width: 5,
                     }
                 }
             },

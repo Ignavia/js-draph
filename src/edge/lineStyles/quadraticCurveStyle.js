@@ -85,8 +85,9 @@ export default function makeSprite(targetPos, conf = {}) {
         targetPos
     );
 
-    result.decalAnchor = computeDecalAnchor(controlPoint, targetPos);
-    result.arrow       = computeArrow(controlPoint, targetPos);
+    result.decalAnchor = computeDecalAnchor(controlPoint, targetPos, conf);
+    result.arrow       = computeArrow(controlPoint, targetPos,conf);
+    console.log(result.decalAnchor, result.arrow);
 
     return result;
 };
@@ -98,35 +99,36 @@ function computeControlPoint(targetPos, conf) {
     return parallel.add(perpendicular);
 }
 
-function computeDecalAnchor(controlPoint, targetPos) {
-    return computePoint(controlPoint, targetPos, 0.5);
+function computeDecalAnchor(controlPoint, targetPos, conf) {
+    return computePoint(controlPoint, targetPos, 0.5,conf);
 }
 
-function computeArrow(controlPoint, targetPos) {
+function computeArrow(controlPoint, targetPos, conf) {
     return {
-        anchor: computePoint(controlPoint, targetPos, 0.75),
-        angle:  computeAngle(controlPoint, targetPos, 0.75),
+        anchor: computePoint(controlPoint, targetPos, 0.75, conf),
+        angle:  computeAngle(controlPoint, targetPos, 0.75, conf),
     };
 }
 
-function computePoint(controlPoint, targetPos, x) {
-    const {a, b} = computeCoefficients(controlPoint);
+function computePoint(controlPoint, targetPos, x, conf) {
+    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
 
     const y             = a * x**2 + b * x;
+    console.log("a", a, "b", b, "y",y);
     const parallel      = targetPos.mul(x);
     const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
     return parallel.add(perpendicular);
 }
 
-function computeAngle(controlPoint, targetPos, x) {
-    const {a, b} = computeCoefficients(controlPoint, targetPos);
+function computeAngle(controlPoint, targetPos, x,conf) {
+    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
     console.log(a,b);
     const slope = 2 * a * x + b;
     return Math.atan(slope);
 }
 
-function computeCoefficients(cp) {
-    const a = -cp.y / (cp.x**2 - cp.x);
+function computeCoefficients(x_cp, y_cp) {
+    const a = y_cp / (x_cp**2 - x_cp) / 2;
     return {
         a,
         b: -a,
