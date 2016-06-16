@@ -197,7 +197,6 @@ function makeContainer(conf, sourcePos, targetPos) {
     // Make the arrow
     const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
-    console.log(line.arrow, arrow);
     utils.setPosition(line.arrow.anchor, arrow);
     utils.setRotation(line.arrow.angle, arrow);
     result.addChild(arrow);

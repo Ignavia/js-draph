@@ -54,13 +54,9 @@ export default function makeSprite(targetPos, conf = {}) {
     result.decalAnchor = targetPos.div(2);
     result.arrow = {
         anchor: targetPos.mul(0.75),
-        angle: 0,
+        angle: Math.atan2(targetPos.y, targetPos.x),
     };
 
     return result;
 };
 registry.addEdgeLineStyle("straight", makeSprite);
-
-function computeArrowAngle(targetPos) {
-
-}
