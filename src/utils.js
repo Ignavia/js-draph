@@ -69,7 +69,7 @@ export function adjustConf(base, adjustments) {
  * The created display object.
  */
 export const makeLine = _.curry(function (style, startPos, endPos) {
-    const result = new PIXI.Graphics();console.log(startPos,endPos)
+    const result = new PIXI.Graphics();
     result.lineStyle(style.width, style.color.hex, style.color.alpha);
     result.moveTo(startPos.x, startPos.y);
     result.lineTo(endPos.x, endPos.y);

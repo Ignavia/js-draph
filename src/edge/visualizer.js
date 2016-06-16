@@ -159,12 +159,9 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     utils.setScale(conf.scale, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);
-
+console.log(container)
     // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
+    result.anchor = computeAnchor(container);
 
     return result;
 };
@@ -190,23 +187,28 @@ function makeContainer(conf, sourcePos, targetPos) {
     // Make the line
     const lineStyle = registry.get(["edge", "lineStyle", conf.lineStyle.type]);
     const line      = lineStyle(targetPos.sub(sourcePos), conf.lineStyle.conf);
-    console.log(line);
     result.addChild(line);
 
     // Make the decal
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
-    console.log(decal);
     utils.setPosition(line.decalAnchor, decal);
     result.addChild(decal);
 
     // Make the arrow
     const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
-    console.log(arrow);
     //utils.setPosition(line.arrow.anchor, arrow);
     //utils.setRotation(line.arrow.angle, arrow); TODO
     result.addChild(arrow);
 
     return result;
+}
+
+function computeAnchor(container) {
+    const {x, y, width, height} = container.getBounds();
+    return {
+        x: -x / width,
+        y: -y / height,
+    };
 }
