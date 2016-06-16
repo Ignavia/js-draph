@@ -13,7 +13,7 @@ const n1 = new earl.Node("n1");
 const n2 = new earl.Node("n2");
 g.addNodes(n0, n1, n2);
 
-const e0 = new earl.Edge("n0", "n1");
+const e0 = new earl.Edge("n0", "n1", "e0");
 const e1 = new earl.Edge("n1", "n2");
 const e2 = new earl.Edge("n2", "n3");
 const e3 = new earl.Edge("n3", "n0");
@@ -25,10 +25,66 @@ const view = new GraphView(g, {
     graphConf: {
         style: {
             conf: {
-                backgroundColor: predefinedColors.blue
+                backgroundColor: predefinedColors.gray
             },
         },
-    }
+    },
+    nodeConfs: new Map([[
+        "n0", {
+            style: {
+                type: "labelled",
+                conf: {
+                    text: {
+                        label: "RDF",
+                        fillColor: predefinedColors.maroon,
+                        stroke: {
+                            color: predefinedColors.black,
+                            thickness: 1
+                        },
+                        dropShadow: {
+                            distance: 2,
+                            color: predefinedColors.darkgray
+                        }
+                    },
+                    box: {
+                        backgroundColor: predefinedColors.pink,
+                        shape: "roundedRect",
+                        border: {
+                            radius: 10
+                        }
+                    }
+                }
+            }
+        }
+    ]]),
+    edgeConfs: new Map([[
+        "e0", {
+            decalStyle: {
+                type: "labelled",
+                conf: {
+                    text: {
+                        label: "RDF",
+                        fillColor: predefinedColors.blue,
+                        stroke: {
+                            color: predefinedColors.black,
+                            thickness: 1
+                        },
+                        dropShadow: {
+                            distance: 2,
+                            color: predefinedColors.darkgray
+                        }
+                    },
+                    box: {
+                        backgroundColor: predefinedColors.orange,
+                        shape: "roundedRect",
+                        border: {
+                            radius: 10
+                        }
+                    }
+                }
+            }
+        }
+    ]])
 });
 $("#container").html(view.renderer.view);
 

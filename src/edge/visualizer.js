@@ -57,7 +57,7 @@ export const defaultConf = {
          *
          * @type {Object}
          */
-        conf: ["label"],
+        conf: {},
     },
 
     /**
