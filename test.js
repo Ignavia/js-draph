@@ -56,7 +56,12 @@ const view = new GraphView(g, {
     edgeConfs: new Map([[
         "e0", {
             lineStyle: {
-                type: "quadraticCurve"
+                type: "quadraticCurve",
+                conf: {
+                    line: {
+                        color: predefinedColors.blue
+                    }
+                }
             },
             decalStyle: {
                 type: "labelled",

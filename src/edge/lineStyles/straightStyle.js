@@ -12,26 +12,18 @@ import * as utils from "../../utils.js";
 export const defaultConf = {
 
     /**
-     * How the line should look.
+     * The color of the line.
      *
-     * @type {Object}
+     * @type {Color}
      */
-    line: {
+    color: predefinedColors.black,
 
-        /**
-         * The color of the line.
-         *
-         * @type {Color}
-         */
-        color: predefinedColors.black,
-
-        /**
-         * The width of the line.
-         *
-         * @type {Number}
-         */
-        width: 2
-    },
+    /**
+     * The width of the line.
+     *
+     * @type {Number}
+     */
+    width: 2,
 };
 
 /**
@@ -50,7 +42,7 @@ export const defaultConf = {
 export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const result = utils.makeLine(conf.line, new Vec2(0, 0), targetPos);
+    const result = utils.makeLine(conf, new Vec2(0, 0), targetPos);
     result.decalAnchor = targetPos.div(2);
     result.arrow = {
         anchor: targetPos.mul(0.75),

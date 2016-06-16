@@ -34,11 +34,11 @@ export const defaultConf = {
     },
 
     /**
-     * Describes the vertex position.
+     * Describes the control point position.
      *
      * @type {Object}
      */
-    vertex: {
+    controlPoint: {
 
         /**
          * You start at the source position and move in a straight line towards
@@ -56,7 +56,7 @@ export const defaultConf = {
          *
          * @type {Number}
          */
-        perpendicular: 500,
+        perpendicular: 50,
     },
 };
 
@@ -76,26 +76,59 @@ export const defaultConf = {
 export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const parallel      = targetPos.mul(conf.vertex.parallel);
-    const perpendicular = parallel.rotate(Math.PI / 2).normalize().mul(conf.vertex.perpendicular);
-    const vertex        = parallel.add(perpendicular);
-
-    const result = new PIXI.Graphics();
-    result.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
-    result.moveTo(0, 0);
-    result.quadraticCurveTo(
-        vertex.x,
-        vertex.y,
-        targetPos.x,
-        targetPos.y
+    const controlPoint = computeControlPoint(targetPos, conf);
+    console.log(controlPoint, targetPos);
+    const result = utils.makeQuadraticCurve(
+        conf.line,
+        new Vec2(0, 0),
+        controlPoint,
+        targetPos
     );
 
-    result.decalAnchor = new Vec2(vertex.x, vertex.y);
-    result.arrow = {
-        anchor: new Vec2(0, 0),
-        angle: 0,
-    };
+    result.decalAnchor = computeDecalAnchor(controlPoint, targetPos);
+    result.arrow       = computeArrow(controlPoint, targetPos);
 
     return result;
 };
 registry.addEdgeLineStyle("quadraticCurve", makeSprite);
+
+function computeControlPoint(targetPos, conf) {
+    const parallel      = targetPos.mul(conf.controlPoint.parallel);
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular);
+    return parallel.add(perpendicular);
+}
+
+function computeDecalAnchor(controlPoint, targetPos) {
+    return computePoint(controlPoint, targetPos, 0.5);
+}
+
+function computeArrow(controlPoint, targetPos) {
+    return {
+        anchor: computePoint(controlPoint, targetPos, 0.75),
+        angle:  computeAngle(controlPoint, targetPos, 0.75),
+    };
+}
+
+function computePoint(controlPoint, targetPos, x) {
+    const {a, b} = computeCoefficients(controlPoint);
+
+    const y             = a * x**2 + b * x;
+    const parallel      = targetPos.mul(x);
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
+    return parallel.add(perpendicular);
+}
+
+function computeAngle(controlPoint, targetPos, x) {
+    const {a, b} = computeCoefficients(controlPoint, targetPos);
+    console.log(a,b);
+    const slope = 2 * a * x + b;
+    return Math.atan(slope);
+}
+
+function computeCoefficients(cp) {
+    const a = -cp.y / (cp.x**2 - cp.x);
+    return {
+        a,
+        b: -a,
+    };
+}

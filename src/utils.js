@@ -77,6 +77,43 @@ export const makeLine = _.curry(function (style, startPos, endPos) {
 });
 
 /**
+ * Creates a display object of quadratic curve.
+ *
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} controlPos
+ * The control point.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeQuadraticCurve = _.curry(function (style, startPos, controlPos, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.width, style.color.hex, style.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.quadraticCurveTo(
+        controlPos.x,
+        controlPos.y,
+        endPos.x,
+        endPos.y
+    );
+    return result;
+});
+
+/**
  * Creates a display object of a circle. This function is curried.
  *
  * @param {Object} style
