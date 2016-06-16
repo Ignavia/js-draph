@@ -129,8 +129,8 @@ function computeVertices(conf) {
 
     return {
         tip:       new Vec2(0, 0),
-        baseLeft:  new Vec2(-b / 2, h),
-        baseRight: new Vec2( b / 2, h),
+        baseLeft:  new Vec2(-h, -b / 2),
+        baseRight: new Vec2(-h,  b / 2),
     };
 }
 
