@@ -87,16 +87,7 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = makeBox(conf);
-    const result    = utils.makeCanvasSprite(container);
-
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return makeBox(conf);
 }
 registry.addEdgeArrowStyle("triangle", makeSprite);
 

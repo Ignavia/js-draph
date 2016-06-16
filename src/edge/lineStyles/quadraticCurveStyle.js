@@ -1,4 +1,5 @@
 import {predefinedColors} from "@ignavia/util";
+import {Vec2}             from "@ignavia/ella";
 
 import registry   from "../../registry.js";
 import * as utils from "../../utils.js";
@@ -55,25 +56,12 @@ export const defaultConf = {
          *
          * @type {Number}
          */
-        perpendicular: 20,
+        perpendicular: 500,
     },
-
-    /**
-     * Where to position the decal. Set this to "auto" to automatically determine
-     * it based on the source and target positions.
-     *
-     * @type {Vec2|String}
-     */
-    decalAnchor: "auto"
-
-    // TODO: arrowAnchor (orientation and position)
 };
 
 /**
  * Creates a sprite using the given configuration.
- *
- * @param {Vec2} sourcePos
- * The position of the source node.
  *
  * @param {Vec2} targetPos
  * The position of the target node.
@@ -85,35 +73,26 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export default function makeSprite(sourcePos, targetPos, conf = {}) {
+export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const parallel      = targetPos.sub(sourcePos).mul(conf.vertex.parallel);
+    const parallel      = targetPos.mul(conf.vertex.parallel);
     const perpendicular = parallel.rotate(Math.PI / 2).normalize().mul(conf.vertex.perpendicular);
-    const vertex        = sourcePos.add(parallel).add(perpendicular);
+    const vertex        = parallel.add(perpendicular);
 
     const line = new PIXI.Graphics();
     line.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
-    line.moveTo(sourcePos.x - vertex.x, sourcePos.y - vertex.y);
+    line.moveTo(0, 0);
     line.quadraticCurveTo(
         vertex.x,
         vertex.y,
-        targetPos.x - vertex.x,
-        targetPos.y - vertex.y
+        targetPos.x,
+        targetPos.y
     );
 
-    const texture = line.generateTexture(graphicalComponent.canvasRenderer);
-    const sprite  = new PIXI.Sprite(texture);
+    result.decalAnchor = new Vec2(0, 0); // TODO
+    // TODO arrow anchor
 
-    // Placing the sprite between the two nodes
-    sprite.x = vertex.x;
-    sprite.y = vertex.y;
-    sprite.anchor = {
-        x: 0.5, // Problem: 0.5, 0.5 is no longer the correct value
-                // I want the anchor to be the place where the decal should be, which is the control point most likely
-        y: 0.5
-    };
-
-    return sprite;
+    return result;
 };
 registry.addEdgeLineStyle("quadraticCurve", makeSprite);

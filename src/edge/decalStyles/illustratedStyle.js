@@ -204,15 +204,10 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = utils.makeCaptionedImage(conf, conf.image.imagePath, conf.image.caption);
-    const result    = utils.makeCanvasSprite(container);
-
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return utils.makeCaptionedImage(
+        conf,
+        conf.image.imagePath,
+        conf.image.caption
+    );
 };
 registry.addEdgeDecalStyle("illustrated", makeSprite);

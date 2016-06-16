@@ -59,6 +59,9 @@ const view = new GraphView(g, {
     ]]),
     edgeConfs: new Map([[
         "e0", {
+            lineStyle: {
+                type: "straight"
+            },
             decalStyle: {
                 type: "labelled",
                 conf: {

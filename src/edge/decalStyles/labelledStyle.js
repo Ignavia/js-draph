@@ -216,15 +216,6 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = utils.makeBoxedLabel(conf, conf.text.label);
-    const result    = utils.makeCanvasSprite(container);
-
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return utils.makeBoxedLabel(conf, conf.text.label);
 };
 registry.addEdgeDecalStyle("labelled", makeSprite);

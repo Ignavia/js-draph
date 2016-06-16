@@ -32,26 +32,13 @@ export const defaultConf = {
          */
         width: 2
     },
-
-    /**
-     * Where to position the decal. Set this to "auto" to automatically determine
-     * it based on the source and target positions.
-     *
-     * @type {Vec2|String}
-     */
-    decalAnchor: "auto"
-
-    // TODO: arrowAnchor (orientation and position)
 };
 
 /**
  * Creates a sprite using the given configuration.
  *
- * @param {Vec2} sourcePos
- * The position of the source node.
- *
  * @param {Vec2} targetPos
- * The position of the target node.
+ * Where the line should end
  *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
@@ -60,23 +47,12 @@ export const defaultConf = {
  * @return {DisplayObject}
  * The created sprite.
  */
-export default function makeSprite(sourcePos, targetPos, conf = {}) {
+export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
-
-    const line   = utils.makeLine(conf.line, sourcePos, targetPos);
-    const result = utils.makeCanvasSprite(line);
-
-    // Placing the sprite between the two nodes
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    if (conf.decalAnchor === "auto") {
-        result.decalAnchor = new Vec2(0, 0);
-    } else {
-        result.decalAnchor = conf.decalAnchor;
-    }
+console.log(targetPos)
+    const result = utils.makeLine(conf.line, new Vec2(0, 0), targetPos);
+    result.decalAnchor = targetPos.div(2);
+    // TODO arrow anchor
 
     return result;
 };

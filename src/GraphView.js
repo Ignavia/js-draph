@@ -249,7 +249,7 @@ export default class GraphView {
     }
 
     addEdge(edgeObj) {
-        const conf    = this.edgeConfs.get(edgeObj.id);console.log(edgeObj.id, conf)
+        const conf    = this.edgeConfs.get(edgeObj.id);
         const sourceG = this.nodes.get(edgeObj.sourceId);
         const targetG = this.nodes.get(edgeObj.targetId);
 
