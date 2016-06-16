@@ -56,7 +56,7 @@ export const defaultConf = {
          *
          * @type {Number}
          */
-        perpendicular: 50,
+        perpendicular: 20,
     },
 };
 
@@ -77,6 +77,8 @@ export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const controlPoint = computeControlPoint(targetPos, conf);
+
+    console.log("test",computeControlPoint(new Vec2(0, 100), conf));
     console.log(controlPoint, targetPos);
     const result = utils.makeQuadraticCurve(
         conf.line,
@@ -95,7 +97,7 @@ registry.addEdgeLineStyle("quadraticCurve", makeSprite);
 
 function computeControlPoint(targetPos, conf) {
     const parallel      = targetPos.mul(conf.controlPoint.parallel);
-    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular);
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular *  2);
     return parallel.add(perpendicular);
 }
 
@@ -128,7 +130,7 @@ function computeAngle(controlPoint, targetPos, x,conf) {
 }
 
 function computeCoefficients(x_cp, y_cp) {
-    const a = y_cp / (x_cp**2 - x_cp) / 2;
+    const a = y_cp / (x_cp**2 - x_cp);
     return {
         a,
         b: -a,
