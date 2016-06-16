@@ -80,18 +80,21 @@ export default function makeSprite(targetPos, conf = {}) {
     const perpendicular = parallel.rotate(Math.PI / 2).normalize().mul(conf.vertex.perpendicular);
     const vertex        = parallel.add(perpendicular);
 
-    const line = new PIXI.Graphics();
-    line.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
-    line.moveTo(0, 0);
-    line.quadraticCurveTo(
+    const result = new PIXI.Graphics();
+    result.lineStyle(conf.line.width, conf.line.color.hex, conf.line.color.alpha);
+    result.moveTo(0, 0);
+    result.quadraticCurveTo(
         vertex.x,
         vertex.y,
         targetPos.x,
         targetPos.y
     );
 
-    result.decalAnchor = new Vec2(0, 0); // TODO
-    // TODO arrow anchor
+    result.decalAnchor = new Vec2(vertex.x, vertex.y);
+    result.arrow = {
+        anchor: new Vec2(0, 0),
+        angle: 0,
+    };
 
     return result;
 };

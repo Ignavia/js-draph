@@ -41,10 +41,6 @@ const view = new GraphView(g, {
                             color: predefinedColors.black,
                             thickness: 1
                         },
-                        dropShadow: {
-                            distance: 2,
-                            color: predefinedColors.darkgray
-                        }
                     },
                     box: {
                         backgroundColor: predefinedColors.pink,
@@ -60,7 +56,7 @@ const view = new GraphView(g, {
     edgeConfs: new Map([[
         "e0", {
             lineStyle: {
-                type: "straight"
+                type: "quadraticCurve"
             },
             decalStyle: {
                 type: "labelled",
@@ -72,10 +68,6 @@ const view = new GraphView(g, {
                             color: predefinedColors.black,
                             thickness: 1
                         },
-                        dropShadow: {
-                            distance: 2,
-                            color: predefinedColors.darkgray
-                        }
                     },
                     box: {
                         backgroundColor: predefinedColors.orange,
