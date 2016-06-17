@@ -77,6 +77,9 @@ export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const controlPoint = computeControlPoint(targetPos, conf);
+    const f            = computeFunction(controlPoint, targetPos);
+    const df           = computeDerivative(controlPoint, targetPos);
+
     const result = utils.makeQuadraticCurve(
         conf.line,
         new Vec2(0, 0),
@@ -84,9 +87,8 @@ export default function makeSprite(targetPos, conf = {}) {
         targetPos
     );
 
-    result.decalAnchor = computeDecalAnchor(controlPoint, targetPos, conf);
-    result.arrow       = computeArrow(controlPoint, targetPos,conf);
-    console.log(result.decalAnchor, result.arrow);
+    result.decalAnchor = f(0.5);
+    result.arrow       = computeArrow(f, df);
 
     return result;
 };
@@ -94,62 +96,30 @@ registry.addEdgeLineStyle("quadraticCurve", makeSprite);
 
 function computeControlPoint(targetPos, conf) {
     const parallel      = targetPos.mul(conf.controlPoint.parallel);
-    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular *  2); // TODO: the factor 2 is only correct when parallel = 0.5 (either remove the conf param or find a formula)
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular);
     return parallel.add(perpendicular);
 }
 
-function computeDecalAnchor(controlPoint, targetPos, conf) {
-    return computePoint(controlPoint, targetPos, 0.5,conf);
-}
-
-function computeArrow(controlPoint, targetPos, conf) {
-    return {
-        anchor: computePoint(controlPoint, targetPos, 0.75, conf),
-        angle:  computeAngle(controlPoint, targetPos, 0.75, conf),
+function computeFunction(p1, p2) {
+    return t => {
+        const a = p2.sub(p1.mul(2));
+        const b = p1.mul(2);
+        return a.mul(t**2).add(b.mul(t));
     };
 }
 
-function computePoint(controlPoint, targetPos, x, conf) {
-    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
-
-    const y             = a * x**2 + b * x;
-    const parallel      = targetPos.mul(x);
-    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
-    return parallel.add(perpendicular);
+function computeDerivative(p1, p2) {
+    return t => {
+        const a = p2.mul(2).sub(p1.mul(4));
+        const b = p1.mul(2);
+        return a.mul(t).add(b);
+    }
 }
 
-function computeY(conf, x) {
-    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
-    return a * x**2 + b * x;
-}
-
-function toUprightCoordinates(targetPos, x, y) {
-    const parallel      = targetPos.mul(x);
-    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(y);
-    return parallel.add(perpendicular);
-}
-
-function computeAngle(controlPoint, targetPos, x,conf) {
-    const {a, b} = computeCoefficients(conf.controlPoint.parallel, conf.controlPoint.perpendicular);
-    console.log(a,b);
-
-    const y1 = computeY(conf, x);
-    const startPoint = toUprightCoordinates(targetPos, x, y1);
-
-    const slope = 2 * a * x + b;
-    const x2 = x + 1;
-    const y2 = y1 + slope;
-    const endPoint = toUprightCoordinates(targetPos, x2, y2);
-
-    const diff = endPoint.sub(startPoint);
-
-    return Math.atan2(diff.y, diff.x);
-}
-
-function computeCoefficients(x_cp, y_cp) {
-    const a = y_cp / (x_cp**2 - x_cp);
+function computeArrow(f, df) {
+    const slope = df(0.75);
     return {
-        a,
-        b: -a,
+        anchor: f(0.75),
+        angle:  Math.atan2(slope.y, slope.x),
     };
 }

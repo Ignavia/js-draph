@@ -629,7 +629,7 @@ SystemJS.config({
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
         "bn.js": "npm:bn.js@4.11.4",
         "parse-asn1": "npm:parse-asn1@5.0.0",
-        "elliptic": "npm:elliptic@6.3.0"
+        "elliptic": "npm:elliptic@6.3.1"
       }
     },
     "npm:create-hash@1.1.2": {
@@ -729,7 +729,7 @@ SystemJS.config({
     "npm:create-ecdh@4.0.0": {
       "map": {
         "bn.js": "npm:bn.js@4.11.4",
-        "elliptic": "npm:elliptic@6.3.0"
+        "elliptic": "npm:elliptic@6.3.1"
       }
     },
     "npm:asn1.js@4.6.2": {
@@ -762,12 +762,12 @@ SystemJS.config({
         "lodash": "npm:lodash@4.13.1"
       }
     },
-    "npm:elliptic@6.3.0": {
+    "npm:elliptic@6.3.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
         "bn.js": "npm:bn.js@4.11.4",
-        "hash.js": "npm:hash.js@1.0.3",
-        "brorand": "npm:brorand@1.0.5"
+        "brorand": "npm:brorand@1.0.5",
+        "hash.js": "npm:hash.js@1.0.3"
       }
     }
   }

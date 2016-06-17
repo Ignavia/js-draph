@@ -75,8 +75,8 @@ const view = new GraphView(g, {
                         width: 5,
                     },
                     controlPoint: {
-                        parallel: 0.5,
-                        perpendicular: -100,
+                        parallel: 0.1,
+                        perpendicular: -200,
                     },
                 },
             },
