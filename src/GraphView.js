@@ -169,6 +169,9 @@ export default class GraphView {
         this.startRenderLoop();
     }
 
+    /**
+     * Sets the filter area of the stage.
+     */
     setupFilters() {
         this.stage.filterArea = new PIXI.Rectangle(
             0,
@@ -178,6 +181,15 @@ export default class GraphView {
         );
     }
 
+    /**
+     * Draws the nodes of the graph.
+     *
+     * @param {Map<String, Object>} nodeConfs
+     * Maps from node IDs to the configuration of the visualizer.
+     *
+     * @param {Layout} layout
+     * The layout of the graph.
+     */
     visualizeNodes(nodeConfs, layout) {
         for (let nodeObj of this.graph.iterNodes()) {
             const conf     = nodeConfs.get(nodeObj.id);
@@ -186,6 +198,18 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Adds the given edge object to the scene.
+     *
+     * @param {Edge} edgeObj
+     * The edge object to add.
+     *
+     * @param {Object} conf
+     * The configuration of the vsualizer.
+     *
+     * @param {Vec2} position
+     * Where to move the created graphic.
+     */
     addNode(nodeObj, conf, position) {
         const displayObject = nodeVisualizer(conf);
 
@@ -206,6 +230,12 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Removes the node graphic with the given ID from the scene.
+     *
+     * @param {String} id
+     * The ID of the graphic to remove.
+     */
     removeNode(id) {
         const nodeG = this.getNodeDisplayObjectById(id);
 
@@ -242,12 +272,21 @@ export default class GraphView {
         this.selectedNodes = nodesToSelect;
     }
 
+    /**
+     * Draws the edges of the graph.
+     */
     visualizeEdges() {
         for (let edgeObj of this.graph.iterEdges()) {
             this.addEdge(edgeObj);
         }
     }
 
+    /**
+     * Adds the given edge object to the scene.
+     *
+     * @param {Edge} edgeObj
+     * The edge object to add.
+     */
     addEdge(edgeObj) {
         const conf    = this.edgeConfs.get(edgeObj.id);
         const sourceG = this.nodes.get(edgeObj.sourceId);
@@ -269,6 +308,12 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Removes the edge graphic with the given ID from the scene.
+     *
+     * @param {String} id
+     * The ID of the graphic to remove.
+     */
     removeEdge(id) {
         const edgeG = this.getEdgeDisplayObjectById(id);
 
@@ -348,6 +393,8 @@ export default class GraphView {
     }
 
     setLayout(layout) {
+        this.stopRenderLoop();
+
         for (let [id, position] of layout) {
             const nodeG = this.getNodeDisplayObjectById(id);
             nodeG.x = position.x;
@@ -358,10 +405,8 @@ export default class GraphView {
         this.edgeContainer.removeChildren();
         this.selectedEdgeContainer.removeChildren();
         this.visualizeEdges();
-    }
 
-    setStyle() {
-        // TODO, redraw everything in the confs
+        this.startRenderLoop();
     }
 
     moveNode(nodeId, position) {
@@ -381,6 +426,20 @@ export default class GraphView {
         }
     }
 
+    setStyle() {
+        // TODO, redraw everything in the confs
+    }
+
+    /**
+     * Sets the visibility of the node and edge graphics. Only the ones in the
+     * given sets are shown afterwards.
+     *
+     * @param {Set<String>} nodesToKeep
+     * The nodes to keep.
+     *
+     * @param {Set<String>} edgesToKeep
+     * The edges to keep.
+     */
     filterGraph(nodesToKeep, edgesToKeep) {
         for (let [id, node] of this.nodes) {
             node.visible = nodesToKeep.has(id);
@@ -389,9 +448,37 @@ export default class GraphView {
         this.filterEdges(edgesToKeep);
     }
 
+    /**
+     * Sets the visibility of the edge graphics. Only the ones in the given set
+     * are shown afterwards.
+     *
+     * @param {Set<String>} edgesToKeep
+     * The edges to keep.
+     */
     filterEdges(edgesToKeep) {
         for (let [id, edge] of this.edges) {
             edge.visible = edgesToKeep.has(id);
+        }
+    }
+
+    /**
+     * Resets the filters. All node and edge graphics are visible again
+     * afterwards.
+     */
+    resetFilters() {
+        this.resetNodeFilter();
+
+        for (let [id, edge] of this.edges) {
+            edge.visible = true;
+        }
+    }
+
+    /**
+     * Resets the node filter. All node graphics are visible again afterwards.
+     */
+    resetNodeFilter() {
+        for (let [id, node] of this.nodes) {
+            node.visible = true;
         }
     }
 
