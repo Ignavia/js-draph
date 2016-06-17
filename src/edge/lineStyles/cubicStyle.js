@@ -34,11 +34,11 @@ export const defaultConf = {
     },
 
     /**
-     * Describes the control point position.
+     * Describes the first control point position.
      *
      * @type {Object}
      */
-    controlPoint: {
+    controlPoint1: {
 
         /**
          * You start at the source position and move in a straight line towards
@@ -48,7 +48,7 @@ export const defaultConf = {
          *
          * @type {Number}
          */
-        parallel: 0.5,
+        parallel: 0.33,
 
         /**
          * From the point you reached, you move this amount of pixels
@@ -57,6 +57,32 @@ export const defaultConf = {
          * @type {Number}
          */
         perpendicular: 20,
+    },
+
+    /**
+     * Describes the second control point position.
+     *
+     * @type {Object}
+     */
+    controlPoint2: {
+
+        /**
+         * You start at the source position and move in a straight line towards
+         * the target node. This value describe how far you move along this
+         * line, with 0 meaning you are still at the source node and 1 meaning
+         * you reached the target node.
+         *
+         * @type {Number}
+         */
+        parallel: 0.66,
+
+        /**
+         * From the point you reached, you move this amount of pixels
+         * perpendicular to the connecting line.
+         *
+         * @type {Number}
+         */
+        perpendicular: -20,
     },
 };
 
@@ -76,14 +102,16 @@ export const defaultConf = {
 export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const controlPoint = computeControlPoint(targetPos, conf.controlPoint);
-    const f            = computeFunction(controlPoint, targetPos);
-    const df           = computeDerivative(controlPoint, targetPos);
+    const controlPoint1 = computeControlPoint(targetPos, conf.controlPoint1);
+    const controlPoint2 = computeControlPoint(targetPos, conf.controlPoint2);
+    const f             = computeFunction(controlPoint1, controlPoint2, targetPos);
+    const df            = computeDerivative(controlPoint1, controlPoint2, targetPos);
 
-    const result = utils.makeQuadraticCurve(
+    const result = utils.makeBezierCurve(
         conf.line,
         new Vec2(0, 0),
-        controlPoint,
+        controlPoint1,
+        controlPoint2,
         targetPos
     );
     result.decal = computeAnchorAndAngle(f, df, 0.5);
@@ -91,7 +119,7 @@ export default function makeSprite(targetPos, conf = {}) {
 
     return result;
 };
-registry.addEdgeLineStyle("quadratic", makeSprite);
+registry.addEdgeLineStyle("cubic", makeSprite);
 
 function computeControlPoint(targetPos, controlPoint) {
     const parallel      = targetPos.mul(controlPoint.parallel);
@@ -99,19 +127,22 @@ function computeControlPoint(targetPos, controlPoint) {
     return parallel.add(perpendicular);
 }
 
-function computeFunction(p1, p2) {
+function computeFunction(p1, p2, p3) {
     return t => {
-        const a = p2.sub(p1.mul(2));
-        const b = p1.mul(2);
-        return a.mul(t**2).add(b.mul(t));
+        const a = p1.mul(3).add(p2.mul(-3)).add(p3);
+        const b = p1.mul(-6).add(p2.mul(3));
+        const c = p1.mul(3);
+        console.log(a,b,c)
+        return a.mul(t**3).add(b.mul(t**2)).add(c.mul(t));
     };
 }
 
-function computeDerivative(p1, p2) {
+function computeDerivative(p1, p2, p3) {
     return t => {
-        const a = p2.mul(2).sub(p1.mul(4));
-        const b = p1.mul(2);
-        return a.mul(t).add(b);
+        const a = p1.mul(9).add(p2.mul(-9)).add(p3.mul(3));
+        const b = p1.mul(-12).add(p2.mul(6));
+        const c = p1.mul(3);
+        return a.mul(t**2).add(b.mul(t)).add(c);
     }
 }
 

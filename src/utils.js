@@ -114,6 +114,48 @@ export const makeQuadraticCurve = _.curry(function (style, startPos, controlPos,
 });
 
 /**
+ * Creates a display object of quadratic curve.
+ *
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} controlPos1
+ * The first control point.
+ *
+ * @param {Vec2} controlPos2
+ * The second control point.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeBezierCurve = _.curry(function (style, startPos, controlPos1, controlPos2, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.width, style.color.hex, style.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.bezierCurveTo(
+        controlPos1.x,
+        controlPos1.y,
+        controlPos2.x,
+        controlPos2.y,
+        endPos.x,
+        endPos.y
+    );
+    return result;
+});
+
+/**
  * Creates a display object of a circle. This function is curried.
  *
  * @param {Object} style

@@ -68,15 +68,18 @@ const view = new GraphView(g, {
                 },
             },
             lineStyle: {
-                type: "quadratic",
+                type: "cubic",
                 conf: {
                     line: {
                         color: predefinedColors.blue,
                         width: 5,
                     },
-                    controlPoint: {
+                    controlPoint1: {
                         parallel: 0.5,
                         perpendicular: -200,
+                    },
+                    controlPoint2: {
+                        parallel: 0.1,
                     },
                 },
             },
