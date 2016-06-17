@@ -188,14 +188,7 @@ function makeContainer(conf, sourcePos, targetPos) {
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
     utils.setPosition(line.decal.anchor, decal);
-    if (decal.rotateToLine) {
-        console.log(line.decal.angle)
-        if (Math.PI / 2 < line.decal.angle && line.decal.angle < 1.5 * Math.PI) {console.log("rot");
-            utils.setRotation(line.decal.angle + Math.PI, decal);
-        } else {console.log("no rot")
-            utils.setRotation(line.decal.angle, decal);
-        }
-    }
+    rotateDecal(line.decal.angle, decal);
     result.addChild(decal);
 
     // Make the arrow
@@ -214,4 +207,17 @@ function computeAnchor(container) {
         x: -x / width,
         y: -y / height,
     };
+}
+
+function rotateDecal(suggestedAngle, decal) {
+    if (decal.rotateToLine) {
+        if (suggestedAngle < 0) {
+            suggestedAngle += 2 * Math.PI;
+        }
+        if (Math.PI / 2 < suggestedAngle && suggestedAngle < 1.5 * Math.PI) {
+            utils.setRotation(suggestedAngle + Math.PI, decal);
+        } else {
+            utils.setRotation(suggestedAngle, decal);
+        }
+    }
 }
