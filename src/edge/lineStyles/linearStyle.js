@@ -30,7 +30,7 @@ export const defaultConf = {
  * Creates a sprite using the given configuration.
  *
  * @param {Vec2} targetPos
- * Where the line should end
+ * Where the line should end.
  *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
@@ -50,6 +50,16 @@ export default function makeSprite(targetPos, conf = {}) {
 };
 registry.addEdgeLineStyle("linear", makeSprite);
 
+/**
+ * Computes the point and slope of the function at the given value.
+ *
+ * @param {Vec2} targetPos
+ * The end point of the line.
+ *
+ * @param {Number} t
+ * How to move far along the line. 0 represents the start point (0, 0) and 1 is
+ * the end point.
+ */
 function computeAnchorAndAngle(targetPos, t) {
     return {
         anchor: targetPos.mul(t),

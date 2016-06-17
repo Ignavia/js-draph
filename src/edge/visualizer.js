@@ -201,6 +201,13 @@ function makeContainer(conf, sourcePos, targetPos) {
     return result;
 }
 
+/**
+ * Computes the anchor point of the sprite generated from the container. This
+ * is necessary to align it properly.
+ *
+ * @param {DisplayObject} container
+ * The container to generate the sprite from.
+ */
 function computeAnchor(container) {
     const {x, y, width, height} = container.getBounds();
     return {
@@ -209,6 +216,16 @@ function computeAnchor(container) {
     };
 }
 
+/**
+ * Rotates the given decal using the suggested angle.
+ *
+ * @param {Number} suggestedAngle
+ * The angle to rotate by. This is adjusted by the function to make the decal
+ * more readable.
+ *
+ * @param {DisplayObject} decal
+ * The display object to rotate.
+ */
 function rotateDecal(suggestedAngle, decal) {
     if (decal.rotateToLine) {
         if (suggestedAngle < 0) {

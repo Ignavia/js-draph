@@ -190,6 +190,11 @@ export const defaultConf = {
         height: "orig"
     },
 
+    /**
+     * Whether the decal should be oriented along the line.
+     *
+     * @type {Boolean}
+     */
     rotateToLine: false,
 };
 

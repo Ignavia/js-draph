@@ -93,28 +93,65 @@ export default function makeSprite(targetPos, conf = {}) {
 };
 registry.addEdgeLineStyle("quadratic", makeSprite);
 
+/**
+ * Computes the coordinates of the control point in the regular coordinate
+ * system.
+ *
+ * @param {Vec2} targetPos
+ * The end point of the line.
+ *
+ * @param {Object} controlPoint
+ * The description of the control point from the configuration.
+ */
 function computeControlPoint(targetPos, controlPoint) {
     const parallel      = targetPos.mul(controlPoint.parallel);
     const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(controlPoint.perpendicular);
     return parallel.add(perpendicular);
 }
 
+/**
+ * Computes the function of the quadratic bezier curve.
+ *
+ * @param {Vec2} p1
+ * The control point.
+ *
+ * @param {Vec2} p2
+ * The end point.
+ */
 function computeFunction(p1, p2) {
-    return t => {
-        const a = p2.sub(p1.mul(2));
-        const b = p1.mul(2);
-        return a.mul(t**2).add(b.mul(t));
-    };
+    const a = p2.sub(p1.mul(2));
+    const b = p1.mul(2);
+    return t => a.mul(t**2).add(b.mul(t));
 }
 
+/**
+ * Computes the derivative of the function of the quadratic bezier curve.
+ *
+ * @param {Vec2} p1
+ * The control point.
+ *
+ * @param {Vec2} p2
+ * The end point.
+ */
 function computeDerivative(p1, p2) {
-    return t => {
-        const a = p2.mul(2).sub(p1.mul(4));
-        const b = p1.mul(2);
-        return a.mul(t).add(b);
-    }
+    const a = p2.mul(2).sub(p1.mul(4));
+    const b = p1.mul(2);
+    return t => a.mul(t).add(b);
 }
 
+/**
+ * Computes the point and slope of the function at the given value.
+ *
+ * @param {Function} f
+ * The function of the curve.
+ *
+ * @param {Function} df
+ * The derivative of the function.
+ *
+ * @param {Number} t
+ * How to move far along the line. 0 represents the start point (0, 0) and 1 is
+ * the end point.
+ */
 function computeAnchorAndAngle(f, df, t) {
     const slope = df(t);
     return {

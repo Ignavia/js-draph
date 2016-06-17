@@ -202,6 +202,11 @@ export const defaultConf = {
         wordWrapWidth: 0
     },
 
+    /**
+     * Whether the decal should be oriented along the line.
+     *
+     * @type {Boolean}
+     */
     rotateToLine: false,
 };
 

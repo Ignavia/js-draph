@@ -121,31 +121,73 @@ export default function makeSprite(targetPos, conf = {}) {
 };
 registry.addEdgeLineStyle("cubic", makeSprite);
 
+/**
+ * Computes the coordinates of the control point in the regular coordinate
+ * system.
+ *
+ * @param {Vec2} targetPos
+ * The end point of the line.
+ *
+ * @param {Object} controlPoint
+ * The description of the control point from the configuration.
+ */
 function computeControlPoint(targetPos, controlPoint) {
     const parallel      = targetPos.mul(controlPoint.parallel);
     const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(controlPoint.perpendicular);
     return parallel.add(perpendicular);
 }
 
+/**
+ * Computes the function of the cubic bezier curve.
+ *
+ * @param {Vec2} p1
+ * The first control point.
+ *
+ * @param {Vec2} p2
+ * The second control point.
+ *
+ * @param {Vec2} p3
+ * The end point.
+ */
 function computeFunction(p1, p2, p3) {
-    return t => {
-        const a = p1.mul(3).add(p2.mul(-3)).add(p3);
-        const b = p1.mul(-6).add(p2.mul(3));
-        const c = p1.mul(3);
-        console.log(a,b,c)
-        return a.mul(t**3).add(b.mul(t**2)).add(c.mul(t));
-    };
+    const a = p1.mul(3).add(p2.mul(-3)).add(p3);
+    const b = p1.mul(-6).add(p2.mul(3));
+    const c = p1.mul(3);
+    return t => a.mul(t**3).add(b.mul(t**2)).add(c.mul(t));
 }
 
+/**
+ * Computes the derivative of the function of the cubic bezier curve.
+ *
+ * @param {Vec2} p1
+ * The first control point.
+ *
+ * @param {Vec2} p2
+ * The second control point.
+ *
+ * @param {Vec2} p3
+ * The end point.
+ */
 function computeDerivative(p1, p2, p3) {
-    return t => {
-        const a = p1.mul(9).add(p2.mul(-9)).add(p3.mul(3));
-        const b = p1.mul(-12).add(p2.mul(6));
-        const c = p1.mul(3);
-        return a.mul(t**2).add(b.mul(t)).add(c);
-    }
+    const a = p1.mul(9).add(p2.mul(-9)).add(p3.mul(3));
+    const b = p1.mul(-12).add(p2.mul(6));
+    const c = p1.mul(3);
+    return t => a.mul(t**2).add(b.mul(t)).add(c);
 }
 
+/**
+ * Computes the point and slope of the function at the given value.
+ *
+ * @param {Function} f
+ * The function of the curve.
+ *
+ * @param {Function} df
+ * The derivative of the function.
+ *
+ * @param {Number} t
+ * How to move far along the line. 0 represents the start point (0, 0) and 1 is
+ * the end point.
+ */
 function computeAnchorAndAngle(f, df, t) {
     const slope = df(t);
     return {
