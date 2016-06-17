@@ -33,7 +33,7 @@ class Registry {
      * This object to make the method chainable.
      */
     add(path, f) {
-        this.map.add(path, f);
+        this.map.set(path, f);
         return this;
     }
 
