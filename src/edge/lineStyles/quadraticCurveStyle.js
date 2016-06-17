@@ -94,7 +94,7 @@ registry.addEdgeLineStyle("quadraticCurve", makeSprite);
 
 function computeControlPoint(targetPos, conf) {
     const parallel      = targetPos.mul(conf.controlPoint.parallel);
-    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular *  2);
+    const perpendicular = targetPos.rotate(Math.PI / 2).normalize().mul(conf.controlPoint.perpendicular *  2); // TODO: the factor 2 is only correct when parallel = 0.5 (either remove the conf param or find a formula)
     return parallel.add(perpendicular);
 }
 

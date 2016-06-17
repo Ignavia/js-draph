@@ -73,8 +73,12 @@ const view = new GraphView(g, {
                     line: {
                         color: predefinedColors.blue,
                         width: 5,
-                    }
-                }
+                    },
+                    controlPoint: {
+                        parallel: 0.5,
+                        perpendicular: -100,
+                    },
+                },
             },
             decalStyle: {
                 type: "labelled",
