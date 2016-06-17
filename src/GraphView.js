@@ -233,16 +233,16 @@ export default class GraphView {
     /**
      * Removes the node graphic with the given ID from the scene.
      *
-     * @param {String} id
+     * @param {String} nodeId
      * The ID of the graphic to remove.
      */
-    removeNode(id) {
-        const nodeG = this.getNodeDisplayObjectById(id);
+    removeNode(nodeId) {
+        const nodeG = this.getNodeDisplayObjectById(nodeId);
 
-        this.selectedNodes.delete(id);
+        this.selectedNodes.delete(nodeId);
         this.nodeContainer.removeChild(nodeG);
         this.selectedNodeContainer.removeChild(nodeG);
-        this.nodes.delete(id);
+        this.nodes.delete(nodeId);
     }
 
     /**
@@ -258,6 +258,12 @@ export default class GraphView {
         return this.nodes.get(nodeId);
     }
 
+    /**
+     * Selects the given nodes. Those are highlighted afterwards.
+     *
+     * @param {Set<String>} nodesToSelect
+     * The IDs of the nodes to select.
+     */
     selectNodes(nodesToSelect) { // deselect selected nodes and select the new ones
         for (let [id, node] of this.nodes) {
             if (nodesToSelect.has(id)) {
@@ -311,17 +317,17 @@ export default class GraphView {
     /**
      * Removes the edge graphic with the given ID from the scene.
      *
-     * @param {String} id
+     * @param {String} edgeId
      * The ID of the graphic to remove.
      */
-    removeEdge(id) {
-        const edgeG = this.getEdgeDisplayObjectById(id);
+    removeEdge(edgeId) {
+        const edgeG = this.getEdgeDisplayObjectById(edgeId);
 
-        this.edgeConfs.delete(id);
-        this.selectedEdges.delete(id);
+        this.edgeConfs.delete(edgeId);
+        this.selectedEdges.delete(edgeId);
         this.edgeContainer.removeChild(edgeG);
         this.selectedEdgeContainer.removeChild(edgeG);
-        this.edges.delete(id);
+        this.edges.delete(edgeId);
     }
 
     /**
@@ -337,7 +343,13 @@ export default class GraphView {
         return this.edges.get(edgeId);
     }
 
-    selectEdges(edgesToSelect) { // deselect selected nodes and select the new ones
+    /**
+     * Selects the given edges. Those are highlighted afterwards.
+     *
+     * @param {Set<String>} edgesToSelect
+     * The IDs of the edges to select.
+     */
+    selectEdges(edgesToSelect) { // deselect selected edges and select the new ones
         for (let [id, edge] of this.edges) {
             if (edgesToSelect.has(id)) {
                 this.edgeContainer.removeChild(edge);
@@ -350,17 +362,24 @@ export default class GraphView {
         this.selectedEdges = edgesToSelect;
     }
 
+    /**
+     * Centers the stage.
+     */
     center() {
-        const boundingRectangle = this.getBoundingRectangle();
-        const nodeCenterX       = (boundingRectangle.minX + boundingRectangle.maxX) / 2;
-        const nodeCenterY       = (boundingRectangle.minY + boundingRectangle.maxY) / 2;
-
-        const renderCenterX = this.renderer.width  / 2;
-        const renderCenterY = this.renderer.height / 2;
-
-        // TODO move stage to rendercenter
+        const br = this.getBoundingRectangle();
+        this.stage.x = (this.renderer.width  - br.minX - br.maxX) / 2 * this.stage.scale.x;
+        this.stage.y = (this.renderer.height - br.minY - br.maxY) / 2 * this.stage.scale.y;
     }
 
+    /**
+     * Returns the rectangle around the nodes.
+     *
+     * @return {Object}
+     * The bounding rectangle. The top-left corner is (minX, minY) and the
+     * bottom-right corner is (maxX, maxY).
+     *
+     * @private
+     */
     getBoundingRectangle() {
         const result = {
             minX: Number.POSITIVE_INFINITY,
@@ -381,6 +400,12 @@ export default class GraphView {
         return result;
     }
 
+    /**
+     * Moves the node graphic with the given ID to the top.
+     *
+     * @param {String} nodeId
+     * The ID of the graphic.
+     */
     moveNodeToTop(nodeId) {
         const nodeG = this.getNodeDisplayObjectById(nodeId);
         if (this.selectedNodes.has(nodeId)) {
@@ -392,6 +417,12 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Sets the layout of the graph and moves the nodes accordingly.
+     *
+     * @param {Layout} layout
+     * The new layout.
+     */
     setLayout(layout) {
         this.stopRenderLoop();
 
@@ -409,6 +440,15 @@ export default class GraphView {
         this.startRenderLoop();
     }
 
+    /**
+     * Moves the node graphic with the given ID to the position.
+     *
+     * @param {String} nodeId
+     * The ID of the graphic.
+     *
+     * @param {Vec2} position
+     * Where to move the node.
+     */
     moveNode(nodeId, position) {
         const nodeG = this.getNodeDisplayObjectById(nodeId);
         nodeG.x = position.x;
@@ -427,7 +467,7 @@ export default class GraphView {
     }
 
     setStyle() {
-        // TODO, redraw everything in the confs
+        // TODO
     }
 
     /**
