@@ -2,17 +2,35 @@ import _ from "lodash";
 
 import {predefinedColors} from "@ignavia/util";
 
+/**
+ * A canvas renderer.
+ *
+ * @type {Renderer}
+ * @ignore
+ */
 export const canvasRenderer = new PIXI.CanvasRenderer({
     antialias:  true,
     resolution: window.devicePixelRatio || 1
 });
 
-const renderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
+/**
+ * A WebGL renderer.
+ *
+ * @type {Renderer}
+ * @ignore
+ */
+const webGLRenderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
     autoResize:      true,
     resolution:      window.devicePixelRatio || 1,
     backgroundColor: 0xFFFFFF
 });
 
+/**
+ * Creates a sprite from the given display object using a canvas renderer.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to turn into a sprite.
+ */
 export function makeCanvasSprite(displayObject) {
     const texture = displayObject.generateTexture(canvasRenderer);
     return new PIXI.Sprite(texture);
