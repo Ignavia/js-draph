@@ -68,14 +68,14 @@ const view = new GraphView(g, {
                 },
             },
             lineStyle: {
-                type: "quadraticCurve",
+                type: "quadratic",
                 conf: {
                     line: {
                         color: predefinedColors.blue,
                         width: 5,
                     },
                     controlPoint: {
-                        parallel: 0.1,
+                        parallel: 0.5,
                         perpendicular: -200,
                     },
                 },
@@ -97,7 +97,8 @@ const view = new GraphView(g, {
                         border: {
                             radius: 10
                         }
-                    }
+                    },
+                    rotateToLine: true,
                 }
             }
         }

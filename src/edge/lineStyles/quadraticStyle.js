@@ -86,13 +86,12 @@ export default function makeSprite(targetPos, conf = {}) {
         controlPoint,
         targetPos
     );
-
-    result.decalAnchor = f(0.5);
-    result.arrow       = computeArrow(f, df);
+    result.decal = computeAnchorAndAngle(f, df, 0.5);
+    result.arrow = computeAnchorAndAngle(f, df, 0.75);
 
     return result;
 };
-registry.addEdgeLineStyle("quadraticCurve", makeSprite);
+registry.addEdgeLineStyle("quadratic", makeSprite);
 
 function computeControlPoint(targetPos, conf) {
     const parallel      = targetPos.mul(conf.controlPoint.parallel);
@@ -116,10 +115,10 @@ function computeDerivative(p1, p2) {
     }
 }
 
-function computeArrow(f, df) {
-    const slope = df(0.75);
+function computeAnchorAndAngle(f, df, t) {
+    const slope = df(t);
     return {
-        anchor: f(0.75),
+        anchor: f(t),
         angle:  Math.atan2(slope.y, slope.x),
     };
 }

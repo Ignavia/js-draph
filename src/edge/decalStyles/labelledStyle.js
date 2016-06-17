@@ -200,7 +200,9 @@ export const defaultConf = {
          * @type {Number}
          */
         wordWrapWidth: 0
-    }
+    },
+
+    rotateToLine: false,
 };
 
 /**
@@ -216,6 +218,9 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    return utils.makeBoxedLabel(conf, conf.text.label);
+    const result = utils.makeBoxedLabel(conf, conf.text.label);
+    result.rotateToLine = conf.rotateToLine;
+
+    return result;
 };
 registry.addEdgeDecalStyle("labelled", makeSprite);

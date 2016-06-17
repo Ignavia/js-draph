@@ -188,7 +188,9 @@ export const defaultConf = {
          * @type {Number|String}
          */
         height: "orig"
-    }
+    },
+
+    rotateToLine: false,
 };
 
 /**
@@ -204,10 +206,13 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    return utils.makeCaptionedImage(
+    const result = utils.makeCaptionedImage(
         conf,
         conf.image.imagePath,
         conf.image.caption
     );
+    result.rotateToLine = conf.rotateToLine;
+
+    return result;
 };
 registry.addEdgeDecalStyle("illustrated", makeSprite);

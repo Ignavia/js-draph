@@ -43,12 +43,16 @@ export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const result = utils.makeLine(conf, new Vec2(0, 0), targetPos);
-    result.decalAnchor = targetPos.div(2);
-    result.arrow = {
-        anchor: targetPos.mul(0.75),
-        angle: Math.atan2(targetPos.y, targetPos.x),
-    };
+    result.decal = computeAnchorAndAngle(targetPos, 0.5);
+    result.arrow = computeAnchorAndAngle(targetPos, 0.75);
 
     return result;
 };
-registry.addEdgeLineStyle("straight", makeSprite);
+registry.addEdgeLineStyle("linear", makeSprite);
+
+function computeAnchorAndAngle(targetPos, t) {
+    return {
+        anchor: targetPos.mul(t),
+        angle:  Math.atan2(targetPos.y, targetPos.x),
+    };
+}

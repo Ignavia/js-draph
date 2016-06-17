@@ -2,12 +2,8 @@ import _ from "lodash";
 
 import {Vec2} from "@ignavia/ella";
 
-import straightLineStyle from "./lineStyles/straightStyle.js";
-import emptyDecalStyle   from "./decalStyles/emptyStyle.js";
-import emptyArrowStyle   from "./arrowStyles/emptyStyle.js";
-import emptyBehavior     from "./behaviors/emptyBehavior.js";
-import registry          from "../registry.js";
-import * as utils        from "../utils.js";
+import registry   from "../registry.js";
+import * as utils from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -28,7 +24,7 @@ export const defaultConf = {
          *
          * @type {String}
          */
-        type: "straight",
+        type: "linear",
 
         /**
          * The configuration to pass to the function.
@@ -191,7 +187,15 @@ function makeContainer(conf, sourcePos, targetPos) {
     // Make the decal
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
-    utils.setPosition(line.decalAnchor, decal);
+    utils.setPosition(line.decal.anchor, decal);
+    if (decal.rotateToLine) {
+        console.log(line.decal.angle)
+        if (Math.PI / 2 < line.decal.angle && line.decal.angle < 1.5 * Math.PI) {console.log("rot");
+            utils.setRotation(line.decal.angle + Math.PI, decal);
+        } else {console.log("no rot")
+            utils.setRotation(line.decal.angle, decal);
+        }
+    }
     result.addChild(decal);
 
     // Make the arrow
