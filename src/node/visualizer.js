@@ -62,11 +62,30 @@ export const defaultConf = {
     position: new Vec2(0, 0),
 
     /**
-     * How to scale the sprite. x- and y-scales can be set seperately.
+     * How to scale the sprite. x- and y-scales can be set seperately. If the
+     * width or height is set, those values are used instead.
      *
      * @type {Number|Vec2}
      */
     scale: 1,
+
+    /**
+     * The width of the sprite. Set this to "orig" to use the width of the
+     * original sprite and to "auto" to keep the aspect ratio when setting
+     * the height.
+     *
+     * @type {Number|String}
+     */
+    width: "orig",
+
+    /**
+     * The height of the sprite. Set this to "orig" to use the height of the
+     * original sprite and to "auto" to keep the aspect ratio when setting
+     * the width.
+     *
+     * @type {Number|String}
+     */
+    height: "orig",
 
     /**
      * The point to rotate the display object about.
@@ -105,10 +124,11 @@ export default function makeEnhancedSprite(conf = {}) {
         behaviorFunction(result, behavior.conf);
     }
 
-    utils.setPosition(conf.position, result);
     utils.setScale(conf.scale, result);
+    utils.setBounds(conf.width, conf.height, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);
+    utils.setPosition(conf.position, result);
     result.hitArea = utils.computeHitArea(result);
 
     return result;

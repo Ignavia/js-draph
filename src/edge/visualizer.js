@@ -101,25 +101,37 @@ export const defaultConf = {
     }],
 
     /**
-     * How to scale the sprite. x- and y-scales can be set seperately.
+     * How to scale the decal. x- and y-scales can be set seperately. If the
+     * width or height is set, those values are used instead.
      *
      * @type {Number|Vec2}
      */
     scale: 1,
 
     /**
-     * The point to rotate the display object about.
+     * The width of the decal. Set this to "orig" to use the width of the
+     * original decal and to "auto" to keep the aspect ratio when setting
+     * the height.
      *
-     * @type {Vec2}
+     * @type {Number|String}
      */
-    pivot: new Vec2(0, 0),
+    width: "orig",
+
+    /**
+     * The height of the decal. Set this to "orig" to use the height of the
+     * original decal and to "auto" to keep the aspect ratio when setting
+     * the width.
+     *
+     * @type {Number|String}
+     */
+    height: "orig",
 
     /**
      * The rotation angle of the display object.
      *
      * @type {Number}
      */
-    rotation: 0,
+    rotation: 0
 };
 
 /**
@@ -151,9 +163,6 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     }
 
     utils.setPosition(sourcePos, result);
-    utils.setScale(conf.scale, result);
-    utils.setPivot(conf.pivot, result);
-    utils.setRotation(conf.rotation, result);
     result.anchor = computeAnchor(container);
     result.hitArea = hitArea;
 
@@ -186,8 +195,11 @@ function makeContainer(conf, sourcePos, targetPos) {
     // Make the decal
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
-    utils.setPosition(line.decal.anchor, decal);
+    utils.setScale(conf.scale, decal);
+    utils.setBounds(conf.width, conf.height, decal);
+    utils.setRotation(conf.rotation, decal);
     rotateDecal(line.decal.angle, decal);
+    utils.setPosition(line.decal.anchor, decal);
     container.addChild(decal);
 
     // Make the arrow
