@@ -762,7 +762,7 @@ export function setScale(scale, displayObject) {
  */
 export function setBounds(width, height, displayObject) {
     const oldWidth  = displayObject.width;
-    const oldHeight = displayObject.height;console.log(oldWidth, oldHeight)
+    const oldHeight = displayObject.height;
 
     // Adjust width
     if (width === "auto") {
