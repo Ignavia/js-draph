@@ -1,4 +1,4 @@
-import registry from "../../registry.js";
+import registry             from "../../registry.js";
 import {emptyDisplayObject} from "../../utils.js";
 
 /**

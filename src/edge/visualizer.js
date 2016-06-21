@@ -142,8 +142,8 @@ export const defaultConf = {
 export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = makeContainer(conf, sourcePos, targetPos);
-    const result    = utils.makeCanvasSprite(container);
+    const {container, hitArea} = makeContainer(conf, sourcePos, targetPos);
+    const result               = utils.makeCanvasSprite(container);
 
     for (let behavior of conf.behaviors) {
         const behaviorFunction = registry.get(["edge", "behavior", behavior.type]);
@@ -154,9 +154,9 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     utils.setScale(conf.scale, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);
-
-    // Placing the texture at the origin of the coordinate system of the sprite
     result.anchor = computeAnchor(container);
+    result.hitArea = hitArea;
+    console.log(hitArea);
 
     return result;
 };
@@ -177,28 +177,28 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
  * The created display object.
  */
 function makeContainer(conf, sourcePos, targetPos) {
-    const result = new PIXI.Container();
+    const container = new PIXI.Container();
 
     // Make the line
     const lineStyle = registry.get(["edge", "lineStyle", conf.lineStyle.type]);
     const line      = lineStyle(targetPos.sub(sourcePos), conf.lineStyle.conf);
-    result.addChild(line);
+    container.addChild(line);
 
     // Make the decal
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
     const decal      = decalStyle(conf.decalStyle.conf);
     utils.setPosition(line.decal.anchor, decal);
     rotateDecal(line.decal.angle, decal);
-    result.addChild(decal);
+    container.addChild(decal);
 
     // Make the arrow
     const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
     utils.setPosition(line.arrow.anchor, arrow);
     utils.setRotation(line.arrow.angle, arrow);
-    result.addChild(arrow);
+    container.addChild(arrow);
 
-    return result;
+    return {container, hitArea: computeHitArea(decal)};
 }
 
 /**
@@ -214,6 +214,25 @@ function computeAnchor(container) {
         x: -x / width,
         y: -y / height,
     };
+}
+
+/**
+ * Computes the hit area of the decal.
+ *
+ * @param {DisplayObject} decal
+ * The decal to compute the hit area for.
+ *
+ * @return {Polygon}
+ * The hit area.
+ */
+function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alpha = 0}) {
+    const v = new Vec2(x, y);
+    return new PIXI.Polygon(
+        new Vec2(-w/2, -h/2).rotate(alpha).add(v),
+        new Vec2( w/2, -h/2).rotate(alpha).add(v),
+        new Vec2(-w/2,  h/2).rotate(alpha).add(v),
+        new Vec2( w/2,  h/2).rotate(alpha).add(v)
+    );
 }
 
 /**

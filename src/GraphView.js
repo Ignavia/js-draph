@@ -420,6 +420,23 @@ export default class GraphView {
     }
 
     /**
+     * Moves the edge graphic with the given ID to the top.
+     *
+     * @param {String} edgeId
+     * The ID of the graphic.
+     */
+    moveEdgeToTop(edgeId) {
+        const edgeG = this.getEdgeDisplayObjectById(edgeId);
+        if (this.selectedEdges.has(edgeId)) {
+            this.selectedEdgeContainer.removeChild(edgeG);
+            this.selectedEdgeContainer.addChild(edgeG);
+        } else {
+            this.edgeContainer.removeChild(edgeG);
+            this.edgeContainer.addChild(edgeG);
+        }
+    }
+
+    /**
      * Sets the layout of the graph and moves the nodes accordingly.
      *
      * @param {Layout} layout
