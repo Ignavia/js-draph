@@ -156,7 +156,6 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     utils.setRotation(conf.rotation, result);
     result.anchor = computeAnchor(container);
     result.hitArea = hitArea;
-    console.log(hitArea);
 
     return result;
 };

@@ -127,9 +127,9 @@ export default function makeView(conf = {}) {
     stage.addChild(nodes);
 
     // Add filters
-    selectedNodeContainer.filters = [makeSelectionHighlight()];
-    nodes.filters                 = [makeDropShadow(conf)];
-    selectedEdgeContainer.filters = [makeSelectionHighlight()];
+    selectedNodeContainer.filters = [makeDropShadow(conf, 2)];
+    nodeContainer.filters         = [makeDropShadow(conf)];
+    selectedEdgeContainer.filters = [makeDropShadow(conf)];
 
     return {
         renderer: makeRenderer(conf),
@@ -219,22 +219,19 @@ function makeCanvasRenderer(conf) {
  * @param {Object} conf
  * The configuration to use.
  *
+ * @param {Number} factor
+ * The factor to multiply the distance and blur values by.
+ *
  * @return {Filter}
  * The created filter.
  */
-function makeDropShadow(conf) {
+function makeDropShadow(conf, factor = 1) {
     const dropShadow    = new PIXI.filters.DropShadowFilter();
     dropShadow.color    = conf.nodeDropShadow.color.hex;
     dropShadow.alpha    = conf.nodeDropShadow.color.alpha;
     dropShadow.angle    = conf.nodeDropShadow.angle;
-    dropShadow.blurX    = conf.nodeDropShadow.blur.x;
-    dropShadow.blurY    = conf.nodeDropShadow.blur.y;
-    dropShadow.distance = conf.nodeDropShadow.distance;
+    dropShadow.blurX    = conf.nodeDropShadow.blur.x * factor;
+    dropShadow.blurY    = conf.nodeDropShadow.blur.y * factor;
+    dropShadow.distance = conf.nodeDropShadow.distance * factor;
     return dropShadow;
-}
-
-function makeSelectionHighlight() {
-    const filter = new PIXI.filters.ColorMatrixFilter();
-    filter.negative();
-    return filter;
 }
