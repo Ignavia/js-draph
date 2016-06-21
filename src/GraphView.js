@@ -212,6 +212,7 @@ export default class GraphView {
      */
     addNode(nodeObj, conf, position) {
         const displayObject = nodeVisualizer(conf);
+        displayObject.earlID = nodeObj.id;
 
         if (position) {
             displayObject.x = position.x * this.renderer.width;
@@ -303,6 +304,7 @@ export default class GraphView {
             new Vec2(targetG.x, targetG.y),
             conf
         );
+        displayObject.earlID = edgeObj.id;
 
         this.edgeConfs.set(edgeObj.id, conf);
         this.edges.set(edgeObj.id, displayObject);

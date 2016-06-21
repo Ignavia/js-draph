@@ -11,6 +11,74 @@ import * as utils from "../../utils.js";
 export const defaultConf = {
 
     /**
+     * How the box should look like.
+     *
+     * @type {Object}
+     */
+    box: {
+
+        /**
+         * The color to fill the box with.
+         *
+         * @type {Color}
+         */
+        backgroundColor: predefinedColors.white,
+
+        /**
+         * How the border of the box should look.
+         *
+         * @type {Object}
+         */
+        border: {
+
+            /**
+             * The color of the border.
+             *
+             * @type {Color}
+             */
+            color: predefinedColors.black,
+
+            /**
+             * The radius of the border. This option only works when the shape is
+             * set to "roundedRect".
+             *
+             * @type {Number}
+             */
+            radius: 5,
+
+            /**
+             * The width of the border.
+             *
+             * @type {Number}
+             */
+            width: 2
+        },
+
+        /**
+         * The margin to add around the box. This might be necessary to prevent PIXI
+         * from cutting some pixels of the border off.
+         *
+         * @type {Number}
+         */
+        margin: 2,
+
+        /**
+         * The padding to add around the label.
+         *
+         * @type {Number}
+         */
+        padding: 10,
+
+        /**
+         * The shape of this node. The values "circle", "ellipse", "rect",
+         * "roundedRect" are supported.
+         *
+         * @type {String}
+         */
+        shape: "rect"
+    },
+
+    /**
      * Affects the style of the caption.
      *
      * @type {Object}
@@ -38,6 +106,13 @@ export const defaultConf = {
          * @type {Object}
          */
         text: {
+
+            /**
+             * The caption to display.
+             *
+             * @type {String}
+             */
+            label: "",
 
             /**
              * How the text should be aligned. The possible values are "left", "center" and
@@ -162,14 +237,7 @@ export const defaultConf = {
          *
          * @type {String}
          */
-        imagePath: "", // TODO: path to default picture
-
-        /**
-         * The caption to display.
-         *
-         * @type {String}
-         */
-        caption: "",
+        path: "", // TODO: path to default picture
 
         /**
          * The width of the image. Set this to "orig" to use the width of the
@@ -192,7 +260,7 @@ export const defaultConf = {
 };
 
 /**
- * Creates a sprite using the given configuration. This function is curried.
+ * Creates a sprite using the given configuration.
  *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
@@ -204,7 +272,9 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const container = utils.makeCaptionedImage(conf, conf.image.imagePath, conf.image.caption);
+    const container = utils.makeCaptionedImage(conf, conf.image.path, conf.caption.text.label);
+    const box       = utils.makeBox(conf.box, container);
+    container.addChildAt(box, 0);
     const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite

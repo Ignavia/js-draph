@@ -10,6 +10,75 @@ import * as utils from "../../utils.js";
  */
 export const defaultConf = {
 
+/**
+     * How the box should look like.
+     *
+     * @type {Object}
+     */
+    box: {
+
+        /**
+         * The color to fill the box with.
+         *
+         * @type {Color}
+         */
+        backgroundColor: predefinedColors.white,
+
+        /**
+         * How the border of the box should look.
+         *
+         * @type {Object}
+         */
+        border: {
+
+            /**
+             * The color of the border.
+             *
+             * @type {Color}
+             */
+            color: predefinedColors.black,
+
+            /**
+             * The radius of the border. This option only works when the shape is
+             * set to "roundedRect".
+             *
+             * @type {Number}
+             */
+            radius: 5,
+
+            /**
+             * The width of the border.
+             *
+             * @type {Number}
+             */
+            width: 2
+        },
+
+        /**
+         * The margin to add around the box. This might be necessary to prevent PIXI
+         * from cutting some pixels of the border off.
+         *
+         * @type {Number}
+         */
+        margin: 2,
+
+        /**
+         * The padding to add around the label.
+         *
+         * @type {Number}
+         */
+        padding: 10,
+
+        /**
+         * The shape of this node. The values "circle", "ellipse", "rect",
+         * "roundedRect" are supported.
+         *
+         * @type {String}
+         */
+        shape: "rect"
+    },
+
+
     /**
      * Affects the style of the caption.
      *
@@ -216,6 +285,8 @@ export default function makeSprite(conf = {}) {
         conf.image.imagePath,
         conf.image.caption
     );
+    const box = utils.makeBox(conf.box, result);
+    result.addChildAt(box, 0);
     result.rotateToLine = conf.rotateToLine;
 
     return result;

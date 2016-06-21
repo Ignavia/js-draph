@@ -666,6 +666,9 @@ export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
 
     result.addChild(illustration);
 
+    result.x = -result.width  / 2;
+    result.y = -result.height / 2;
+
     return result;
 });
 

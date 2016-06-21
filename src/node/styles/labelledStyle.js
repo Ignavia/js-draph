@@ -204,7 +204,7 @@ export const defaultConf = {
 };
 
 /**
- * Creates a sprite using the given configuration. This function is curried.
+ * Creates a sprite using the given configuration.
  *
  * @param {Object} [conf]
  * Check the documentation of the default configuration for the structure of
