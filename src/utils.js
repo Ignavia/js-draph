@@ -528,23 +528,7 @@ export const makeMargin = _.curry(function (margin, displayObject) {
 export function makeImage(style, path) {
     const result = PIXI.Sprite.fromImage(path);
 
-    // Adjust width
-    if (style.width === "auto") {
-        if (style.height !== "auto" || style.height !== "orig") {
-            result.width *= style.height / result.height;
-        }
-    } else if (style.width !== "orig") {
-        result.width = style.width;
-    }
-
-    // Adjust height
-    if (style.height === "auto") {
-        if (style.width !== "auto" || style.width !== "orig") {
-            result.height *= style.width / result.width;
-        }
-    } else if (style.height !== "orig") {
-        result.height = style.height;
-    }
+    setBounds(style.width, style.height, result);
 
     // Adjust position
     result.x = -result.width  / 2;
@@ -757,6 +741,45 @@ export function setScale(scale, displayObject) {
     } else if (typeof scale.x === "number" && typeof scale.y === "number") {
         displayObject.scale.x = scale.x;
         displayObject.scale.y = scale.y;
+    }
+}
+
+/**
+ * Sets the width and height of the given display object.
+ *
+ * @param {Number|String} width
+ * The width of the image. Set this to "orig" to use the width of the
+ * original image and to "auto" to keep the aspect ratio when setting
+ * the height.
+ *
+ * @param {Number|String} height
+ * The height of the image. Set this to "orig" to use the height of the
+ * original image and to "auto" to keep the aspect ratio when setting
+ * the width.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to adjust.
+ */
+export function setBounds(width, height, displayObject) {
+    const oldWidth  = displayObject.width;
+    const oldHeight = displayObject.height;console.log(oldWidth, oldHeight)
+
+    // Adjust width
+    if (width === "auto") {
+        if (height !== "auto" || height !== "orig") {
+            displayObject.width *= height / oldHeight;
+        }
+    } else if (width !== "orig") {
+        displayObject.width = width;
+    }
+
+    // Adjust height
+    if (height === "auto") {
+        if (width !== "auto" || width !== "orig") {
+            displayObject.height *= width / oldWidth;
+        }
+    } else if (height !== "orig") {
+        displayObject.height = height;
     }
 }
 
