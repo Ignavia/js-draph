@@ -109,6 +109,13 @@ export const defaultConf = {
         text: {
 
             /**
+             * The caption to display.
+             *
+             * @type {String}
+             */
+            label: "",
+
+            /**
              * How the text should be aligned. The possible values are "left", "center" and
              * "right". For a single line of text this option has no effect.
              *
@@ -231,14 +238,7 @@ export const defaultConf = {
          *
          * @type {String}
          */
-        imagePath: "", // TODO: path to default picture
-
-        /**
-         * The caption to display.
-         *
-         * @type {String}
-         */
-        caption: "",
+        imagePath: "",
 
         /**
          * The width of the image. Set this to "orig" to use the width of the
@@ -283,7 +283,7 @@ export default function makeSprite(conf = {}) {
     const result = utils.makeCaptionedImage(
         conf,
         conf.image.imagePath,
-        conf.image.caption
+        conf.image.caption.text.label
     );
     const box = utils.makeBox(conf.box, result);
     result.addChildAt(box, 0);

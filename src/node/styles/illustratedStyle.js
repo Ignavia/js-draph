@@ -274,7 +274,9 @@ export default function makeSprite(conf = {}) {
 
     const container = utils.makeCaptionedImage(conf, conf.image.path, conf.caption.text.label);
     const box       = utils.makeBox(conf.box, container);
+    const margin    = utils.makeMargin(conf.box.margin, box);
     container.addChildAt(box, 0);
+    container.addChildAt(margin, 0);
     const result    = utils.makeCanvasSprite(container);
 
     // Placing the texture at the origin of the coordinate system of the sprite

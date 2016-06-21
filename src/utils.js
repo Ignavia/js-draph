@@ -454,7 +454,7 @@ export const makeBox = _.curry(function (style, displayObject) {
     case "circle":
         return makeCircle(
             style,
-            Math.max(displayObject.width, displayObject.height) / 2 + style.padding
+            Math.max(displayObject.width, displayObject.height) / Math.sqrt(2) + style.padding
         );
     case "ellipse":
         return makeEllipse(
@@ -661,16 +661,19 @@ export const makeBoxedLabel = _.curry(function (style, text) {
 export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
     const result       = new PIXI.Container();
     const illustration = makeImage(style.image, imagePath);
-
-    if (style.captionSide !== "none") {
-        const caption = makeCaption(style.caption, text, illustration);
-        result.addChild(caption);
-    }
-
     result.addChild(illustration);
 
-    result.x = -result.width  / 2;
-    result.y = -result.height / 2;
+    if (style.captionSide !== "none") {
+        const caption  = makeCaption(style.caption, text, illustration);
+        result.addChild(caption);
+
+        const centerX = Math.min(illustration.x, caption.x) + result.width  / 2;
+        const centerY = Math.min(illustration.y, caption.y) + result.height / 2;
+        illustration.x -= centerX;
+        illustration.y -= centerY;
+        caption.x      -= centerX;
+        caption.y      -= centerY;
+    }
 
     return result;
 });
