@@ -227,12 +227,19 @@ function computeAnchor(container) {
  */
 function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alpha = 0}) {
     const v = new Vec2(x, y);
-    return new PIXI.Polygon(
-        new Vec2(-w/2, -h/2).rotate(alpha).add(v),
-        new Vec2( w/2, -h/2).rotate(alpha).add(v),
-        new Vec2(-w/2,  h/2).rotate(alpha).add(v),
-        new Vec2( w/2,  h/2).rotate(alpha).add(v)
-    );
+    const points = {
+        tl: new Vec2(-w/2, -h/2).rotate(alpha).add(v),
+        tr: new Vec2( w/2, -h/2).rotate(alpha).add(v),
+        br: new Vec2( w/2,  h/2).rotate(alpha).add(v),
+        bl: new Vec2(-w/2,  h/2).rotate(alpha).add(v),
+    };
+
+    return new PIXI.Polygon([
+        points.tl.x, points.tl.y,
+        points.tr.x, points.tr.y,
+        points.br.x, points.br.y,
+        points.bl.x, points.bl.y
+    ]);;
 }
 
 /**
