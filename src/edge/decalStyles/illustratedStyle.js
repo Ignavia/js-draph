@@ -285,8 +285,10 @@ export default function makeSprite(conf = {}) {
         conf.image.imagePath,
         conf.image.caption.text.label
     );
-    const box = utils.makeBox(conf.box, result);
-    result.addChildAt(box, 0);
+    const box    = utils.makeBox(conf.box, result);
+    const margin = utils.makeMargin(conf.box.margin, box);
+    container.addChildAt(box, 0);
+    container.addChildAt(margin, 0);
     result.rotateToLine = conf.rotateToLine;
 
     return result;
