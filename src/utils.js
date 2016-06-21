@@ -1,5 +1,6 @@
 import _ from "lodash";
 
+import {Vec2}             from "@ignavia/ella";
 import {predefinedColors} from "@ignavia/util";
 
 /**
@@ -819,4 +820,30 @@ export function composeEventListeners(current, next) {
     } else {
         return next;
     }
+}
+
+/**
+ * Computes the hit area of the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to compute the hit area for.
+ *
+ * @return {Polygon}
+ * The hit area.
+ */
+export function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alpha = 0}) {
+    const v = new Vec2(x, y);
+    const points = {
+        tl: new Vec2(-w/2, -h/2).rotate(alpha).add(v),
+        tr: new Vec2( w/2, -h/2).rotate(alpha).add(v),
+        br: new Vec2( w/2,  h/2).rotate(alpha).add(v),
+        bl: new Vec2(-w/2,  h/2).rotate(alpha).add(v),
+    };
+
+    return new PIXI.Polygon([
+        points.tl.x, points.tl.y,
+        points.tr.x, points.tr.y,
+        points.br.x, points.br.y,
+        points.bl.x, points.bl.y
+    ]);;
 }

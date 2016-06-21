@@ -109,6 +109,7 @@ export default function makeEnhancedSprite(conf = {}) {
     utils.setScale(conf.scale, result);
     utils.setPivot(conf.pivot, result);
     utils.setRotation(conf.rotation, result);
+    result.hitArea = utils.computeHitArea(result);
 
     return result;
 };

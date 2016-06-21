@@ -198,7 +198,7 @@ function makeContainer(conf, sourcePos, targetPos) {
     utils.setRotation(line.arrow.angle, arrow);
     container.addChild(arrow);
 
-    return {container, hitArea: computeHitArea(decal)};
+    return {container, hitArea: utils.computeHitArea(decal)};
 }
 
 /**
@@ -214,32 +214,6 @@ function computeAnchor(container) {
         x: -x / width,
         y: -y / height,
     };
-}
-
-/**
- * Computes the hit area of the decal.
- *
- * @param {DisplayObject} decal
- * The decal to compute the hit area for.
- *
- * @return {Polygon}
- * The hit area.
- */
-function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alpha = 0}) {
-    const v = new Vec2(x, y);
-    const points = {
-        tl: new Vec2(-w/2, -h/2).rotate(alpha).add(v),
-        tr: new Vec2( w/2, -h/2).rotate(alpha).add(v),
-        br: new Vec2( w/2,  h/2).rotate(alpha).add(v),
-        bl: new Vec2(-w/2,  h/2).rotate(alpha).add(v),
-    };
-
-    return new PIXI.Polygon([
-        points.tl.x, points.tl.y,
-        points.tr.x, points.tr.y,
-        points.br.x, points.br.y,
-        points.bl.x, points.bl.y
-    ]);;
 }
 
 /**
