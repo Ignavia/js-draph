@@ -166,7 +166,6 @@ export default class GraphView {
         this.visualizeNodes(nodeConfs, layout);
         this.visualizeEdges();
         this.center();
-        this.startRenderLoop();
     }
 
     /**
@@ -558,8 +557,10 @@ export default class GraphView {
      * Starts the render loop.
      */
     startRenderLoop() {
-        this.renderLoopIsActive = true;
-        this.animate();
+        if (!this.renderLoopIsActive) {
+            this.renderLoopIsActive = true;
+            this.animate();
+        }
     }
 
     /**
