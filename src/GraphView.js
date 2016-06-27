@@ -554,6 +554,26 @@ export default class GraphView {
     }
 
     /**
+     * Returns the width of the renderer.
+     *
+     * @return {number}
+     * The width of the renderer.
+     */
+    getWidth() {
+        return this.renderer.width;
+    }
+
+    /**
+     * Returns the height of the renderer.
+     *
+     * @return {number}
+     * The height of the renderer.
+     */
+    getHeight() {
+        return this.renderer.height;
+    }
+
+    /**
      * Starts the render loop.
      */
     startRenderLoop() {
