@@ -345,8 +345,8 @@ SystemJS.config({
     "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
     "lodash": "npm:lodash@4.13.1",
     "@ignavia/util": "npm:@ignavia/util@2.0.0",
-    "@ignavia/earl": "npm:@ignavia/earl@1.3.4",
-    "@ignavia/ella": "npm:@ignavia/ella@1.0.15",
+    "@ignavia/earl": "npm:@ignavia/earl@1.4.0",
+    "@ignavia/ella": "npm:@ignavia/ella@1.1.0",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
@@ -743,24 +743,12 @@ SystemJS.config({
         "string_decoder-browserify": "npm:string_decoder@0.10.31"
       }
     },
-    "npm:@ignavia/earl@1.3.4": {
-      "map": {
-        "@ignavia/ella": "npm:@ignavia/ella@1.0.15",
-        "@ignavia/util": "npm:@ignavia/util@1.4.0",
-        "lodash": "npm:lodash@4.13.1"
-      }
-    },
     "npm:elliptic@6.3.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
         "bn.js": "npm:bn.js@4.11.4",
         "brorand": "npm:brorand@1.0.5",
         "hash.js": "npm:hash.js@1.0.3"
-      }
-    },
-    "npm:@ignavia/util@1.4.0": {
-      "map": {
-        "lodash": "npm:lodash@4.13.1"
       }
     },
     "npm:buffer@4.7.0": {
@@ -772,6 +760,13 @@ SystemJS.config({
     },
     "npm:@ignavia/util@2.0.0": {
       "map": {
+        "lodash": "npm:lodash@4.13.1"
+      }
+    },
+    "npm:@ignavia/earl@1.4.0": {
+      "map": {
+        "@ignavia/ella": "npm:@ignavia/ella@1.1.0",
+        "@ignavia/util": "npm:@ignavia/util@2.0.0",
         "lodash": "npm:lodash@4.13.1"
       }
     }

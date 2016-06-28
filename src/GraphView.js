@@ -142,12 +142,12 @@ export default class GraphView {
         this.selectedEdges = new Set();
 
         /**
-         * A flag whether the render loop is active.
+         * The ID of the latest animation frame request.
          *
-         * @type {Boolean}
+         * @type {number}
          * @private
          */
-        this.renderLoopIsActive = false;
+        this.renderRequestId = undefined;
 
         this.init(nodeConfs, edgeConfs, layout);
     }
@@ -577,8 +577,7 @@ export default class GraphView {
      * Starts the render loop.
      */
     startRenderLoop() {
-        if (!this.renderLoopIsActive) {
-            this.renderLoopIsActive = true;
+        if (!this.renderRequestId) {
             this.animate();
         }
     }
@@ -587,7 +586,10 @@ export default class GraphView {
      * Stops the render loop.
      */
     stopRenderLoop() {
-        this.renderLoopIsActive = false;
+        if (this.renderRequestId) {
+            cancelAnimationFrame(this.renderRequestId);
+            this.renderRequestId = undefined;
+        }
     }
 
     /**
@@ -597,8 +599,6 @@ export default class GraphView {
      */
     animate() {
         this.renderer.render(this.stage);
-        if (this.renderLoopIsActive) {
-            requestAnimationFrame(() => this.animate());
-        }
+        this.renderRequestId = requestAnimationFrame(() => this.animate());
     }
 }
