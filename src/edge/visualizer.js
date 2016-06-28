@@ -163,7 +163,7 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     }
 
     utils.setPosition(sourcePos, result);
-    //result.hitArea = utils.computeHitArea(result.getDecal());
+    result.hitArea = utils.computeHitArea(result.getDecal());
 
     return result;
 };

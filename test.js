@@ -50,7 +50,15 @@ const view = new GraphView(g, {
                         }
                     }
                 }
-            }
+            },
+            behaviors: [{
+                type: "interactive",
+                conf: {
+                    handleMousedown() {
+                        console.log("Clicked node!");
+                    }
+                }
+            }]
         }
     ]]),
     edgeConfs: new Map([[
@@ -103,7 +111,15 @@ const view = new GraphView(g, {
                     },
                     rotateToLine: true,
                 }
-            }
+            },
+            behaviors: [{
+                type: "interactive",
+                conf: {
+                    handleMousedown() {
+                        console.log("Clicked edge!");
+                    }
+                }
+            }]
         }
     ]])
 });
