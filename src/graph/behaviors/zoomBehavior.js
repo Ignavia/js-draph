@@ -66,7 +66,7 @@ export const defaultConf = {
 export default function addBehavior(stage, renderer, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    $(renderer.view).mousewheel((e) => {
+    $(renderer.view).mousewheel(e => {
         if (e.deltaY !== 0) {
             zoom(conf, stage, renderer, e.deltaY < 0 ? "out" : "in");
         }

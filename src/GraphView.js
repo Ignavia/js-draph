@@ -165,7 +165,6 @@ export default class GraphView {
         this.setupFilters();
         this.visualizeNodes(nodeConfs, layout);
         this.visualizeEdges();
-        this.center();
     }
 
     /**
@@ -368,8 +367,10 @@ export default class GraphView {
      */
     center() {
         const br = this.getBoundingRectangle();
-        this.stage.x = (this.renderer.width  - br.minX - br.maxX) / 2 * this.stage.scale.x;
-        this.stage.y = (this.renderer.height - br.minY - br.maxY) / 2 * this.stage.scale.y;
+        this.stage.scale.x = 1;
+        this.stage.scale.y = 1;
+        this.stage.x = (this.renderer.width  - br.minX - br.maxX) / 2;
+        this.stage.y = (this.renderer.height - br.minY - br.maxY) / 2;
     }
 
     /**
@@ -571,6 +572,16 @@ export default class GraphView {
      */
     getHeight() {
         return this.renderer.height;
+    }
+
+    /**
+     * Returns the canvas element used by the renderer.
+     *
+     * @return {Object}
+     * The canvas element.
+     */
+    getView() {
+        return this.renderer.view;
     }
 
     /**
