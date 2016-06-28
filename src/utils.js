@@ -15,18 +15,6 @@ export const canvasRenderer = new PIXI.CanvasRenderer({
 });
 
 /**
- * A WebGL renderer.
- *
- * @type {Renderer}
- * @ignore
- */
-const webGLRenderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
-    autoResize:      true,
-    resolution:      window.devicePixelRatio || 1,
-    backgroundColor: 0xFFFFFF
-});
-
-/**
  * Creates a sprite from the given display object using a canvas renderer.
  *
  * @param {DisplayObject} displayObject
@@ -34,13 +22,9 @@ const webGLRenderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
  */
 export function makeCanvasSprite(displayObject) {
     const texture = displayObject.generateTexture(canvasRenderer);
-    const sprite  = new PIXI.Sprite(texture)
+    const sprite  = new PIXI.Sprite(texture);
     sprite.anchor = computeAnchor(displayObject);
     return sprite;
-}
-
-export function makeWebGLSprite() {
-    // TODO
 }
 
 /**
@@ -802,7 +786,7 @@ export function setPivot(pivot, displayObject) {
 /**
  * Sets the rotation angle of the given display object.
  *
- * @param {Vec2} pivot
+ * @param {Vec2} angle
  * The rotation angle of the display object.
  *
  * @param {DisplayObject} displayObject
@@ -833,8 +817,8 @@ export function shaderStringToArray(s) {
  * @param {*} current
  * The current value of the event handler.
  *
- * @param {Function}
- * The new event handler to register.
+ * @param {Function} next
+ * The event handler to call after the current one.
  *
  * @return {Function}
  * The created event listener.

@@ -1,3 +1,6 @@
+/**
+ * Bundles arrow, decal and line sprite into a single display object.
+ */
 export default class EdgeContainer extends PIXI.Container {
 
     /**

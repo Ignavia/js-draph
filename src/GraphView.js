@@ -10,6 +10,9 @@ import {edgeVisualizer}  from "./edge/edge.js";
 import PolarFisheye     from "./filters/PolarFisheye.js";
 import CartesianFisheye from "./filters/CartesianFisheye.js";
 
+/**
+ * The main class of the library.
+ */
 export default class GraphView {
 
     /**
@@ -160,6 +163,9 @@ export default class GraphView {
      *
      * @param {Map<String, Object>} edgeConfs
      * Maps from edge IDs to the configuration of the visualizer.
+     *
+     * @param {Layout} layout
+     * The layout of the graph.
      */
     init(nodeConfs, edgeConfs, layout) {
         this.setupFilters();
@@ -197,10 +203,10 @@ export default class GraphView {
     }
 
     /**
-     * Adds the given edge object to the scene.
+     * Adds the given node object to the scene.
      *
-     * @param {Edge} edgeObj
-     * The edge object to add.
+     * @param {Node} nodeObj
+     * The node object to add.
      *
      * @param {Object} conf
      * The configuration of the vsualizer.
@@ -483,10 +489,6 @@ export default class GraphView {
             this.selectedEdgeContainer.removeChild(edgeG);
             this.addEdge(edgeObj);
         }
-    }
-
-    setStyle() {
-        // TODO
     }
 
     /**

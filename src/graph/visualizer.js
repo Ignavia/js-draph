@@ -68,6 +68,14 @@ export const defaultConf = {
     }]
 };
 
+/**
+ * Creates the renderer, the sprite and containers for nodes and edges and adds
+ * behavior to those.
+ *
+ * @param {Object} conf
+ * The configuration to use. Check the default configuration for the structure
+ * of this object.
+ */
 export default function makeEnhancedView(conf = {})  {
     conf = utils.adjustConf(defaultConf, conf);
 

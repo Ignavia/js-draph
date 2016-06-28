@@ -193,4 +193,9 @@ class Registry {
     }
 };
 
+/**
+ * The sole instance of the registry.
+ *
+ * @type {Registry}
+ */
 export default new Registry();
