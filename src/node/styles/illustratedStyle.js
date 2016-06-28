@@ -277,14 +277,7 @@ export default function makeSprite(conf = {}) {
     const margin    = utils.makeMargin(conf.box.margin, box);
     container.addChildAt(box, 0);
     container.addChildAt(margin, 0);
-    const result    = utils.makeCanvasSprite(container);
 
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return utils.makeCanvasSprite(container);
 };
 registry.addNodeStyle("illustrated", makeSprite);

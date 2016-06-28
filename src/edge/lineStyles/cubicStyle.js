@@ -107,15 +107,16 @@ export default function makeSprite(targetPos, conf = {}) {
     const f             = computeFunction(controlPoint1, controlPoint2, targetPos);
     const df            = computeDerivative(controlPoint1, controlPoint2, targetPos);
 
-    const result = utils.makeBezierCurve(
+    const line = utils.makeBezierCurve(
         conf.line,
         new Vec2(0, 0),
         controlPoint1,
         controlPoint2,
         targetPos
     );
-    result.decal = computeAnchorAndAngle(f, df, 0.5);
-    result.arrow = computeAnchorAndAngle(f, df, 0.75);
+    const result = utils.makeCanvasSprite(line);
+    result.decal = computePosAndAngle(f, df, 0.5);
+    result.arrow = computePosAndAngle(f, df, 0.75);
 
     return result;
 };
@@ -188,10 +189,10 @@ function computeDerivative(p1, p2, p3) {
  * How to move far along the line. 0 represents the start point (0, 0) and 1 is
  * the end point.
  */
-function computeAnchorAndAngle(f, df, t) {
+function computePosAndAngle(f, df, t) {
     const slope = df(t);
     return {
-        anchor: f(t),
-        angle:  Math.atan2(slope.y, slope.x),
+        pos:   f(t),
+        angle: Math.atan2(slope.y, slope.x),
     };
 }

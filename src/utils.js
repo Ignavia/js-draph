@@ -34,7 +34,9 @@ const webGLRenderer = new PIXI.WebGLRenderer(screen.width, screen.height, {
  */
 export function makeCanvasSprite(displayObject) {
     const texture = displayObject.generateTexture(canvasRenderer);
-    return new PIXI.Sprite(texture);
+    const sprite  = new PIXI.Sprite(texture)
+    sprite.anchor = computeAnchor(displayObject);
+    return sprite;
 }
 
 export function makeWebGLSprite() {
@@ -872,4 +874,19 @@ export function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alp
         points.br.x, points.br.y,
         points.bl.x, points.bl.y
     ]);;
+}
+
+/**
+ * Computes the anchor point of the sprite generated from the display object. This
+ * is necessary to align it properly.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to generate the sprite from.
+ */
+export function computeAnchor(displayObject) {
+    const {x, y, width, height} = displayObject.getBounds();
+    return {
+        x: -x / width,
+        y: -y / height,
+    };
 }

@@ -86,8 +86,8 @@ export const defaultConf = {
  */
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
-
-    return makeBox(conf);
+console.log("called", makeBox(conf))
+    return utils.makeCanvasSprite(makeBox(conf));
 }
 registry.addEdgeArrowStyle("triangle", makeSprite);
 

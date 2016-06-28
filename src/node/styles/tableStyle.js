@@ -353,15 +353,8 @@ export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const container = makeContainer(conf, conf.content);
-    const result    = utils.makeCanvasSprite(container);
 
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return utils.makeCanvasSprite(container);
 };
 registry.addNodeStyle("table", makeSprite);
 

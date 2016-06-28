@@ -42,9 +42,10 @@ export const defaultConf = {
 export default function makeSprite(targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const result = utils.makeLine(conf, new Vec2(0, 0), targetPos);
-    result.decal = computeAnchorAndAngle(targetPos, 0.5);
-    result.arrow = computeAnchorAndAngle(targetPos, 0.75);
+    const line   = utils.makeLine(conf, new Vec2(0, 0), targetPos);
+    const result = utils.makeCanvasSprite(line);
+    result.decal = computePosAndAngle(targetPos, 0.5);
+    result.arrow = computePosAndAngle(targetPos, 0.75);
 
     return result;
 };
@@ -60,9 +61,9 @@ registry.addEdgeLineStyle("linear", makeSprite);
  * How to move far along the line. 0 represents the start point (0, 0) and 1 is
  * the end point.
  */
-function computeAnchorAndAngle(targetPos, t) {
+function computePosAndAngle(targetPos, t) {
     return {
-        anchor: targetPos.mul(t),
-        angle:  Math.atan2(targetPos.y, targetPos.x),
+        pos:   targetPos.mul(t),
+        angle: Math.atan2(targetPos.y, targetPos.x),
     };
 }

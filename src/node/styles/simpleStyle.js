@@ -61,14 +61,7 @@ export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const circle = utils.makeCircle(conf, conf.radius);
-    const result = utils.makeCanvasSprite(circle);
 
-    // Placing the texture at the origin of the coordinate system of the sprite
-    result.anchor = {
-        x: 0.5,
-        y: 0.5
-    };
-
-    return result;
+    return utils.makeCanvasSprite(circle);
 };
 registry.addNodeStyle("simple", makeSprite);

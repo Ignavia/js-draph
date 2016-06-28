@@ -1,3 +1,5 @@
+export EdgeContainer             from "./EdgeContainer.js";
+
 export edgeVisualizer            from "./visualizer.js";
 
 export edgeEmptyArrowStyle       from "./arrowStyles/emptyStyle.js";

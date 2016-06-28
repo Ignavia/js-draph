@@ -280,16 +280,16 @@ export const defaultConf = {
 export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const result = utils.makeCaptionedImage(
-        conf,
-        conf.image.imagePath,
-        conf.image.caption.text.label
-    );
-    const box    = utils.makeBox(conf.box, result);
-    const margin = utils.makeMargin(conf.box.margin, box);
+    const container = utils.makeCaptionedImage(conf, conf.image.path, conf.caption.text.label);
+    const box       = utils.makeBox(conf.box, container);
+    const margin    = utils.makeMargin(conf.box.margin, box);
     container.addChildAt(box, 0);
     container.addChildAt(margin, 0);
+
+    const result    = utils.makeCanvasSprite(container);
     result.rotateToLine = conf.rotateToLine;
+
+    result.anchor = utils.computeAnchor(container);
 
     return result;
 };
