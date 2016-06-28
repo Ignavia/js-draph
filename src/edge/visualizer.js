@@ -2,8 +2,9 @@ import _ from "lodash";
 
 import {Vec2} from "@ignavia/ella";
 
-import registry   from "../registry.js";
-import * as utils from "../utils.js";
+import EdgeContainer from "./EdgeContainer.js";
+import registry      from "../registry.js";
+import * as utils    from "../utils.js";
 
 /**
  * The default configuration of this visualizer.
@@ -154,8 +155,7 @@ export const defaultConf = {
 export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
-    const {container, hitArea} = makeContainer(conf, sourcePos, targetPos);
-    const result               = utils.makeCanvasSprite(container);
+    const result = makeContainer(conf, sourcePos, targetPos);
 
     for (let behavior of conf.behaviors) {
         const behaviorFunction = registry.get(["edge", "behavior", behavior.type]);
@@ -163,8 +163,7 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
     }
 
     utils.setPosition(sourcePos, result);
-    result.anchor = computeAnchor(container);
-    result.hitArea = hitArea;
+    //result.hitArea = utils.computeHitArea(result.getDecal());
 
     return result;
 };
@@ -185,12 +184,10 @@ export default function makeEnhancedSprite(sourcePos, targetPos, conf = {}) {
  * The created display object.
  */
 function makeContainer(conf, sourcePos, targetPos) {
-    const container = new PIXI.Container();
 
     // Make the line
     const lineStyle = registry.get(["edge", "lineStyle", conf.lineStyle.type]);
     const line      = lineStyle(targetPos.sub(sourcePos), conf.lineStyle.conf);
-    container.addChild(line);
 
     // Make the decal
     const decalStyle = registry.get(["edge", "decalStyle", conf.decalStyle.type]);
@@ -199,32 +196,15 @@ function makeContainer(conf, sourcePos, targetPos) {
     utils.setBounds(conf.width, conf.height, decal);
     utils.setRotation(conf.rotation, decal);
     rotateDecal(line.decal.angle, decal);
-    utils.setPosition(line.decal.anchor, decal);
-    container.addChild(decal);
+    utils.setPosition(line.decal.pos, decal);
 
     // Make the arrow
     const arrowStyle = registry.get(["edge", "arrowStyle", conf.arrowStyle.type]);
     const arrow      = arrowStyle(conf.arrowStyle.conf);
-    utils.setPosition(line.arrow.anchor, arrow);
+    utils.setPosition(line.arrow.pos, arrow);
     utils.setRotation(line.arrow.angle, arrow);
-    container.addChild(arrow);
 
-    return {container, hitArea: utils.computeHitArea(decal)};
-}
-
-/**
- * Computes the anchor point of the sprite generated from the container. This
- * is necessary to align it properly.
- *
- * @param {DisplayObject} container
- * The container to generate the sprite from.
- */
-function computeAnchor(container) {
-    const {x, y, width, height} = container.getBounds();
-    return {
-        x: -x / width,
-        y: -y / height,
-    };
+    return new EdgeContainer(arrow, decal, line);
 }
 
 /**

@@ -48,7 +48,7 @@ export function makeWebGLSprite() {
  *
  * @type {DisplayObject}
  */
-export const emptyDisplayObject = new PIXI.DisplayObject();
+export const emptyDisplayObject = new PIXI.Container();
 emptyDisplayObject.width  = 0;
 emptyDisplayObject.height = 0;
 

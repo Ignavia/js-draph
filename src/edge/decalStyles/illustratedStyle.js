@@ -286,10 +286,8 @@ export default function makeSprite(conf = {}) {
     container.addChildAt(box, 0);
     container.addChildAt(margin, 0);
 
-    const result    = utils.makeCanvasSprite(container);
+    const result = utils.makeCanvasSprite(container);
     result.rotateToLine = conf.rotateToLine;
-
-    result.anchor = utils.computeAnchor(container);
 
     return result;
 };

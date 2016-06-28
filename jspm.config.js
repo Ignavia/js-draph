@@ -353,7 +353,7 @@ SystemJS.config({
     "core-js": "npm:core-js@1.2.6",
     "events": "github:jspm/nodelibs-events@0.2.0-alpha",
     "fs": "github:jspm/nodelibs-fs@0.2.0-alpha",
-    "jquery": "npm:jquery@2.2.4",
+    "jquery": "npm:jquery@3.0.0",
     "jquery-mousewheel": "npm:jquery-mousewheel@3.1.13",
     "module": "github:jspm/nodelibs-module@0.2.0-alpha",
     "net": "github:jspm/nodelibs-net@0.2.0-alpha",
