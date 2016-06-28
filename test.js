@@ -107,8 +107,5 @@ const view = new GraphView(g, {
         }
     ]])
 });
-$("#container").html(view.renderer.view);
-
-$(window).on("resize", () => {
-    view.resize();
-});
+$("#container").html(view.getView());
+view.startRenderLoop();
