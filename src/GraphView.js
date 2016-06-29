@@ -193,6 +193,8 @@ export default class GraphView {
      *
      * @param {Layout} layout
      * The layout of the graph.
+     *
+     * @private
      */
     visualizeNodes(nodeConfs, layout) {
         for (let nodeObj of this.graph.iterNodes()) {
@@ -285,10 +287,13 @@ export default class GraphView {
 
     /**
      * Draws the edges of the graph.
+     *
+     * @private
      */
     visualizeEdges() {
         for (let edgeObj of this.graph.iterEdges()) {
-            this.addEdge(edgeObj);
+            const conf = this.edgeConfs.get(edgeObj.id);
+            this.addEdge(edgeObj, conf);
         }
     }
 
@@ -297,9 +302,11 @@ export default class GraphView {
      *
      * @param {Edge} edgeObj
      * The edge object to add.
+     *
+     * @param {Object} conf
+     * The configuration of the visualizer.
      */
-    addEdge(edgeObj) {
-        const conf    = this.edgeConfs.get(edgeObj.id);
+    addEdge(edgeObj, conf) {
         const sourceG = this.nodes.get(edgeObj.sourceId);
         const targetG = this.nodes.get(edgeObj.targetId);
 
@@ -453,8 +460,10 @@ export default class GraphView {
 
         for (let [id, position] of layout) {
             const nodeG = this.getNodeDisplayObjectById(id);
-            nodeG.x = position.x;
-            nodeG.y = position.y;
+            if (nodeG) {
+                nodeG.x = position.x;
+                nodeG.y = position.y;
+            }
         }
 
         this.edges.clear();

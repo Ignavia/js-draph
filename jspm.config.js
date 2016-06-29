@@ -187,7 +187,7 @@ SystemJS.config({
       "npm:babel-plugin-transform-async-to-generator@6.8.0": {
         "map": {
           "babel-runtime": "npm:babel-runtime@6.9.2",
-          "babel-helper-remap-async-to-generator": "npm:babel-helper-remap-async-to-generator@6.8.0",
+          "babel-helper-remap-async-to-generator": "npm:babel-helper-remap-async-to-generator@6.11.2",
           "babel-plugin-syntax-async-functions": "npm:babel-plugin-syntax-async-functions@6.8.0"
         }
       },
@@ -224,15 +224,6 @@ SystemJS.config({
       "npm:babel-plugin-syntax-async-functions@6.8.0": {
         "map": {
           "babel-runtime": "npm:babel-runtime@6.9.2"
-        }
-      },
-      "npm:babel-helper-remap-async-to-generator@6.8.0": {
-        "map": {
-          "babel-runtime": "npm:babel-runtime@6.9.2",
-          "babel-template": "npm:babel-template@6.9.0",
-          "babel-types": "npm:babel-types@6.11.1",
-          "babel-traverse": "npm:babel-traverse@6.10.4",
-          "babel-helper-function-name": "npm:babel-helper-function-name@6.8.0"
         }
       },
       "npm:babel-helper-explode-assignable-expression@6.8.0": {
@@ -306,6 +297,15 @@ SystemJS.config({
           "babel-runtime": "npm:babel-runtime@6.9.2",
           "js-tokens": "npm:js-tokens@2.0.0",
           "chalk": "npm:chalk@1.1.3"
+        }
+      },
+      "npm:babel-helper-remap-async-to-generator@6.11.2": {
+        "map": {
+          "babel-template": "npm:babel-template@6.9.0",
+          "babel-traverse": "npm:babel-traverse@6.10.4",
+          "babel-helper-function-name": "npm:babel-helper-function-name@6.8.0",
+          "babel-runtime": "npm:babel-runtime@6.9.2",
+          "babel-types": "npm:babel-types@6.11.1"
         }
       }
     }
