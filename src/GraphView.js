@@ -221,8 +221,8 @@ export default class GraphView {
         displayObject.earlId = nodeObj.id;
 
         if (position) {
-            displayObject.x = position.x * this.renderer.width;
-            displayObject.y = position.y * this.renderer.height;
+            displayObject.x = position.x;
+            displayObject.y = position.y;
         } else {
             displayObject.x = Math.random() * this.renderer.width;
             displayObject.y = Math.random() * this.renderer.height;
