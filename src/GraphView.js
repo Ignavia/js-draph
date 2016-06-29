@@ -563,6 +563,7 @@ export default class GraphView {
      */
     resize(width, height) {
         this.renderer.resize(width, height);
+        this.setupFilters();
     }
 
     /**
