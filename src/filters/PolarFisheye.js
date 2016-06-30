@@ -84,7 +84,7 @@ export default class extends PIXI.AbstractFilter {
     /**
      * Sets how strong the distortion is. A value of 0 means no distortion at
      * all, a value close to 1 means that everything gets pushed to the edge of
-     * the screen. Not that 1 is not allowed anymore.
+     * the screen. Note that 1 is not allowed anymore.
      *
      * @param {Number} p
      * How strong the distortion should be.

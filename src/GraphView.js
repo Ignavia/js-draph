@@ -152,6 +152,48 @@ export default class GraphView {
          */
         this.renderRequestId = undefined;
 
+        /**
+         * The cartesian fisheye filter.
+         *
+         * @type {CartesianFisheye}
+         * @private
+         */
+        this.cartesianFisheye = new CartesianFisheye();
+
+        /**
+         * The polar fisheye filter.
+         *
+         * @type {PolarFisheye}
+         * @private
+         */
+        this.polarFisheye = new PolarFisheye();
+
+        /**
+         * Whether to scale edge arrows based on the distance to the mouse
+         * pointer.
+         *
+         * @type {boolean}
+         * @private
+         */
+        this.scaleEdgeArrows = false;
+
+        /**
+         * Whether to scale edge decals based on the distance to the mouse
+         * pointer.
+         *
+         * @type {boolean}
+         * @private
+         */
+        this.scaleEdgeDecals = false;
+
+        /**
+         * Whether to scale nodes based on the distance to the mouse pointer.
+         *
+         * @type {boolean}
+         * @private
+         */
+        this.scaleNodes = false;
+
         this.init(nodeConfs, edgeConfs, layout);
     }
 
@@ -271,7 +313,7 @@ export default class GraphView {
      * @param {Set<String>} nodesToSelect
      * The IDs of the nodes to select.
      */
-    selectNodes(nodesToSelect) { // deselect selected nodes and select the new ones
+    selectNodes(nodesToSelect) { // TODO: deselect selected nodes and select the new ones
         for (let [id, node] of this.nodes) {
             if (nodesToSelect.has(id)) {
                 this.nodeContainer.removeChild(node);
@@ -472,6 +514,42 @@ export default class GraphView {
         this.visualizeEdges();
 
         this.startRenderLoop();
+    }
+
+    configureCartesianFisheye(px, py, filters) {
+        this.cartesianFisheye.px = px;
+        this.cartesianFisheye.py = py;
+        if (px !== 0 || py !== 0) {
+            filter.push(this.cartesianFisheye);
+        }
+    }
+
+    configurePolarFisheye(p, filters) {
+        this.polarFisheye.p = p;
+        if (p !== 0) {
+            filters.push(this.polarFisheye);
+        }
+    }
+
+    configureFilters({
+        cartesianFisheyeStrengthX = this.cartesianFisheye.px,
+        cartesianFisheyeStrengthY = this.cartesianFisheye.py,
+        polarFisheyeStrength      = this.polarFisheye.p,
+        scaleEdgeArrows           = this.scaleEdgeArrows,
+        scaleEdgeDecals           = this.scaleEdgeDecals,
+        scaleNodes                = this.scaleNodes,
+    } = {}) {
+        const filters = [];
+        this.configureCartesianFisheye(
+            cartesianFisheyeStrengthX,
+            cartesianFisheyeStrengthY,
+            filters
+        );
+        this.configurePolarFisheye(polarFisheyeStrength, filters);
+        this.stage.filters = filters.length === 0 ? null : filters;
+        this.scaleEdgeArrows = scaleEdgeArrows;
+        this.scaleEdgeDecals = scaleEdgeDecals;
+        this.scaleNodes      = scaleNodes;
     }
 
     /**
