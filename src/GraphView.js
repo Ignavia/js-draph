@@ -520,7 +520,7 @@ export default class GraphView {
         this.cartesianFisheye.px = px;
         this.cartesianFisheye.py = py;
         if (px !== 0 || py !== 0) {
-            filter.push(this.cartesianFisheye);
+            filters.push(this.cartesianFisheye);
         }
     }
 
@@ -544,9 +544,16 @@ export default class GraphView {
             cartesianFisheyeStrengthX,
             cartesianFisheyeStrengthY,
             filters
-        );
+        ); // BUG: the focus is not where it should be; the mouse is outside an element when it's the biggest
         this.configurePolarFisheye(polarFisheyeStrength, filters);
-        this.stage.filters = filters.length === 0 ? null : filters;
+        if (filters.length === 0) {
+            this.stage.filters             = null;
+            this.stage.interactiveChildren = true;
+        } else {
+            this.stage.filters             = filters;
+            this.stage.interactiveChildren = false;
+        }
+
         this.scaleEdgeArrows = scaleEdgeArrows;
         this.scaleEdgeDecals = scaleEdgeDecals;
         this.scaleNodes      = scaleNodes;
@@ -693,12 +700,30 @@ export default class GraphView {
         }
     }
 
+    getMousePosition() {
+        const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage);
+        return new Vec2(
+            Math.max(0, Math.min(point.x, this.renderer.width)),
+            Math.max(0, Math.min(point.y, this.renderer.height))
+        );
+    }
+
+    toRelativeCoordinates(v) {
+        return new Vec2(
+            v.x / this.renderer.width,
+            v.y / this.renderer.height
+        );
+    }
+
     /**
      * Repeatedly draws the stage.
      *
      * @private
      */
     animate() {
+        const mouse                 = this.getMousePosition();
+        const relativeMouse         = this.toRelativeCoordinates(mouse);
+        this.cartesianFisheye.focus = relativeMouse;
         this.renderer.render(this.stage);
         this.renderRequestId = requestAnimationFrame(() => this.animate());
     }

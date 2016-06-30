@@ -21,8 +21,8 @@ const fragmentSrc = `
     vec2 distort(vec2 v) {
         float ix = v.x < f.x ? 0. : 1.;
         float iy = v.y < f.y ? 0. : 1.;
-        float ax = (f.x - v.x) / (f.x - ix);
-        float ay = (f.y - v.y) / (f.y - iy);
+        float ax = (v.x - f.x) / (ix - f.x);
+        float ay = (v.y - f.y) / (iy - f.y);
         return vec2(f.x + hx(ax) * (ix - f.x), f.y + hy(ay) * (iy - f.y));
     }
 
