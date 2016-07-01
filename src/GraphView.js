@@ -695,8 +695,12 @@ export default class GraphView {
      * @private
      */
     getMousePosition() {
-        const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage);
-        return new Vec2(point.x, point.y);
+        const globalPos = this.renderer.plugins.interaction.mouse.global;
+        const bounds    = this.renderer.view.getBoundingClientRect();
+        globalPos.x = _.clamp(bounds.left, bounds.right, globalPos.x);
+        globalPos.y = _.clamp(bounds.top, bounds.bottom, globalPos.y);
+        const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage, undefined, globalPos);
+        return new Vec2(point.x, point.y); // TODO min, max
     }
 
     computeMaximumDistance() {
@@ -719,7 +723,7 @@ export default class GraphView {
         return (f(distance) - f(1)) / (f(0) - f(1));
     }
 
-    scaleDisplayObjects() {
+    scaleDisplayObjects() { // TODO check if visible/world visible
         const mousePos        = this.getMousePosition();
         const maximumDistance = this.computeMaximumDistance();
 
