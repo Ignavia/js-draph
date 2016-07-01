@@ -490,14 +490,12 @@ export default class GraphView {
     }
 
     configureCartesianFisheye(sx, sy) {
-        this.cartesianFisheye.sx = sx;
-        this.cartesianFisheye.sy = sy;
+        this.cartesianFisheye.px = sx;
+        this.cartesianFisheye.py = sy;
         if (sx === 0 && sy === 0) {
-            this.stage.filters             = null;
-            this.stage.interactiveChildren = true;
+            this.stage.filters = null;
         } else {
-            this.stage.filters             = [this.cartesianFisheye];
-            this.stage.interactiveChildren = false;
+            this.stage.filters = [this.cartesianFisheye];
         }
     }
 
@@ -516,6 +514,7 @@ export default class GraphView {
         for (let edgeG of this.edges.values()) {
             this.restoreScale(edgeG.getArrow());
             this.restoreScale(edgeG.getDecal());
+            edgeG.getLine().alpha = 1;
         }
     }
 
@@ -686,21 +685,30 @@ export default class GraphView {
         }
     }
 
-    /**
-     * Wraps the mouse position in a Vec2 object.
-     *
-     * @return {Vec2}
-     * The mouse position.
-     *
-     * @private
-     */
-    getMousePosition() {
+    getClampedGlobalMousePosition() {
         const globalPos = this.renderer.plugins.interaction.mouse.global;
         const bounds    = this.renderer.view.getBoundingClientRect();
-        globalPos.x = _.clamp(bounds.left, bounds.right, globalPos.x);
-        globalPos.y = _.clamp(bounds.top, bounds.bottom, globalPos.y);
-        const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage, undefined, globalPos);
-        return new Vec2(point.x, point.y); // TODO min, max
+        globalPos.x     = _.clamp(bounds.left, bounds.right, globalPos.x);
+        globalPos.y     = _.clamp(bounds.top, bounds.bottom, globalPos.y);
+        return globalPos;
+    }
+
+    getLocalMousePosition() {
+        const point = this.renderer.plugins.interaction.mouse.getLocalPosition(
+            this.stage,
+            undefined,
+            this.getClampedGlobalMousePosition()
+        );
+        return new Vec2(point.x, point.y);
+    }
+// bug: still hitboxes a little bit too high
+    getRelativeMousePosition(v) {
+        const globalPos = this.getClampedGlobalMousePosition();
+        const bounds    = this.renderer.view.getBoundingClientRect();
+        return new Vec2(
+            (globalPos.x) / this.renderer.width,
+            (globalPos.y) / this.renderer.height
+        );
     }
 
     computeMaximumDistance() {
@@ -710,13 +718,6 @@ export default class GraphView {
         ).length();
     }
 
-    getRelativeMousePosition(v) {
-        return new Vec2(
-            v.x / this.renderer.width,
-            v.y / this.renderer.height
-        );
-    }
-
     distort(distance) {
         distance = _.clamp(0, 1, distance);
         const f  = distance => 1 / (1 + Math.exp(-this.sizeScalingSteepness * (this.sizeScalingMidpoint - distance)));
@@ -724,7 +725,7 @@ export default class GraphView {
     }
 
     scaleDisplayObjects() { // TODO check if visible/world visible
-        const mousePos        = this.getMousePosition();
+        const mousePos        = this.getLocalMousePosition();
         const maximumDistance = this.computeMaximumDistance();
 
         for (let nodeG of this.nodes.values()) {
@@ -748,6 +749,16 @@ export default class GraphView {
             const distance2 = mousePos.sub(pos2).length() / maximumDistance;
             decal.scale.x  = decal.origScaleX * this.distort(distance2) / this.stage.scale.x;
             decal.scale.y  = decal.origScaleY * this.distort(distance2) / this.stage.scale.y;
+
+            const line = edgeG.getLine();
+            const edgeObj = this.graph.getEdgeById(edgeG.earlId);
+            const sourceG = this.getNodeDisplayObjectById(edgeObj.sourceId);
+            const targetG = this.getNodeDisplayObjectById(edgeObj.targetId);
+            const sourcePos = sourceG.position;
+            const targetPos = targetG.position;
+            const sourceDistance = mousePos.sub(sourcePos).length() / maximumDistance;
+            const targetDistance = mousePos.sub(targetPos).length() / maximumDistance;
+            line.alpha = this.distort(Math.min(distance2, sourceDistance, targetDistance));
         }
     }
 
@@ -757,7 +768,7 @@ export default class GraphView {
      * @private
      */
     animate() {
-        //this.cartesianFisheye.focus = this.toRelativeCoordinates(mousePos);
+        this.cartesianFisheye.focus = this.getRelativeMousePosition();
 
         if (this.sizeScalingSteepness !== 0) {
             this.scaleDisplayObjects();
