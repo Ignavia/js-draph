@@ -715,15 +715,45 @@ export default class GraphView {
         );
     }
 
+    distort(d) {
+        return (1-d)**2;
+    }
+
+    doScaleNodes(mousePos) {
+        if (this.scaleNodes) {
+            for (let nodeG of this.nodes.values()) {
+                const pos      = nodeG.position;
+                const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
+                nodeG.scale.x = this.distort(distance);
+                nodeG.scale.y = this.distort(distance);
+                //console.log(distance, this.distort(distance), this.renderer.width, this.renderer.height)
+            }
+        }
+    }
+
+    doScaleEdges(mousePos) {
+        if (this.scaleEdgeArrows || this.scaleEdgeDecals) {
+            for (let edgeG of this.edges.values()) {
+                console.log(edgeG.getDecal());
+                const pos      = edgeG.getDecal().toGlobal();
+                const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
+                edgeG.getDecal().scale.x = this.distort(distance);
+                edgeG.getDecal().scale.y = this.distort(distance);
+            }
+        }
+    }
+
     /**
      * Repeatedly draws the stage.
      *
      * @private
      */
     animate() {
-        const mouse                 = this.getMousePosition();
-        const relativeMouse         = this.toRelativeCoordinates(mouse);
-        this.cartesianFisheye.focus = relativeMouse;
+        const mousePos         = this.getMousePosition();
+        const relativeMousePos = this.toRelativeCoordinates(mousePos);
+        this.cartesianFisheye.focus = relativeMousePos;
+        this.doScaleNodes(mousePos);
+        this.doScaleEdges(mousePos);
         this.renderer.render(this.stage);
         this.renderRequestId = requestAnimationFrame(() => this.animate());
     }

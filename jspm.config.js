@@ -345,8 +345,8 @@ SystemJS.config({
     "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
     "lodash": "npm:lodash@4.13.1",
     "@ignavia/util": "npm:@ignavia/util@2.0.0",
-    "@ignavia/earl": "npm:@ignavia/earl@1.4.0",
-    "@ignavia/ella": "npm:@ignavia/ella@1.1.0",
+    "@ignavia/earl": "npm:@ignavia/earl@1.5.0",
+    "@ignavia/ella": "npm:@ignavia/ella@1.2.0",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
@@ -763,11 +763,11 @@ SystemJS.config({
         "lodash": "npm:lodash@4.13.1"
       }
     },
-    "npm:@ignavia/earl@1.4.0": {
+    "npm:@ignavia/earl@1.5.0": {
       "map": {
-        "@ignavia/ella": "npm:@ignavia/ella@1.1.0",
         "@ignavia/util": "npm:@ignavia/util@2.0.0",
-        "lodash": "npm:lodash@4.13.1"
+        "lodash": "npm:lodash@4.13.1",
+        "@ignavia/ella": "npm:@ignavia/ella@1.2.0"
       }
     }
   }
