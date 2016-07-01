@@ -702,10 +702,7 @@ export default class GraphView {
 
     getMousePosition() {
         const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage);
-        return new Vec2(
-            Math.max(0, Math.min(point.x, this.renderer.width)),
-            Math.max(0, Math.min(point.y, this.renderer.height))
-        );
+        return new Vec2(point.x, point.y);
     }
 
     toRelativeCoordinates(v) {
@@ -716,6 +713,7 @@ export default class GraphView {
     }
 
     distort(d) {
+        d = Math.max(0, Math.min(d, 1));
         return (1-d)**2;
     }
 
@@ -724,9 +722,9 @@ export default class GraphView {
             for (let nodeG of this.nodes.values()) {
                 const pos      = nodeG.position;
                 const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
-                nodeG.scale.x = this.distort(distance);
-                nodeG.scale.y = this.distort(distance);
-                //console.log(distance, this.distort(distance), this.renderer.width, this.renderer.height)
+                nodeG.scale.x = this.distort(distance) / this.stage.scale.x;
+                nodeG.scale.y = this.distort(distance) / this.stage.scale.y;
+                //console.log(mousePos, distance, this.distort(distance), this.renderer.width, this.renderer.height)
             }
         }
     }
@@ -734,7 +732,7 @@ export default class GraphView {
     doScaleEdges(mousePos) {
         if (this.scaleEdgeArrows || this.scaleEdgeDecals) {
             for (let edgeG of this.edges.values()) {
-                console.log(edgeG.getDecal());
+                //console.log(edgeG.getDecal());
                 const pos      = edgeG.getDecal().toGlobal();
                 const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
                 edgeG.getDecal().scale.x = this.distort(distance);
@@ -751,6 +749,7 @@ export default class GraphView {
     animate() {
         const mousePos         = this.getMousePosition();
         const relativeMousePos = this.toRelativeCoordinates(mousePos);
+
         this.cartesianFisheye.focus = relativeMousePos;
         this.doScaleNodes(mousePos);
         this.doScaleEdges(mousePos);
