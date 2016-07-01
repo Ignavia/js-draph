@@ -1,4 +1,5 @@
 import PIXI from "pixi.js";
+import _    from "lodash/fp";
 
 import {Vec2}   from "@ignavia/ella";
 import {Layout} from "@ignavia/earl";
@@ -7,7 +8,6 @@ import {graphVisualizer} from "./graph/graph.js";
 import {nodeVisualizer}  from "./node/node.js";
 import {edgeVisualizer}  from "./edge/edge.js";
 
-import PolarFisheye     from "./filters/PolarFisheye.js";
 import CartesianFisheye from "./filters/CartesianFisheye.js";
 
 /**
@@ -160,39 +160,9 @@ export default class GraphView {
          */
         this.cartesianFisheye = new CartesianFisheye();
 
-        /**
-         * The polar fisheye filter.
-         *
-         * @type {PolarFisheye}
-         * @private
-         */
-        this.polarFisheye = new PolarFisheye();
+        this.sizeScalingSteepness = 6;
 
-        /**
-         * Whether to scale edge arrows based on the distance to the mouse
-         * pointer.
-         *
-         * @type {boolean}
-         * @private
-         */
-        this.scaleEdgeArrows = false;
-
-        /**
-         * Whether to scale edge decals based on the distance to the mouse
-         * pointer.
-         *
-         * @type {boolean}
-         * @private
-         */
-        this.scaleEdgeDecals = false;
-
-        /**
-         * Whether to scale nodes based on the distance to the mouse pointer.
-         *
-         * @type {boolean}
-         * @private
-         */
-        this.scaleNodes = false;
+        this.sizeScalingMidpoint = 0.5;
 
         this.init(nodeConfs, edgeConfs, layout);
     }
@@ -261,6 +231,7 @@ export default class GraphView {
     addNode(nodeObj, conf, position) {
         const displayObject = nodeVisualizer(conf);
         displayObject.earlId = nodeObj.id;
+        this.storeScale(displayObject);
 
         if (position) {
             displayObject.x = position.x;
@@ -358,6 +329,8 @@ export default class GraphView {
             conf
         );
         displayObject.earlId = edgeObj.id;
+        this.storeScale(displayObject.getArrow());
+        this.storeScale(displayObject.getDecal());
 
         this.edgeConfs.set(edgeObj.id, conf);
         this.edges.set(edgeObj.id, displayObject);
@@ -516,47 +489,60 @@ export default class GraphView {
         this.startRenderLoop();
     }
 
-    configureCartesianFisheye(px, py, filters) {
-        this.cartesianFisheye.px = px;
-        this.cartesianFisheye.py = py;
-        if (px !== 0 || py !== 0) {
-            filters.push(this.cartesianFisheye);
+    configureCartesianFisheye(sx, sy) {
+        this.cartesianFisheye.sx = sx;
+        this.cartesianFisheye.sy = sy;
+        if (sx === 0 && sy === 0) {
+            this.stage.filters             = null;
+            this.stage.interactiveChildren = true;
+        } else {
+            this.stage.filters             = [this.cartesianFisheye];
+            this.stage.interactiveChildren = false;
         }
     }
 
-    configurePolarFisheye(p, filters) {
-        this.polarFisheye.p = p;
-        if (p !== 0) {
-            filters.push(this.polarFisheye);
+    configureSizeScaling(mp, s) {
+        this.sizeScalingMidpoint = mp;
+        this.sizeScalingSteepness = s;
+        if (s === 0) {
+            this.restoreScales();
         }
+    }
+
+    restoreScales() {
+        for (let nodeG of this.nodes.values()) {
+            this.restoreScale(nodeG);
+        }
+        for (let edgeG of this.edges.values()) {
+            this.restoreScale(edgeG.getArrow());
+            this.restoreScale(edgeG.getDecal());
+        }
+    }
+
+    restoreScale(displayObject) {
+        displayObject.scale.x = displayObject.origScaleX;
+        displayObject.scale.y = displayObject.origScaleY;
+    }
+
+    storeScale(displayObject) {
+        displayObject.origScaleX = displayObject.scale.x;
+        displayObject.origScaleY = displayObject.scale.y;
     }
 
     configureFilters({
         cartesianFisheyeStrengthX = this.cartesianFisheye.px,
         cartesianFisheyeStrengthY = this.cartesianFisheye.py,
-        polarFisheyeStrength      = this.polarFisheye.p,
-        scaleEdgeArrows           = this.scaleEdgeArrows,
-        scaleEdgeDecals           = this.scaleEdgeDecals,
-        scaleNodes                = this.scaleNodes,
+        sizeScalingMidpoint       = this.sizeScalingMidpoint,
+        sizeScalingSteepness      = this.sizeScalingSteepness,
     } = {}) {
-        const filters = [];
         this.configureCartesianFisheye(
             cartesianFisheyeStrengthX,
-            cartesianFisheyeStrengthY,
-            filters
-        ); // BUG: the focus is not where it should be; the mouse is outside an element when it's the biggest
-        this.configurePolarFisheye(polarFisheyeStrength, filters);
-        if (filters.length === 0) {
-            this.stage.filters             = null;
-            this.stage.interactiveChildren = true;
-        } else {
-            this.stage.filters             = filters;
-            this.stage.interactiveChildren = false;
-        }
-
-        this.scaleEdgeArrows = scaleEdgeArrows;
-        this.scaleEdgeDecals = scaleEdgeDecals;
-        this.scaleNodes      = scaleNodes;
+            cartesianFisheyeStrengthY
+        );
+        this.configureSizeScaling(
+            sizeScalingMidpoint,
+            sizeScalingSteepness
+        );
     }
 
     /**
@@ -700,44 +686,64 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Wraps the mouse position in a Vec2 object.
+     *
+     * @return {Vec2}
+     * The mouse position.
+     *
+     * @private
+     */
     getMousePosition() {
         const point = this.renderer.plugins.interaction.mouse.getLocalPosition(this.stage);
         return new Vec2(point.x, point.y);
     }
 
-    toRelativeCoordinates(v) {
+    computeMaximumDistance() {
+        return new Vec2(
+            this.renderer.width  / this.stage.scale.x,
+            this.renderer.height / this.stage.scale.y
+        ).length();
+    }
+
+    getRelativeMousePosition(v) {
         return new Vec2(
             v.x / this.renderer.width,
             v.y / this.renderer.height
         );
     }
 
-    distort(d) {
-        d = Math.max(0, Math.min(d, 1));
-        return (1-d)**2;
+    distort(distance) {
+        distance = _.clamp(0, 1, distance);
+        const f  = distance => 1 / (1 + Math.exp(-this.sizeScalingSteepness * (this.sizeScalingMidpoint - distance)));
+        return (f(distance) - f(1)) / (f(0) - f(1));
     }
 
-    doScaleNodes(mousePos) {
-        if (this.scaleNodes) {
-            for (let nodeG of this.nodes.values()) {
-                const pos      = nodeG.position;
-                const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
-                nodeG.scale.x = this.distort(distance) / this.stage.scale.x;
-                nodeG.scale.y = this.distort(distance) / this.stage.scale.y;
-                //console.log(mousePos, distance, this.distort(distance), this.renderer.width, this.renderer.height)
-            }
+    scaleDisplayObjects() {
+        const mousePos        = this.getMousePosition();
+        const maximumDistance = this.computeMaximumDistance();
+
+        for (let nodeG of this.nodes.values()) {
+            const pos      = nodeG.position;
+            const distance = mousePos.sub(pos).length() / maximumDistance;
+            nodeG.scale.x  = nodeG.origScaleX * this.distort(distance) / this.stage.scale.x;
+            nodeG.scale.y  = nodeG.origScaleY * this.distort(distance) / this.stage.scale.y;
         }
-    }
 
-    doScaleEdges(mousePos) {
-        if (this.scaleEdgeArrows || this.scaleEdgeDecals) {
-            for (let edgeG of this.edges.values()) {
-                //console.log(edgeG.getDecal());
-                const pos      = edgeG.getDecal().toGlobal();
-                const distance = mousePos.sub(pos).length() / Math.sqrt(this.renderer.width**2 + this.renderer.height**2);
-                edgeG.getDecal().scale.x = this.distort(distance);
-                edgeG.getDecal().scale.y = this.distort(distance);
-            }
+        for (let edgeG of this.edges.values()) {
+            const edgePos = new Vec2(edgeG.x, edgeG.y);
+
+            const arrow = edgeG.getArrow();
+            const pos1  = edgePos.add(arrow.position);
+            const distance1 = mousePos.sub(pos1).length() / maximumDistance;
+            arrow.scale.x  = arrow.origScaleX * this.distort(distance1) / this.stage.scale.x;
+            arrow.scale.y  = arrow.origScaleY * this.distort(distance1) / this.stage.scale.y;
+
+            const decal = edgeG.getDecal();
+            const pos2  = edgePos.add(decal.position);
+            const distance2 = mousePos.sub(pos2).length() / maximumDistance;
+            decal.scale.x  = decal.origScaleX * this.distort(distance2) / this.stage.scale.x;
+            decal.scale.y  = decal.origScaleY * this.distort(distance2) / this.stage.scale.y;
         }
     }
 
@@ -747,12 +753,12 @@ export default class GraphView {
      * @private
      */
     animate() {
-        const mousePos         = this.getMousePosition();
-        const relativeMousePos = this.toRelativeCoordinates(mousePos);
+        //this.cartesianFisheye.focus = this.toRelativeCoordinates(mousePos);
 
-        this.cartesianFisheye.focus = relativeMousePos;
-        this.doScaleNodes(mousePos);
-        this.doScaleEdges(mousePos);
+        if (this.sizeScalingSteepness !== 0) {
+            this.scaleDisplayObjects();
+        }
+
         this.renderer.render(this.stage);
         this.renderRequestId = requestAnimationFrame(() => this.animate());
     }
