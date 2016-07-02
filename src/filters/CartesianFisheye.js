@@ -1,5 +1,11 @@
 import {Vec2} from "@ignavia/ella";
 
+/**
+ * The source of the fragment shader.
+ *
+ * @type {string}
+ * @ignore
+ */
 const fragmentSrc = `
     precision mediump float;
 
@@ -31,8 +37,14 @@ const fragmentSrc = `
     }
 `;
 
+/**
+ * A cartesian fisheye filter.
+ */
 export default class extends PIXI.AbstractFilter {
 
+    /**
+     *
+     */
     constructor() {
         super(null, fragmentSrc, {
             dx: {
@@ -50,20 +62,44 @@ export default class extends PIXI.AbstractFilter {
         });
     }
 
+    /**
+     * Returns the strength of the x-distortion.
+     *
+     * @return {number}
+     * The strength of the x-distortion.
+     */
     get px() {
         const dx = this.uniforms.dx.value;
         return dx / (dx + 1);
     }
 
+    /**
+     * Sets the strength of the x-distortion.
+     *
+     * @param {number} px
+     * The strength of the x-distortion.
+     */
     set px(px) {
         this.uniforms.dx.value = px / (1 - px);
     }
 
+    /**
+     * Returns the strength of the y-distortion.
+     *
+     * @return {number}
+     * The strength of the y-distortion.
+     */
     get py() {
         const dy = this.uniforms.dy.value;
         return dy / (dy + 1);
     }
 
+    /**
+     * Sets the strength of the y-distortion.
+     *
+     * @param {number} py
+     * The strength of the y-distortion.
+     */
     set py(py) {
         this.uniforms.dy.value = py / (1 - py);
     }

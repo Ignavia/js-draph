@@ -160,8 +160,20 @@ export default class GraphView {
          */
         this.cartesianFisheye = new CartesianFisheye();
 
+        /**
+         * The steepness of the size-scaling curve.
+         *
+         * @type {number}
+         * @private
+         */
         this.sizeScalingSteepness = 6;
 
+        /**
+         * The midpoint of the size-scaling curve.
+         *
+         * @type {number}
+         * @private
+         */
         this.sizeScalingMidpoint = 0.5;
 
         this.init(nodeConfs, edgeConfs, layout);
@@ -825,41 +837,73 @@ export default class GraphView {
         return (f(distance) - f(1)) / (f(0) - f(1));
     }
 
+    /**
+     * Computes the distortion of the given display object.
+     *
+     * @param {DisplayObject} displayObject
+     * Th display object to use.
+     *
+     * @param {Vec2} mousePos
+     * Where the mouse pointer is.
+     *
+     * @param {number} maximumDistance
+     * Everything larger than this is regarded as distance 1.
+     */
+    computeDistortion(displayObject, mousePos, maximumDistance) {
+        const pos      = displayObject.position;
+        const distance = mousePos.sub(pos).length() / maximumDistance;
+        return this.distort(distance);
+    }
+
+    /**
+     * Uses the given distortion value to set the x- and y-scale of the
+     * display object.
+     *
+     * @param {DisplayObject} displayObject
+     * The display object to scale.
+     *
+     * @param {number} distortion
+     * The computed distortion.
+     */
+    distortScale(displayObject, distortion) {
+        displayObject.scale.x = displayObject.origScaleX * distortion / this.stage.scale.x;
+        displayObject.scale.y = displayObject.origScaleY * distortion / this.stage.scale.y;
+    }
+
+    /**
+     * Scales the display objects based on their distance to the mouse pointer.
+     */
     scaleDisplayObjects() { // TODO check if visible/world visible
         const mousePos        = this.getLocalMousePosition();
         const maximumDistance = this.computeMaximumDistance();
 
         for (let nodeG of this.nodes.values()) {
-            const pos      = nodeG.position;
-            const distance = mousePos.sub(pos).length() / maximumDistance;
-            nodeG.scale.x  = nodeG.origScaleX * this.distort(distance) / this.stage.scale.x;
-            nodeG.scale.y  = nodeG.origScaleY * this.distort(distance) / this.stage.scale.y;
+            const distortion = this.computeDistortion(nodeG, mousePos, maximumDistance);
+            this.distortScale(nodeG, distortion);
         }
 
         for (let edgeG of this.edges.values()) {
             const edgePos = new Vec2(edgeG.x, edgeG.y);
 
-            const arrow     = edgeG.getArrow();
-            const arrowPos  = edgePos.add(arrow.position);
-            const distance1 = mousePos.sub(arrowPos).length() / maximumDistance;
-            arrow.scale.x   = arrow.origScaleX * this.distort(distance1) / this.stage.scale.x;
-            arrow.scale.y   = arrow.origScaleY * this.distort(distance1) / this.stage.scale.y;
+            const arrowG          = edgeG.getArrow();
+            const arrowDistortion = this.computeDistortion(arrowG, mousePos.sub(edgePos), maximumDistance);
+            this.distortScale(arrowG, arrowDistortion);
 
-            const decal     = edgeG.getDecal();
-            const decalPos  = edgePos.add(decal.position);
-            const distance2 = mousePos.sub(decalPos).length() / maximumDistance;
-            decal.scale.x   = decal.origScaleX * this.distort(distance2) / this.stage.scale.x;
-            decal.scale.y   = decal.origScaleY * this.distort(distance2) / this.stage.scale.y;
+            const decalG          = edgeG.getDecal();
+            const decalDistortion = this.computeDistortion(decalG, mousePos.sub(edgePos), maximumDistance);
+            this.distortScale(decalG, decalDistortion);
 
-            const line      = edgeG.getLine();
-            const edgeObj   = this.graph.getEdgeById(edgeG.earlId);
-            const sourceG   = this.getNodeDisplayObjectById(edgeObj.sourceId);
-            const targetG   = this.getNodeDisplayObjectById(edgeObj.targetId);
-            const sourcePos = sourceG.position;
-            const targetPos = targetG.position;
-            const sourceDistance = mousePos.sub(sourcePos).length() / maximumDistance;
-            const targetDistance = mousePos.sub(targetPos).length() / maximumDistance;
-            line.alpha           = this.distort(Math.min(distance2, sourceDistance, targetDistance));
+            const edgeObj          = this.graph.getEdgeById(edgeG.earlId);
+            const sourceG          = this.getNodeDisplayObjectById(edgeObj.sourceId);
+            const targetG          = this.getNodeDisplayObjectById(edgeObj.targetId);
+            const sourceDistortion = this.computeDistortion(sourceG, mousePos, maximumDistance);
+            const targetDistortion = this.computeDistortion(targetG, mousePos, maximumDistance);
+            edgeG.getLine().alpha = Math.max(
+                arrowDistortion,
+                decalDistortion,
+                sourceDistortion,
+                targetDistortion
+            );
         }
     }
 
