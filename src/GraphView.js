@@ -489,6 +489,17 @@ export default class GraphView {
         this.startRenderLoop();
     }
 
+    /**
+     * Configures the cartesian fisheye filter.
+     *
+     * @param {number} sx
+     * The strength of the distortion in x-direction.
+     *
+     * @param {number} sy
+     * The strength of the distortion in y-direction.
+     *
+     * @private
+     */
     configureCartesianFisheye(sx, sy) {
         this.cartesianFisheye.px = sx;
         this.cartesianFisheye.py = sy;
@@ -499,6 +510,17 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Configures the size scaling.
+     *
+     * @param {number} mp
+     * The midpoint of the curve.
+     *
+     * @param {number} s
+     * The steepness of the curve.
+     *
+     * @private
+     */
     configureSizeScaling(mp, s) {
         this.sizeScalingMidpoint = mp;
         this.sizeScalingSteepness = s;
@@ -507,6 +529,11 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Restores the original scales of the graphics.
+     *
+     * @private
+     */
     restoreScales() {
         for (let nodeG of this.nodes.values()) {
             this.restoreScale(nodeG);
@@ -518,16 +545,50 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Restores the original scales of the given display object.
+     *
+     * @param {DisplayObject} displayObject
+     * The display object to scale.
+     *
+     * @private
+     */
     restoreScale(displayObject) {
         displayObject.scale.x = displayObject.origScaleX;
         displayObject.scale.y = displayObject.origScaleY;
     }
 
+    /**
+     * Saves the current scales of the given display object.
+     *
+     * @param {DisplayObject} displayObject
+     * The display object to snapshot.
+     *
+     * @private
+     */
     storeScale(displayObject) {
         displayObject.origScaleX = displayObject.scale.x;
         displayObject.origScaleY = displayObject.scale.y;
     }
 
+    /**
+     * Configures the filters.
+     *
+     * @param {Object} [options]
+     * The options object.
+     *
+     * @param {number} [options.cartesianFisheyeStrengthX]
+     * The strength of the distortion in x-direction.
+     *
+     * @param {number} [options.cartesianFisheyeStrengthY]
+     * The strength of the distortion in y-direction.
+     *
+     * @param {number} [options.sizeScalingMidpoint]
+     * The midpoint of the curve.
+     *
+     * @param {number} [options.sizeScalingSteepness]
+     * The steepness of the curve.
+     */
     configureFilters({
         cartesianFisheyeStrengthX = this.cartesianFisheye.px,
         cartesianFisheyeStrengthY = this.cartesianFisheye.py,
@@ -685,14 +746,29 @@ export default class GraphView {
         }
     }
 
+    /**
+     * Clamps the global mouse position to the renderer view.
+     *
+     * @return {Point}
+     * The clamped mouse position.
+     *
+     * @private
+     */
     getClampedGlobalMousePosition() {
         const globalPos = this.renderer.plugins.interaction.mouse.global;
-        const bounds    = this.renderer.view.getBoundingClientRect();
-        globalPos.x     = _.clamp(bounds.left, bounds.right, globalPos.x);
-        globalPos.y     = _.clamp(bounds.top, bounds.bottom, globalPos.y);
+        globalPos.x     = _.clamp(0, this.renderer.width,  globalPos.x);
+        globalPos.y     = _.clamp(0, this.renderer.height, globalPos.y);
         return globalPos;
     }
 
+    /**
+     * Translates the global mouse position to the position on the stage.
+     *
+     * @return {Vec2}
+     * The point on the stage the mouse is on.
+     *
+     * @private
+     */
     getLocalMousePosition() {
         const point = this.renderer.plugins.interaction.mouse.getLocalPosition(
             this.stage,
@@ -701,16 +777,31 @@ export default class GraphView {
         );
         return new Vec2(point.x, point.y);
     }
-// bug: still hitboxes a little bit too high
+
+    /**
+     * Translates the global mouse position to the position the filters need.
+     *
+     * @return {Vec2}
+     * The mouse position relative to the width and height of the renderer.
+     *
+     * @private
+     */
     getRelativeMousePosition(v) {
         const globalPos = this.getClampedGlobalMousePosition();
-        const bounds    = this.renderer.view.getBoundingClientRect();
         return new Vec2(
             (globalPos.x) / this.renderer.width,
             (globalPos.y) / this.renderer.height
         );
     }
 
+    /**
+     * The result and every larger length is regarded as 1 when distorting it.
+     *
+     * @return {Vec2}
+     * The maximum distance.
+     *
+     * @private
+     */
     computeMaximumDistance() {
         return new Vec2(
             this.renderer.width  / this.stage.scale.x,
@@ -718,6 +809,16 @@ export default class GraphView {
         ).length();
     }
 
+    /**
+     * Computes the distorting (scaling, transparency) based on the given
+     * distance.
+     *
+     * @param {number} distance
+     * The distance. This value is clamped to the range [0, 1].
+     *
+     * @return {number}
+     * The suggested distortion. This is a value between 0 and 1.
+     */
     distort(distance) {
         distance = _.clamp(0, 1, distance);
         const f  = distance => 1 / (1 + Math.exp(-this.sizeScalingSteepness * (this.sizeScalingMidpoint - distance)));
@@ -738,27 +839,27 @@ export default class GraphView {
         for (let edgeG of this.edges.values()) {
             const edgePos = new Vec2(edgeG.x, edgeG.y);
 
-            const arrow = edgeG.getArrow();
-            const pos1  = edgePos.add(arrow.position);
-            const distance1 = mousePos.sub(pos1).length() / maximumDistance;
-            arrow.scale.x  = arrow.origScaleX * this.distort(distance1) / this.stage.scale.x;
-            arrow.scale.y  = arrow.origScaleY * this.distort(distance1) / this.stage.scale.y;
+            const arrow     = edgeG.getArrow();
+            const arrowPos  = edgePos.add(arrow.position);
+            const distance1 = mousePos.sub(arrowPos).length() / maximumDistance;
+            arrow.scale.x   = arrow.origScaleX * this.distort(distance1) / this.stage.scale.x;
+            arrow.scale.y   = arrow.origScaleY * this.distort(distance1) / this.stage.scale.y;
 
-            const decal = edgeG.getDecal();
-            const pos2  = edgePos.add(decal.position);
-            const distance2 = mousePos.sub(pos2).length() / maximumDistance;
-            decal.scale.x  = decal.origScaleX * this.distort(distance2) / this.stage.scale.x;
-            decal.scale.y  = decal.origScaleY * this.distort(distance2) / this.stage.scale.y;
+            const decal     = edgeG.getDecal();
+            const decalPos  = edgePos.add(decal.position);
+            const distance2 = mousePos.sub(decalPos).length() / maximumDistance;
+            decal.scale.x   = decal.origScaleX * this.distort(distance2) / this.stage.scale.x;
+            decal.scale.y   = decal.origScaleY * this.distort(distance2) / this.stage.scale.y;
 
-            const line = edgeG.getLine();
-            const edgeObj = this.graph.getEdgeById(edgeG.earlId);
-            const sourceG = this.getNodeDisplayObjectById(edgeObj.sourceId);
-            const targetG = this.getNodeDisplayObjectById(edgeObj.targetId);
+            const line      = edgeG.getLine();
+            const edgeObj   = this.graph.getEdgeById(edgeG.earlId);
+            const sourceG   = this.getNodeDisplayObjectById(edgeObj.sourceId);
+            const targetG   = this.getNodeDisplayObjectById(edgeObj.targetId);
             const sourcePos = sourceG.position;
             const targetPos = targetG.position;
             const sourceDistance = mousePos.sub(sourcePos).length() / maximumDistance;
             const targetDistance = mousePos.sub(targetPos).length() / maximumDistance;
-            line.alpha = this.distort(Math.min(distance2, sourceDistance, targetDistance));
+            line.alpha           = this.distort(Math.min(distance2, sourceDistance, targetDistance));
         }
     }
 
