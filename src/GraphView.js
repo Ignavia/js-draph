@@ -65,7 +65,7 @@ export default class GraphView {
             selectedEdgeContainer,
             edgeContainer
         } = graphVisualizer(graphConf);
-
+console.log(stage)
         /**
          * The renderer used to draw the stage.
          *
@@ -192,7 +192,6 @@ export default class GraphView {
      * The layout of the graph.
      */
     init(nodeConfs, edgeConfs, layout) {
-        this.setupFilters();
         this.visualizeNodes(nodeConfs, layout);
         this.visualizeEdges();
     }
@@ -200,12 +199,12 @@ export default class GraphView {
     /**
      * Sets the filter area of the stage.
      */
-    setupFilters() {
+    computeFilterArea() {
         this.stage.filterArea = new PIXI.Rectangle(
-            0,
-            0,
-            this.renderer.width,
-            this.renderer.height
+            this.stage.x,
+            this.stage.y,
+            this.renderer.width  / this.stage.scale.x,
+            this.renderer.height / this.stage.scale.y
         );
     }
 
@@ -504,18 +503,18 @@ export default class GraphView {
     /**
      * Configures the cartesian fisheye filter.
      *
-     * @param {number} sx
-     * The strength of the distortion in x-direction.
+     * @param {number} mp
+     * The midpoint of the distortion curve.
      *
-     * @param {number} sy
-     * The strength of the distortion in y-direction.
+     * @param {number} s
+     * The steepness of the distortion curve.
      *
      * @private
      */
-    configureCartesianFisheye(sx, sy) {
-        this.cartesianFisheye.px = sx;
-        this.cartesianFisheye.py = sy;
-        if (sx === 0 && sy === 0) {
+    configureCartesianFisheye(mp, s) {
+        this.cartesianFisheye.mp = mp;
+        this.cartesianFisheye.s  = s;
+        if (s === 0) {
             this.stage.filters = null;
         } else {
             this.stage.filters = [this.cartesianFisheye];
@@ -534,7 +533,7 @@ export default class GraphView {
      * @private
      */
     configureSizeScaling(mp, s) {
-        this.sizeScalingMidpoint = mp;
+        this.sizeScalingMidpoint  = mp;
         this.sizeScalingSteepness = s;
         if (s === 0) {
             this.restoreScales();
@@ -602,14 +601,14 @@ export default class GraphView {
      * The steepness of the curve.
      */
     configureFilters({
-        cartesianFisheyeStrengthX = this.cartesianFisheye.px,
-        cartesianFisheyeStrengthY = this.cartesianFisheye.py,
-        sizeScalingMidpoint       = this.sizeScalingMidpoint,
-        sizeScalingSteepness      = this.sizeScalingSteepness,
+        fisheyeMidpoint      = this.cartesianFisheye.mp,
+        fisheyeSteepness     = this.cartesianFisheye.s,
+        sizeScalingMidpoint  = this.sizeScalingMidpoint,
+        sizeScalingSteepness = this.sizeScalingSteepness,
     } = {}) {
         this.configureCartesianFisheye(
-            cartesianFisheyeStrengthX,
-            cartesianFisheyeStrengthY
+            fisheyeMidpoint,
+            fisheyeSteepness
         );
         this.configureSizeScaling(
             sizeScalingMidpoint,
@@ -706,7 +705,6 @@ export default class GraphView {
      */
     resize(width, height) {
         this.renderer.resize(width, height);
-        this.setupFilters();
     }
 
     /**
@@ -913,6 +911,7 @@ export default class GraphView {
      * @private
      */
     animate() {
+        //this.computeFilterArea();
         this.cartesianFisheye.focus = this.getRelativeMousePosition();
 
         if (this.sizeScalingSteepness !== 0) {

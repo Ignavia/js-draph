@@ -12,28 +12,34 @@ const fragmentSrc = `
     varying vec2 vTextureCoord;
     varying vec4 vColor;
     uniform sampler2D uSampler;
-    uniform float dx;
-    uniform float dy;
-    uniform vec2 f;
+    uniform float s;
+    uniform float m;
+    uniform vec2  f;
 
-    float hx(float ax) {
-        return ax / (dx + 1. - ax * dx);
+    float distortDistance(float d) {
+        float b = s;
+        return (pow(b, d) - 1.) / (b - 1.);
     }
 
-    float hy(float ay) {
-        return ay / (dy + 1. - ay * dy);
+    float distortDirection(float f, float v) {
+        float i = v < f ? 0. : 1.;
+        float d = (v - f) / (i - f);
+        return f + distortDistance(d) * (i - f);
     }
 
     vec2 distort(vec2 v) {
-        float ix = v.x < f.x ? 0. : 1.;
-        float iy = v.y < f.y ? 0. : 1.;
-        float ax = (v.x - f.x) / (ix - f.x);
-        float ay = (v.y - f.y) / (iy - f.y);
-        return vec2(f.x + hx(ax) * (ix - f.x), f.y + hy(ay) * (iy - f.y));
+        return vec2(
+            distortDirection(f.x, v.x),
+            distortDirection(f.y, v.y)
+        );
     }
 
     void main(void) {
-        gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
+        if (s == 0.) {
+            gl_FragColor = texture2D(uSampler, vTextureCoord);
+        } else {
+            gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
+        }
     }
 `;
 
@@ -47,13 +53,13 @@ export default class extends PIXI.AbstractFilter {
      */
     constructor() {
         super(null, fragmentSrc, {
-            dx: {
+            s: {
                 type: "1f",
                 value: 0
             },
-            dy: {
+            m: {
                 type: "1f",
-                value: 0
+                value: 0.5
             },
             f: {
                 type: "v2",
@@ -63,51 +69,50 @@ export default class extends PIXI.AbstractFilter {
     }
 
     /**
-     * Returns the strength of the x-distortion.
+     * Returns the midpoint of the distortion curve.
      *
      * @return {number}
-     * The strength of the x-distortion.
+     * The midpoint of the distortion curve.
      */
-    get px() {
-        const dx = this.uniforms.dx.value;
-        return dx / (dx + 1);
+    get mp() {
+        return this.uniforms.m.value;
     }
 
     /**
-     * Sets the strength of the x-distortion.
+     * Sets the midpoint of the distortion curve.
      *
-     * @param {number} px
-     * The strength of the x-distortion.
+     * @param {number} mp
+     * The midpoint of the distortion curve.
      */
-    set px(px) {
-        this.uniforms.dx.value = px / (1 - px);
+    set mp(mp) {
+        this.uniforms.m.value = mp;
     }
 
     /**
-     * Returns the strength of the y-distortion.
+     * Returns the steepness of the distortion curve.
      *
      * @return {number}
-     * The strength of the y-distortion.
+     * The steepness of the distortion curve.
      */
-    get py() {
-        const dy = this.uniforms.dy.value;
-        return dy / (dy + 1);
+    get s() {
+        return this.uniforms.s.value;
     }
 
     /**
-     * Sets the strength of the y-distortion.
+     * Sets the steepness of the distortion curve.
      *
-     * @param {number} py
-     * The strength of the y-distortion.
+     * @param {number} s
+     * The steepness of the distortion curve.
      */
-    set py(py) {
-        this.uniforms.dy.value = py / (1 - py);
+    set s(s) {
+        this.uniforms.s.value = s;
     }
 
     /**
      * Returns the coordinates of the focus.
      *
      * @return {Vec2}
+     * The coordinates of the focus.
      */
     get focus() {
         return new Vec2(
