@@ -177,7 +177,6 @@ export default class GraphView {
         this.sizeScalingMidpoint = 0.5;
 
         this.init(nodeConfs, edgeConfs, layout);
-        this.configureCartesianFisheye(5,1);
     }
 
     /**

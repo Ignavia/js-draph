@@ -16,11 +16,12 @@ const fragmentSrc = `
     uniform float m;
     uniform vec2  f;
 
+    float logistic(float d) {
+        return 1. / (1. + exp(s * (1. - m - d)));
+    }
+
     float distortDistance(float d) {
-        return min(
-            d,
-            pow(d, m) * pow(s, d) / s + 0.2
-        );
+        return m + (log(1. / (d * logistic(0.) + (1. - d) *  logistic(1.)) - 1.) / s);
     }
 
     float distortDirection(float f, float v) {
