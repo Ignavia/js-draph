@@ -65,7 +65,7 @@ export default class GraphView {
             selectedEdgeContainer,
             edgeContainer
         } = graphVisualizer(graphConf);
-console.log(stage)
+
         /**
          * The renderer used to draw the stage.
          *
@@ -177,6 +177,7 @@ console.log(stage)
         this.sizeScalingMidpoint = 0.5;
 
         this.init(nodeConfs, edgeConfs, layout);
+        this.configureCartesianFisheye(5,1);
     }
 
     /**
@@ -192,6 +193,7 @@ console.log(stage)
      * The layout of the graph.
      */
     init(nodeConfs, edgeConfs, layout) {
+        this.setFilterArea();
         this.visualizeNodes(nodeConfs, layout);
         this.visualizeEdges();
     }
@@ -199,12 +201,12 @@ console.log(stage)
     /**
      * Sets the filter area of the stage.
      */
-    computeFilterArea() {
+    setFilterArea(width = this.renderer.width, height = this.renderer.height) {
         this.stage.filterArea = new PIXI.Rectangle(
-            this.stage.x,
-            this.stage.y,
-            this.renderer.width  / this.stage.scale.x,
-            this.renderer.height / this.stage.scale.y
+            0,
+            0,
+            width,
+            height
         );
     }
 
@@ -705,6 +707,7 @@ console.log(stage)
      */
     resize(width, height) {
         this.renderer.resize(width, height);
+        this.setFilterArea(width, height);
     }
 
     /**
@@ -911,7 +914,6 @@ console.log(stage)
      * @private
      */
     animate() {
-        //this.computeFilterArea();
         this.cartesianFisheye.focus = this.getRelativeMousePosition();
 
         if (this.sizeScalingSteepness !== 0) {

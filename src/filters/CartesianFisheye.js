@@ -17,8 +17,10 @@ const fragmentSrc = `
     uniform vec2  f;
 
     float distortDistance(float d) {
-        float b = s;
-        return (pow(b, d) - 1.) / (b - 1.);
+        return min(
+            d,
+            pow(d, m) * pow(s, d) / s + 0.2
+        );
     }
 
     float distortDirection(float f, float v) {

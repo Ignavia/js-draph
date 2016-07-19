@@ -123,5 +123,19 @@ const view = new GraphView(g, {
         }
     ]])
 });
-$("#container").html(view.getView());
+
+function resize() {
+    view.resize(
+        $container.offsetWidth,
+        innerHeight - 71
+    );
+    console.log($container.offsetWidth, innerHeight - 71)
+}
+
+const $container = document.getElementById("container");
+$(window).on("resize", resize);
+$container.innerHTML = "";
+$container.appendChild(view.getView());
+
+resize();
 view.startRenderLoop();
