@@ -9,25 +9,25 @@ import {Vec2} from "@ignavia/ella";
 const fragmentSrc = `
     precision mediump float;
 
+    uniform sampler2D uSampler;
+    uniform float base;
+    uniform float radius;
+    uniform vec2  focus;
+
     varying vec2 vTextureCoord;
     varying vec4 vColor;
-    uniform sampler2D uSampler;
-    uniform float b;
-    uniform float r;
-    uniform vec2  f;
 
-    float distortDistance(float d) {
-        return (pow(b, d) - 1.) / (b - 1.);
+    float distortDistance(float distance) {
+        return (pow(base, distance) - 1.) / (base - 1.);
     }
 
     vec2 distort(vec2 v) {
-        vec2 connector = v - f;
-        float l        = length(connector);
-        if (l >= r || l == 0.) {
+        vec2 connector = v - focus;
+        float length   = length(connector);
+        if (length >= radius || length == 0.) {
             return v;
         } else {
-            float d = l / r;
-            return f + distortDistance(d) * (connector / l * r);
+            return focus + distortDistance(length / radius) * (connector / length * radius);
         }
     }
 
@@ -37,27 +37,27 @@ const fragmentSrc = `
 `;
 
 /**
- * A cartesian fisheye filter.
+ * A polar fisheye filter.
  */
-export default class extends PIXI.AbstractFilter {
+export default class PolarFisheye extends PIXI.AbstractFilter {
 
     /**
      *
      */
     constructor() {
         super(null, fragmentSrc, {
-            b: {
+            base: {
                 type: "1f",
                 value: 2
             },
-            r: {
+            radius: {
                 type: "1f",
-                value: 0.5,
+                value: 1,
             },
-            f: {
+            focus: {
                 type: "v2",
                 value: { x: 0.5, y: 0.5 }
-            }
+            },
         });
     }
 
@@ -69,8 +69,8 @@ export default class extends PIXI.AbstractFilter {
      * The value of the distortion function at x = 0.5.
      */
     get centerHeight() {
-        const b = this.uniforms.b.value;
-        return 1 / (b**0.5 + 1);
+        const base = this.uniforms.base.value;
+        return 1 / (base**0.5 + 1);
     }
 
     /**
@@ -81,7 +81,7 @@ export default class extends PIXI.AbstractFilter {
      * The value of the distortion function at x = 0.5.
      */
     set centerHeight(y) {
-        this.uniforms.b.value = (1 / y - 1)**2;
+        this.uniforms.base.value = (1 / y - 1)**2;
     }
 
     /**
@@ -91,17 +91,17 @@ export default class extends PIXI.AbstractFilter {
      * The radius of the effect.
      */
     get radius() {
-        return this.uniforms.r.value;
+        return this.uniforms.radius.value;
     }
 
     /**
      * Sets the radius of the effect.
      *
-     * @param {number} r
+     * @param {number} radius
      * The radius of the effect.
      */
-    set radius(r){
-        this.uniforms.r.value = r;
+    set radius(radius) {
+        this.uniforms.radius.value = radius;
     }
 
     /**
@@ -112,18 +112,20 @@ export default class extends PIXI.AbstractFilter {
      */
     get focus() {
         return new Vec2(
-            this.uniforms.f.value.x,
-            this.uniforms.f.value.y
+            this.uniforms.focus.value.x,
+            this.uniforms.focus.value.y
         );
     }
 
     /**
      * Sets the coordinates of the focus.
      *
-     * @param {Vec2} coordinates
+     * @param {Vec2} focus
      * The coordinates of the focus.
      */
-    set focus(coordinates) {
-        this.uniforms.f.value = coordinates;
+    set focus(focus) {
+        this.uniforms.focus.value = focus;
     }
 }
+
+export const instance = new PolarFisheye();

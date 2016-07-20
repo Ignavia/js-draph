@@ -38,9 +38,9 @@ const fragmentSrc = `
 `;
 
 /**
- * A cartesian fisheye filter.
+ * A transparency filter.
  */
-export default class extends PIXI.AbstractFilter {
+export default class Transparency extends PIXI.AbstractFilter {
 
     /**
      *
@@ -104,3 +104,5 @@ export default class extends PIXI.AbstractFilter {
         this.uniforms.f.value = coordinates;
     }
 }
+
+export const instance = new Transparency();

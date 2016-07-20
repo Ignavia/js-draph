@@ -533,10 +533,14 @@ export default class GraphView {
      * @param {number} centerHeight
      * The midpoint of the distortion curve.
      *
+     * @param {number} radius
+     * The radius of the effect.
+     *
      * @private
      */
-    configurePolarFisheye(centerHeight) {
+    configurePolarFisheye(centerHeight, radius) {
         this.polarFisheye.centerHeight = centerHeight;
+        this.polarFisheye.radius       = radius;
         if (centerHeight === 0.5) {
             this.stage.filters = null;
         } else {
@@ -611,11 +615,16 @@ export default class GraphView {
      * @param {Object} [options]
      * The options object.
      *
-     * @param {number} [options.cartesianFisheyeStrengthX]
-     * The strength of the distortion in x-direction.
+     * @param {number} [options.cartesianFisheyeCenterHeight]
+     * The value of the distortion function at x = 0.5. This is the
+     * place halfway between the focus point and the border.
      *
-     * @param {number} [options.cartesianFisheyeStrengthY]
-     * The strength of the distortion in y-direction.
+     * @param {number} [options.polarFisheyeCenterHeight]
+     * the value of the distortion function at x = 0.5. This is the
+     * place halfway between the focus point and the border.
+     *
+     * @param {number} [options.polarFisheyeRadius]
+     * The radius of the effect.
      *
      * @param {number} [options.sizeScalingMidpoint]
      * The midpoint of the curve.
@@ -624,12 +633,18 @@ export default class GraphView {
      * The steepness of the curve.
      */
     configureFilters({
-        fisheyeCenterHeight  = this.cartesianFisheye.centerHeight,
-        sizeScalingMidpoint  = this.sizeScalingMidpoint,
-        sizeScalingSteepness = this.sizeScalingSteepness,
+        cartesianFisheyeCenterHeight  = this.cartesianFisheye.centerHeight,
+        polarFisheyeCenterHeight      = this.polarFisheye.centerHeight,
+        polarFisheyeRadius            = this.polarFisheye.radius,
+        sizeScalingMidpoint           = this.sizeScalingMidpoint,
+        sizeScalingSteepness          = this.sizeScalingSteepness,
     } = {}) {
         this.configureCartesianFisheye(
-            fisheyeCenterHeight
+            cartesianFisheyeCenterHeight
+        );
+        this.configurePolarFisheye(
+            polarFisheyeCenterHeight,
+            polarFisheyeRadius
         );
         this.configureSizeScaling(
             sizeScalingMidpoint,
@@ -934,7 +949,7 @@ export default class GraphView {
      */
     animate() {
         this.cartesianFisheye.focus = this.getRelativeMousePosition();
-        this.polarFisheye.focus = this.getRelativeMousePosition();
+        this.polarFisheye.focus     = this.getRelativeMousePosition();
 
         if (this.sizeScalingSteepness !== 0) {
             this.scaleDisplayObjects();
