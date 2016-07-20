@@ -49,7 +49,7 @@ export default class extends PIXI.AbstractFilter {
         super(null, fragmentSrc, {
             b: {
                 type: "1f",
-                value: 2
+                value: 0
             },
             f: {
                 type: "v2",

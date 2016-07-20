@@ -9,6 +9,7 @@ import {nodeVisualizer}  from "./node/node.js";
 import {edgeVisualizer}  from "./edge/edge.js";
 
 import CartesianFisheye from "./filters/CartesianFisheye.js";
+import PolarFisheye     from "./filters/PolarFisheye.js";
 
 /**
  * The main class of the library.
@@ -159,6 +160,14 @@ export default class GraphView {
          * @private
          */
         this.cartesianFisheye = new CartesianFisheye();
+
+        /**
+         * The polar fisheye filter.
+         *
+         * @type {PolarFisheye}
+         * @private
+         */
+        this.polarFisheye = new PolarFisheye();
 
         /**
          * The steepness of the size-scaling curve.
@@ -515,6 +524,23 @@ export default class GraphView {
             this.stage.filters = null;
         } else {
             this.stage.filters = [this.cartesianFisheye];
+        }
+    }
+
+    /**
+     * Configures the polar fisheye filter.
+     *
+     * @param {number} centerHeight
+     * The midpoint of the distortion curve.
+     *
+     * @private
+     */
+    configurePolarFisheye(centerHeight) {
+        this.polarFisheye.centerHeight = centerHeight;
+        if (centerHeight === 0.5) {
+            this.stage.filters = null;
+        } else {
+            this.stage.filters = [this.polarFisheye];
         }
     }
 
@@ -908,6 +934,7 @@ export default class GraphView {
      */
     animate() {
         this.cartesianFisheye.focus = this.getRelativeMousePosition();
+        this.polarFisheye.focus = this.getRelativeMousePosition();
 
         if (this.sizeScalingSteepness !== 0) {
             this.scaleDisplayObjects();

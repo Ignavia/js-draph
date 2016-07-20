@@ -13,23 +13,22 @@ const fragmentSrc = `
     varying vec4 vColor;
     uniform sampler2D uSampler;
     uniform float b;
+    uniform float r;
     uniform vec2  f;
 
     float distortDistance(float d) {
         return (pow(b, d) - 1.) / (b - 1.);
     }
 
-    float distortDirection(float f, float v) {
-        float i = v < f ? 0. : 1.;
-        float d = (v - f) / (i - f);
-        return f + distortDistance(d) * (i - f);
-    }
-
     vec2 distort(vec2 v) {
-        return vec2(
-            distortDirection(f.x, v.x),
-            distortDirection(f.y, v.y)
-        );
+        vec2 connector = v - f;
+        float l        = length(connector);
+        if (l >= r || l == 0.) {
+            return v;
+        } else {
+            float d = l / r;
+            return f + distortDistance(d) * (connector / l * r);
+        }
     }
 
     void main(void) {
@@ -50,6 +49,10 @@ export default class extends PIXI.AbstractFilter {
             b: {
                 type: "1f",
                 value: 2
+            },
+            r: {
+                type: "1f",
+                value: 0.5,
             },
             f: {
                 type: "v2",
@@ -79,6 +82,26 @@ export default class extends PIXI.AbstractFilter {
      */
     set centerHeight(y) {
         this.uniforms.b.value = (1 / y - 1)**2;
+    }
+
+    /**
+     * Returns the radius of the effect.
+     *
+     * @return {number}
+     * The radius of the effect.
+     */
+    get radius() {
+        return this.uniforms.r.value;
+    }
+
+    /**
+     * Sets the radius of the effect.
+     *
+     * @param {number} r
+     * The radius of the effect.
+     */
+    set radius(r){
+        this.uniforms.r.value = r;
     }
 
     /**

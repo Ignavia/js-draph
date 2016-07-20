@@ -139,4 +139,4 @@ $container.appendChild(view.getView());
 
 resize();
 view.startRenderLoop();
-view.configureCartesianFisheye(0.2);
+view.configurePolarFisheye(0.2);
