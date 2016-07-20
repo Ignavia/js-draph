@@ -504,18 +504,14 @@ export default class GraphView {
     /**
      * Configures the cartesian fisheye filter.
      *
-     * @param {number} mp
+     * @param {number} centerHeight
      * The midpoint of the distortion curve.
-     *
-     * @param {number} s
-     * The steepness of the distortion curve.
      *
      * @private
      */
-    configureCartesianFisheye(mp, s) {
-        this.cartesianFisheye.mp = mp;
-        this.cartesianFisheye.s  = s;
-        if (s === 0) {
+    configureCartesianFisheye(centerHeight) {
+        this.cartesianFisheye.centerHeight = centerHeight;
+        if (centerHeight === 0.5) {
             this.stage.filters = null;
         } else {
             this.stage.filters = [this.cartesianFisheye];
@@ -602,14 +598,12 @@ export default class GraphView {
      * The steepness of the curve.
      */
     configureFilters({
-        fisheyeMidpoint      = this.cartesianFisheye.mp,
-        fisheyeSteepness     = this.cartesianFisheye.s,
+        fisheyeCenterHeight  = this.cartesianFisheye.centerHeight,
         sizeScalingMidpoint  = this.sizeScalingMidpoint,
         sizeScalingSteepness = this.sizeScalingSteepness,
     } = {}) {
         this.configureCartesianFisheye(
-            fisheyeMidpoint,
-            fisheyeSteepness
+            fisheyeCenterHeight
         );
         this.configureSizeScaling(
             sizeScalingMidpoint,

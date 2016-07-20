@@ -12,16 +12,11 @@ const fragmentSrc = `
     varying vec2 vTextureCoord;
     varying vec4 vColor;
     uniform sampler2D uSampler;
-    uniform float s;
-    uniform float m;
+    uniform float b;
     uniform vec2  f;
 
-    float logistic(float d) {
-        return 1. / (1. + exp(s * (1. - m - d)));
-    }
-
     float distortDistance(float d) {
-        return m + (log(1. / (d * logistic(0.) + (1. - d) *  logistic(1.)) - 1.) / s);
+        return (pow(b, d) - 1.) / (b - 1.);
     }
 
     float distortDirection(float f, float v) {
@@ -38,11 +33,7 @@ const fragmentSrc = `
     }
 
     void main(void) {
-        if (s == 0.) {
-            gl_FragColor = texture2D(uSampler, vTextureCoord);
-        } else {
-            gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
-        }
+        gl_FragColor = texture2D(uSampler, distort(vTextureCoord));
     }
 `;
 
@@ -56,13 +47,9 @@ export default class extends PIXI.AbstractFilter {
      */
     constructor() {
         super(null, fragmentSrc, {
-            s: {
+            b: {
                 type: "1f",
                 value: 0
-            },
-            m: {
-                type: "1f",
-                value: 0.5
             },
             f: {
                 type: "v2",
@@ -72,43 +59,26 @@ export default class extends PIXI.AbstractFilter {
     }
 
     /**
-     * Returns the midpoint of the distortion curve.
+     * Returns the value of the distortion function at x = 0.5. This is the
+     * place halfway between the focus point and the border.
      *
      * @return {number}
-     * The midpoint of the distortion curve.
+     * The value of the distortion function at x = 0.5.
      */
-    get mp() {
-        return this.uniforms.m.value;
+    get centerHeight() {
+        const b = this.uniforms.b.value;
+        return 1 / (b**0.5 + 1);
     }
 
     /**
-     * Sets the midpoint of the distortion curve.
+     * Sets the value of the distortion function at x = 0.5. This is the
+     * place halfway between the focus point and the border.
      *
-     * @param {number} mp
-     * The midpoint of the distortion curve.
+     * @param {number} y
+     * The value of the distortion function at x = 0.5.
      */
-    set mp(mp) {
-        this.uniforms.m.value = mp;
-    }
-
-    /**
-     * Returns the steepness of the distortion curve.
-     *
-     * @return {number}
-     * The steepness of the distortion curve.
-     */
-    get s() {
-        return this.uniforms.s.value;
-    }
-
-    /**
-     * Sets the steepness of the distortion curve.
-     *
-     * @param {number} s
-     * The steepness of the distortion curve.
-     */
-    set s(s) {
-        this.uniforms.s.value = s;
+    set centerHeight(y) {
+        this.uniforms.b.value = (1 / y - 1)**2;
     }
 
     /**
