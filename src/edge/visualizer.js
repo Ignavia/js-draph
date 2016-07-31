@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import {Vec2} from "@ignavia/ella";
 
-import EdgeContainer from "./EdgeContainer.js";
+import EdgeGraphic   from "./EdgeGraphic.js";
 import registry      from "../registry.js";
 import * as utils    from "../utils.js";
 
@@ -204,7 +204,7 @@ function makeContainer(conf, sourcePos, targetPos) {
     utils.setPosition(line.arrow.pos, arrow);
     utils.setRotation(line.arrow.angle, arrow);
 
-    return new EdgeContainer(arrow, decal, line);
+    return new EdgeGraphic(arrow, decal, line);
 }
 
 /**

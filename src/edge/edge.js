@@ -1,4 +1,4 @@
-export EdgeContainer             from "./EdgeContainer.js";
+export EdgeGraphic               from "./EdgeGraphic.js";
 
 export edgeVisualizer            from "./visualizer.js";
 

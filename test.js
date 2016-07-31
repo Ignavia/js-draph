@@ -25,7 +25,7 @@ const view = new GraphView(g, {
     graphConf: {
         style: {
             conf: {
-                backgroundColor: predefinedColors.gray,
+                backgroundColor: predefinedColors.white,
             },
         },
     },
