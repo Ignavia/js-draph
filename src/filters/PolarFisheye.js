@@ -39,7 +39,7 @@ const fragmentSrc = `
 /**
  * A polar fisheye filter.
  */
-export default class PolarFisheye extends PIXI.AbstractFilter {
+export default class PolarFisheye extends PIXI.Filter {
 
     /**
      *

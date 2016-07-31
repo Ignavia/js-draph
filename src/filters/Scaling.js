@@ -64,7 +64,7 @@ const fragmentSrc = `
 /**
  * A scaling filter.
  */
-export default class Scaling extends PIXI.AbstractFilter {
+export default class Scaling extends PIXI.Filter {
 
     /**
      *

@@ -127,9 +127,9 @@ export default function makeView(conf = {}) {
     stage.addChild(nodes);
 
     // Add filters
-    selectedNodeContainer.filters = [makeDropShadow(conf, 2)];
-    nodeContainer.filters         = [makeDropShadow(conf)];
-    selectedEdgeContainer.filters = [makeDropShadow(conf)];
+    //selectedNodeContainer.filters = [makeDropShadow(conf, 2)];
+    //nodeContainer.filters         = [makeDropShadow(conf)];
+    //selectedEdgeContainer.filters = [makeDropShadow(conf)];
 
     return {
         renderer: makeRenderer(conf),

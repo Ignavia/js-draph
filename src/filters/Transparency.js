@@ -40,7 +40,7 @@ const fragmentSrc = `
 /**
  * A transparency filter.
  */
-export default class Transparency extends PIXI.AbstractFilter {
+export default class Transparency extends PIXI.Filter {
 
     /**
      *

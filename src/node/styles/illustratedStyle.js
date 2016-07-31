@@ -274,9 +274,7 @@ export default function makeSprite(conf = {}) {
 
     const container = utils.makeCaptionedImage(conf, conf.image.path, conf.caption.text.label);
     const box       = utils.makeBox(conf.box, container);
-    const margin    = utils.makeMargin(conf.box.margin, box);
     container.addChildAt(box, 0);
-    container.addChildAt(margin, 0);
 
     return utils.makeCanvasSprite(container);
 };

@@ -61,7 +61,6 @@ export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const circle = utils.makeCircle(conf, conf.radius);
-
     return utils.makeCanvasSprite(circle);
 };
 registry.addNodeStyle("simple", makeSprite);

@@ -1,4 +1,4 @@
-import PIXI from "pixi.js";
+import PIXI from "pixi";
 import _    from "lodash/fp";
 
 import {Vec2}   from "@ignavia/ella";

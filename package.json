@@ -45,7 +45,8 @@
       "@ignavia/util": "^2.0.0",
       "jquery": "^3.0.0",
       "jquery-mousewheel": "^3.1.13",
-      "lodash": "^4.11.1"
+      "lodash": "^4.11.1",
+      "pixi": "github:pixijs/pixi.js@4.0.0-rc2"
     },
     "devDependencies": {
       "babel-plugin-transform-export-extensions": "^6.5.0",
@@ -67,8 +68,9 @@
       "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
       "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
-      "pixi.js": "^3.0.11",
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "punycode": "github:jspm/nodelibs-punycode@^0.2.0-alpha",
+      "querystring": "github:jspm/nodelibs-querystring@^0.2.0-alpha",
       "source-map": "~0.1.33",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
       "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
@@ -80,6 +82,9 @@
       "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
     },
     "overrides": {
+      "github:pixijs/pixi.js@4.0.0-rc2": {
+        "main": "./bin/pixi.min.js"
+      },
       "npm:browserify-zlib@0.1.4": {
         "dependencies": {
           "readable-stream": "^2.0.2",
@@ -108,7 +113,7 @@
           "test.js"
         ]
       },
-      "npm:lodash@4.13.1": {
+      "npm:lodash@4.14.1": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"

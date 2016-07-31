@@ -9,10 +9,7 @@ import {predefinedColors} from "@ignavia/util";
  * @type {Renderer}
  * @ignore
  */
-export const canvasRenderer = new PIXI.CanvasRenderer({
-    antialias:  true,
-    resolution: window.devicePixelRatio || 1
-});
+export const canvasRenderer = new PIXI.CanvasRenderer();
 
 /**
  * Creates a sprite from the given display object using a canvas renderer.
@@ -20,8 +17,8 @@ export const canvasRenderer = new PIXI.CanvasRenderer({
  * @param {DisplayObject} displayObject
  * The display object to turn into a sprite.
  */
-export function makeCanvasSprite(displayObject) {
-    const texture = displayObject.generateTexture(canvasRenderer);
+export function makeCanvasSprite(displayObject) {return displayObject // TODO remove
+    const texture = canvasRenderer.generateTexture(displayObject);
     const sprite  = new PIXI.Sprite(texture);
     sprite.anchor = computeAnchor(displayObject);
     return sprite;
@@ -190,11 +187,13 @@ export const makeCircle = _.curry(function (style, radius) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.boundsPadding = 1;
     result.drawCircle(
         0,
         0,
         radius
     );
+    result.endFill();
     return result;
 });
 
@@ -229,6 +228,7 @@ export const makeEllipse = _.curry(function (style, halfWidth, halfHeight) {
     const result = new PIXI.Graphics();
     result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
     result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.boundsPadding = 1;
     result.drawEllipse(
         0,
         0,
@@ -389,7 +389,10 @@ export const makeText = _.curry(function (style, s) {
         dropShadowColor:    style.dropShadow.color.hex,
         dropShadowDistance: style.dropShadow.distance,
         fill:               style.fillColor.hex,
-        font:               `${style.font.weight} ${style.font.style} ${style.font.size}px ${style.font.family}`,
+        fontFamily:         style.font.family,
+        fontSize:           style.font.size,
+        fontStyle:          style.font.style,
+        fontWeight:         style.font.weight,
         stroke:             style.stroke.color.hex,
         strokeThickness:    style.stroke.thickness,
         wordWrap:           style.wordWrapWidth > 0,
@@ -462,32 +465,7 @@ export const makeBox = _.curry(function (style, displayObject) {
             style.border.radius
         );
     }
-});
-
-/**
- * Creates a transparent margin for the given display object. This function is
- * curried.
- *
- * @param {Number} margin
- * How wide the margin at one side should be.
- *
- * @param {DisplayObject} displayObject
- * The display object to make a margin for.
- *
- * @return {DisplayObject}
- * The resulting display object.
- */
-export const makeMargin = _.curry(function (margin, displayObject) {
-    const result = new PIXI.Graphics();
-    result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
-    result.drawRect(
-        -displayObject.width  / 2 -     margin,
-        -displayObject.height / 2 -     margin,
-         displayObject.width      + 2 * margin,
-         displayObject.height     + 2 * margin
-    );
-    return result;
-});
+});//TODO: object pool for graphic objects (lazy allocation)
 
 /**
  * Creates a diplay object from the image at the given location.
@@ -584,10 +562,6 @@ export const makeCaption = _.curry(function (style, text, displayObject) {
  * How the box around the text should look. Refer to the makeBox function to see
  * how this sub-object has to be structured.
  *
- * @param {Object} style.box.margin
- * The margin to add around the box. This is useful to prevent PIXI from cutting
- * some pixels of the border off.
- *
  * @param {String} text
  * The text to display.
  *
@@ -598,8 +572,6 @@ export const makeBoxedLabel = _.curry(function (style, text) {
     const result    = new PIXI.Container();
     const label     = makeText(style.text, text);
     const box       = makeBox(style.box, label);
-    const margin    = makeMargin(style.box.margin, box);
-    result.addChild(margin);
     result.addChild(box);
     result.addChild(label);
     return result;
