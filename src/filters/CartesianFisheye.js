@@ -41,7 +41,7 @@ const fragmentSrc = `
 /**
  * A cartesian fisheye filter.
  */
-export default class CartesianFisheye extends PIXI.Filter {
+export default class CartesianFisheye extends PIXI.AbstractFilter {
 
     /**
      *

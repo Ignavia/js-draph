@@ -353,6 +353,7 @@ export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const container = makeContainer(conf, conf.content);
+
     return utils.makeCanvasSprite(container);
 };
 registry.addNodeStyle("table", makeSprite);

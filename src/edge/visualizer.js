@@ -2,9 +2,9 @@ import _ from "lodash";
 
 import {Vec2} from "@ignavia/ella";
 
-import EdgeGraphic from "./EdgeGraphic.js";
-import registry    from "../registry.js";
-import * as utils  from "../utils.js";
+import EdgeGraphic   from "./EdgeGraphic.js";
+import registry      from "../registry.js";
+import * as utils    from "../utils.js";
 
 /**
  * The default configuration of this visualizer.

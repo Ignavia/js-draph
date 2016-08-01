@@ -217,6 +217,7 @@ export default function makeSprite(conf = {}) {
     conf = utils.adjustConf(defaultConf, conf);
 
     const container = utils.makeBoxedLabel(conf, conf.text.label);
+
     return utils.makeCanvasSprite(container);
 };
 registry.addNodeStyle("labelled", makeSprite);
