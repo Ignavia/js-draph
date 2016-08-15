@@ -69,6 +69,8 @@
       "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
       "pixi.js": "^3.0.11",
       "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "punycode": "github:jspm/nodelibs-punycode@^0.2.0-alpha",
+      "querystring": "github:jspm/nodelibs-querystring@^0.2.0-alpha",
       "source-map": "~0.1.33",
       "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
       "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
@@ -108,7 +110,7 @@
           "test.js"
         ]
       },
-      "npm:lodash@4.13.1": {
+      "npm:lodash@4.14.1": {
         "map": {
           "buffer": "@empty",
           "process": "@empty"
@@ -150,4 +152,4 @@
       }
     }
   }
-}
+}

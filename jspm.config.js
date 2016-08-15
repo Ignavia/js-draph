@@ -126,7 +126,7 @@ SystemJS.config({
         "map": {
           "babel-types": "npm:babel-types@6.11.1",
           "babel-runtime": "npm:babel-runtime@6.9.2",
-          "lodash": "npm:lodash@4.13.1",
+          "lodash": "npm:lodash@4.14.1",
           "babel-traverse": "npm:babel-traverse@6.10.4",
           "babylon": "npm:babylon@6.8.2"
         }
@@ -147,7 +147,7 @@ SystemJS.config({
       "npm:babel-helper-define-map@6.9.0": {
         "map": {
           "babel-runtime": "npm:babel-runtime@6.9.2",
-          "lodash": "npm:lodash@4.13.1",
+          "lodash": "npm:lodash@4.14.1",
           "babel-types": "npm:babel-types@6.11.1",
           "babel-helper-function-name": "npm:babel-helper-function-name@6.8.0"
         }
@@ -267,7 +267,7 @@ SystemJS.config({
       "npm:babel-types@6.11.1": {
         "map": {
           "babel-runtime": "npm:babel-runtime@6.9.2",
-          "lodash": "npm:lodash@4.13.1",
+          "lodash": "npm:lodash@4.14.1",
           "babel-traverse": "npm:babel-traverse@6.10.4",
           "to-fast-properties": "npm:to-fast-properties@1.0.2",
           "esutils": "npm:esutils@2.0.2"
@@ -275,7 +275,7 @@ SystemJS.config({
       },
       "npm:babel-traverse@6.10.4": {
         "map": {
-          "lodash": "npm:lodash@4.13.1",
+          "lodash": "npm:lodash@4.14.1",
           "babylon": "npm:babylon@6.8.2",
           "babel-runtime": "npm:babel-runtime@6.9.2",
           "babel-types": "npm:babel-types@6.11.1",
@@ -343,7 +343,7 @@ SystemJS.config({
   map: {
     "constants": "github:jspm/nodelibs-constants@0.2.0-alpha",
     "crypto": "github:jspm/nodelibs-crypto@0.2.0-alpha",
-    "lodash": "npm:lodash@4.13.1",
+    "lodash": "npm:lodash@4.14.1",
     "@ignavia/util": "npm:@ignavia/util@2.0.0",
     "@ignavia/earl": "npm:@ignavia/earl@1.5.0",
     "@ignavia/ella": "npm:@ignavia/ella@1.2.0",
@@ -361,6 +361,8 @@ SystemJS.config({
     "path": "github:jspm/nodelibs-path@0.2.0-alpha",
     "pixi.js": "npm:pixi.js@3.0.11",
     "process": "github:jspm/nodelibs-process@0.2.0-alpha",
+    "punycode": "github:jspm/nodelibs-punycode@0.2.0-alpha",
+    "querystring": "github:jspm/nodelibs-querystring@0.2.0-alpha",
     "source-map": "npm:source-map@0.1.43",
     "stream": "github:jspm/nodelibs-stream@0.2.0-alpha",
     "string_decoder": "github:jspm/nodelibs-string_decoder@0.2.0-alpha",
@@ -374,7 +376,7 @@ SystemJS.config({
   packages: {
     "github:jspm/nodelibs-buffer@0.2.0-alpha": {
       "map": {
-        "buffer-browserify": "npm:buffer@4.7.0"
+        "buffer-browserify": "npm:buffer@4.7.1"
       }
     },
     "github:jspm/nodelibs-os@0.2.0-alpha": {
@@ -436,7 +438,7 @@ SystemJS.config({
         "acorn": "npm:acorn@1.2.2",
         "foreach": "npm:foreach@2.0.5",
         "isarray": "npm:isarray@0.0.1",
-        "object-keys": "npm:object-keys@1.0.9"
+        "object-keys": "npm:object-keys@1.0.11"
       }
     },
     "npm:has@1.0.1": {
@@ -452,7 +454,7 @@ SystemJS.config({
         "earcut": "npm:earcut@2.1.1",
         "eventemitter3": "npm:eventemitter3@1.2.0",
         "object-assign": "npm:object-assign@4.1.0",
-        "resource-loader": "npm:resource-loader@1.6.5"
+        "resource-loader": "npm:resource-loader@1.7.0"
       }
     },
     "npm:quote-stream@0.0.0": {
@@ -573,12 +575,6 @@ SystemJS.config({
         "buffer-shims": "npm:buffer-shims@1.0.0"
       }
     },
-    "npm:resource-loader@1.6.5": {
-      "map": {
-        "async": "npm:async@0.9.2",
-        "eventemitter3": "npm:eventemitter3@1.2.0"
-      }
-    },
     "github:jspm/nodelibs-zlib@0.2.0-alpha": {
       "map": {
         "zlib-browserify": "npm:browserify-zlib@0.1.4"
@@ -587,7 +583,7 @@ SystemJS.config({
     "npm:browserify-zlib@0.1.4": {
       "map": {
         "readable-stream": "npm:readable-stream@2.1.4",
-        "pako": "npm:pako@0.2.8"
+        "pako": "npm:pako@0.2.9"
       }
     },
     "github:jspm/nodelibs-crypto@0.2.0-alpha": {
@@ -615,7 +611,7 @@ SystemJS.config({
         "create-hash": "npm:create-hash@1.1.2",
         "create-hmac": "npm:create-hmac@1.1.4",
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "parse-asn1": "npm:parse-asn1@5.0.0",
         "elliptic": "npm:elliptic@6.3.1"
       }
@@ -643,14 +639,14 @@ SystemJS.config({
       "map": {
         "create-hash": "npm:create-hash@1.1.2",
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "parse-asn1": "npm:parse-asn1@5.0.0",
         "randombytes": "npm:randombytes@2.0.3"
       }
     },
     "npm:diffie-hellman@5.0.2": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "miller-rabin": "npm:miller-rabin@4.0.0",
         "randombytes": "npm:randombytes@2.0.3"
       }
@@ -664,7 +660,7 @@ SystemJS.config({
     },
     "npm:browserify-rsa@4.0.1": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "randombytes": "npm:randombytes@2.0.3"
       }
     },
@@ -674,7 +670,7 @@ SystemJS.config({
         "browserify-aes": "npm:browserify-aes@1.0.6",
         "create-hash": "npm:create-hash@1.1.2",
         "pbkdf2": "npm:pbkdf2@3.0.4",
-        "asn1.js": "npm:asn1.js@4.6.2"
+        "asn1.js": "npm:asn1.js@4.8.0"
       }
     },
     "npm:browserify-des@1.0.0": {
@@ -705,7 +701,7 @@ SystemJS.config({
     },
     "npm:miller-rabin@4.0.0": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "brorand": "npm:brorand@1.0.5"
       }
     },
@@ -716,15 +712,8 @@ SystemJS.config({
     },
     "npm:create-ecdh@4.0.0": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "elliptic": "npm:elliptic@6.3.1"
-      }
-    },
-    "npm:asn1.js@4.6.2": {
-      "map": {
-        "inherits": "npm:inherits@2.0.1",
-        "bn.js": "npm:bn.js@4.11.4",
-        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     },
     "npm:des.js@1.0.0": {
@@ -746,28 +735,51 @@ SystemJS.config({
     "npm:elliptic@6.3.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "bn.js": "npm:bn.js@4.11.4",
+        "bn.js": "npm:bn.js@4.11.5",
         "brorand": "npm:brorand@1.0.5",
         "hash.js": "npm:hash.js@1.0.3"
       }
     },
-    "npm:buffer@4.7.0": {
-      "map": {
-        "isarray": "npm:isarray@1.0.0",
-        "base64-js": "npm:base64-js@1.1.2",
-        "ieee754": "npm:ieee754@1.1.6"
-      }
-    },
     "npm:@ignavia/util@2.0.0": {
       "map": {
-        "lodash": "npm:lodash@4.13.1"
+        "lodash": "npm:lodash@4.14.1"
       }
     },
     "npm:@ignavia/earl@1.5.0": {
       "map": {
         "@ignavia/util": "npm:@ignavia/util@2.0.0",
-        "lodash": "npm:lodash@4.13.1",
+        "lodash": "npm:lodash@4.14.1",
         "@ignavia/ella": "npm:@ignavia/ella@1.2.0"
+      }
+    },
+    "npm:resource-loader@1.7.0": {
+      "map": {
+        "async": "npm:async@2.0.1",
+        "eventemitter3": "npm:eventemitter3@1.2.0"
+      }
+    },
+    "npm:buffer@4.7.1": {
+      "map": {
+        "isarray": "npm:isarray@1.0.0",
+        "ieee754": "npm:ieee754@1.1.6",
+        "base64-js": "npm:base64-js@1.1.2"
+      }
+    },
+    "npm:async@2.0.1": {
+      "map": {
+        "lodash": "npm:lodash@4.14.1"
+      }
+    },
+    "github:jspm/nodelibs-punycode@0.2.0-alpha": {
+      "map": {
+        "punycode-browserify": "npm:punycode@1.4.1"
+      }
+    },
+    "npm:asn1.js@4.8.0": {
+      "map": {
+        "bn.js": "npm:bn.js@4.11.5",
+        "inherits": "npm:inherits@2.0.1",
+        "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
       }
     }
   }
