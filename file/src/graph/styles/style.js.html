@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../../">
+  <title data-ice="title">src/graph/styles/style.js | JavaScript Draph API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Ignavia/js-draph.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/GraphView.js~GraphView.html">GraphView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/registry.js~Registry.html">Registry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-adjustConf">adjustConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-composeEventListeners">composeEventListeners</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeAnchor">computeAnchor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeHitArea">computeHitArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeCanvasSprite">makeCanvasSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeImage">makeImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setBounds">setBounds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setPivot">setPivot</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setPosition">setPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setRotation">setRotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setScale">setScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-shaderStringToArray">shaderStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-registry">registry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addInteraction">addInteraction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-emptyDisplayObject">emptyDisplayObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBezierCurve">makeBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBox">makeBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBoxedLabel">makeBoxedLabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCaption">makeCaption</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCaptionedImage">makeCaptionedImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCircle">makeCircle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeEllipse">makeEllipse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeLine">makeLine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeMargin">makeMargin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeQuadraticCurve">makeQuadraticCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeRect">makeRect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeRoundedRect">makeRoundedRect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeText">makeText</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/edge/EdgeGraphic.js~EdgeGraphic.html">EdgeGraphic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedSprite">makeEnhancedSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/arrowStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/decalStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/lineStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">filters</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/filters/CartesianFisheye.js~CartesianFisheye.html">CartesianFisheye</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/filters/PolarFisheye.js~PolarFisheye.html">PolarFisheye</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-instance">instance</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-instance">instance</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedView">makeEnhancedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph/styles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeView">makeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedSprite">makeEnhancedSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node/styles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/graph/styles/style.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import {Vec2}             from &quot;@ignavia/ella&quot;;
+import {predefinedColors} from &quot;@ignavia/util&quot;;
+
+import registry   from &quot;../../registry.js&quot;;
+import * as utils from &quot;../../utils.js&quot;;
+
+/**
+ * The default configuration of this style.
+ */
+export const defaultConf = {
+
+    /**
+     * The background color of the stage.
+     *
+     * @type {Color}
+     */
+    backgroundColor: predefinedColors.white,
+
+    /**
+     * The drop shadow to apply to nodes. Set the distance to 0 to disable it.
+     *
+     * @type {Object}
+     */
+    nodeDropShadow: {
+
+        /**
+         * The angle of the drop shadow in radians.
+         *
+         * @type {Number}
+         */
+        angle: Math.PI / 4,
+
+        /**
+         * The blur to apply to the drop shadow.
+         *
+         * @type {Vec2}
+         */
+        blur: new Vec2(4, 4),
+
+        /**
+         * The color of the drop shadow.
+         *
+         * @type {Color}
+         */
+        color: predefinedColors.gray,
+
+        /**
+         * How long the drop shadow is.
+         *
+         * @type {Number}
+         */
+        distance: 5,
+    },
+
+    /**
+     * Configures the renderer to use.
+     *
+     * @type {Object}
+     */
+    renderer: {
+
+        /**
+         * The width of the renderer.
+         *
+         * @type {Number}
+         */
+        width: screen.width,
+
+        /**
+         * The height of the renderer.
+         *
+         * @type {Number}
+         */
+        height: screen.height,
+
+        /**
+         * The type of the renderer. Use &quot;auto&quot; to use WebGL if available and
+         * canvas otherwise or set this directly to &quot;webGL&quot; or &quot;canvas&quot;.
+         *
+         * @type {String}
+         */
+        type: &quot;auto&quot;,
+
+        /**
+         * The resolution to use.
+         *
+         * @type {Number}
+         */
+        resolution: window.devicePixelRatio || 1,
+
+        /**
+         * Whether to automatically resize the renderer.
+         *
+         * @type {Boolean}
+         */
+        autoResize: true,
+    }
+};
+
+/**
+ * Creates renderer, stage, nodeContainer and edgeContainers based on the
+ * default confguration. All those are bundled in an object and returned.
+ *
+ * @param {Object} [conf]
+ * The configuration to use.
+ *
+ * @return {Object}
+ * The created object.
+ */
+export default function makeView(conf = {}) {
+    conf = utils.adjustConf(defaultConf, conf);
+
+    const stage                 = new PIXI.Container();
+
+    const edges                 = new PIXI.Container();
+    const selectedEdgeContainer = new PIXI.Container();
+    const edgeContainer         = new PIXI.Container();
+    edges.addChild(edgeContainer);
+    edges.addChild(selectedEdgeContainer);
+    stage.addChild(edges);
+
+    const nodes                 = new PIXI.Container();
+    const selectedNodeContainer = new PIXI.Container();
+    const nodeContainer         = new PIXI.Container();
+    nodes.addChild(nodeContainer);
+    nodes.addChild(selectedNodeContainer);
+    stage.addChild(nodes);
+
+    // Add filters
+    selectedNodeContainer.filters = [makeDropShadow(conf, 2)];
+    nodeContainer.filters         = [makeDropShadow(conf)];
+    selectedEdgeContainer.filters = [makeDropShadow(conf)];
+
+    return {
+        renderer: makeRenderer(conf),
+        stage,
+        selectedNodeContainer,
+        nodeContainer,
+        selectedEdgeContainer,
+        edgeContainer,
+    };
+}
+registry.addGraphStyle(&quot;default&quot;, makeView);
+
+/**
+ * Creates a renderer using the given configuration.
+ *
+ * @param {Object} conf
+ * The configuration to use.
+ *
+ * @return {Renderer}
+ * The created renderer.
+ */
+function makeRenderer(conf) {
+    switch (conf.renderer.type) {
+    case &quot;auto&quot;:
+        return makeAutoDetectedRenderer(conf);
+    case &quot;webGL&quot;:
+        return makeWebGLRenderer(conf);
+    case &quot;canvas&quot;:
+        return makeCanvasRenderer(conf);
+    }
+}
+
+/**
+ * Creates a WebGL renderer if available, otherwise a canvas renderer.
+ *
+ * @param {Object} conf
+ * The configuration to use.
+ *
+ * @return {Renderer}
+ * The created renderer.
+ */
+function makeAutoDetectedRenderer(conf) {
+    return PIXI.autoDetectRenderer(conf.renderer.width, conf.renderer.height, {
+        autoResize:      conf.renderer.autoResize,
+        resolution:      conf.renderer.resolution,
+        backgroundColor: conf.backgroundColor.hex
+    });
+}
+
+/**
+ * Creates a WebGL renderer using the given configuration.
+ *
+ * @param {Object} conf
+ * The configuration to use.
+ *
+ * @return {Renderer}
+ * The created renderer.
+ */
+function makeWebGLRenderer(conf) {
+    return new PIXI.WebGLRenderer(conf.renderer.width, conf.renderer.height, {
+        autoResize:      conf.renderer.autoResize,
+        resolution:      conf.renderer.resolution,
+        backgroundColor: conf.backgroundColor.hex
+    });
+}
+
+/**
+ * Creates a canvas renderer using the given configuration.
+ *
+ * @param {Object} conf
+ * The configuration to use.
+ *
+ * @return {Renderer}
+ * The created renderer.
+ */
+function makeCanvasRenderer(conf) {
+    return new PIXI.CanvasRenderer(conf.renderer.width, conf.renderer.height, {
+        autoResize:      conf.renderer.autoResize,
+        resolution:      conf.renderer.resolution,
+        backgroundColor: conf.backgroundColor.hex
+    });
+}
+
+/**
+ * Creates a drop shadow filter based on the given configuration.
+ *
+ * @param {Object} conf
+ * The configuration to use.
+ *
+ * @param {Number} factor
+ * The factor to multiply the distance and blur values by.
+ *
+ * @return {Filter}
+ * The created filter.
+ */
+function makeDropShadow(conf, factor = 1) {
+    const dropShadow    = new PIXI.filters.DropShadowFilter();
+    dropShadow.color    = conf.nodeDropShadow.color.hex;
+    dropShadow.alpha    = conf.nodeDropShadow.color.alpha;
+    dropShadow.angle    = conf.nodeDropShadow.angle;
+    dropShadow.blurX    = conf.nodeDropShadow.blur.x * factor;
+    dropShadow.blurY    = conf.nodeDropShadow.blur.y * factor;
+    dropShadow.distance = conf.nodeDropShadow.distance * factor;
+    return dropShadow;
+}
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../">
+  <title data-ice="title">src/utils.js | JavaScript Draph API Document</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  
+  
+  <script src="script/manual.js"></script>
+</head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  <a href="./manual/index.html" data-ice="manualHeaderLink">Manual</a>
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <a data-ice="repoURL" href="https://github.com/Ignavia/js-draph.git" class="repo-url-github">Repository</a>
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+</header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  <li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/GraphView.js~GraphView.html">GraphView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/registry.js~Registry.html">Registry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-adjustConf">adjustConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-composeEventListeners">composeEventListeners</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeAnchor">computeAnchor</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-computeHitArea">computeHitArea</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeCanvasSprite">makeCanvasSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeImage">makeImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setBounds">setBounds</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setPivot">setPivot</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setPosition">setPosition</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setRotation">setRotation</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-setScale">setScale</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-shaderStringToArray">shaderStringToArray</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-registry">registry</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-addInteraction">addInteraction</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-emptyDisplayObject">emptyDisplayObject</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBezierCurve">makeBezierCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBox">makeBox</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeBoxedLabel">makeBoxedLabel</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCaption">makeCaption</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCaptionedImage">makeCaptionedImage</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeCircle">makeCircle</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeEllipse">makeEllipse</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeLine">makeLine</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeMargin">makeMargin</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeQuadraticCurve">makeQuadraticCurve</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeRect">makeRect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeRoundedRect">makeRoundedRect</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-makeText">makeText</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/edge/EdgeGraphic.js~EdgeGraphic.html">EdgeGraphic</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedSprite">makeEnhancedSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/arrowStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/decalStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">edge/lineStyles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">filters</div><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/filters/CartesianFisheye.js~CartesianFisheye.html">CartesianFisheye</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-class">C</span><span data-ice="name"><span><a href="class/src/filters/PolarFisheye.js~PolarFisheye.html">PolarFisheye</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-instance">instance</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-instance">instance</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedView">makeEnhancedView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">graph/styles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeView">makeView</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeEnhancedSprite">makeEnhancedSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node/behaviors</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-addBehavior">addBehavior</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><div data-ice="dirPath" class="nav-dir-path">node/styles</div><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-function">F</span><span data-ice="name"><span><a href="function/index.html#static-function-makeSprite">makeSprite</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+<li data-ice="doc"><span data-ice="kind" class="kind-variable">V</span><span data-ice="name"><span><a href="variable/index.html#static-variable-defaultConf">defaultConf</a></span></span></li>
+</ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">src/utils.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">import _ from &quot;lodash&quot;;
+
+import {Vec2}             from &quot;@ignavia/ella&quot;;
+import {predefinedColors} from &quot;@ignavia/util&quot;;
+
+/**
+ * A canvas renderer.
+ *
+ * @type {Renderer}
+ * @ignore
+ */
+export const canvasRenderer = new PIXI.CanvasRenderer({
+    antialias:  true,
+    resolution: window.devicePixelRatio || 1
+});
+
+/**
+ * Creates a sprite from the given display object using a canvas renderer.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to turn into a sprite.
+ */
+export function makeCanvasSprite(displayObject) {
+    const texture = displayObject.generateTexture(canvasRenderer);
+    const sprite  = new PIXI.Sprite(texture);
+    sprite.anchor = computeAnchor(displayObject);
+    return sprite;
+}
+
+/**
+ * An empty display object.
+ *
+ * @type {DisplayObject}
+ */
+export const emptyDisplayObject = new PIXI.Container();
+emptyDisplayObject.width  = 0;
+emptyDisplayObject.height = 0;
+
+/**
+ * Replaces the properties in the base configuration with the ones listed in the
+ * adjustments object. Anything not listed in the adjustments object is taken
+ * unaltered from the base object.
+ *
+ * @param {Object} base
+ * The base configuration.
+ *
+ * @param {Object} adjustments
+ * The adjustments to make.
+ *
+ * @return {Object}
+ * The resulting configuration.
+ */
+export function adjustConf(base, adjustments) {
+    return _.merge({}, base, adjustments);
+}
+
+/**
+ * Creates a display object of line.
+ *
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeLine = _.curry(function (style, startPos, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.width, style.color.hex, style.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.lineTo(endPos.x, endPos.y);
+    return result;
+});
+
+/**
+ * Creates a display object of quadratic curve.
+ *
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} controlPos
+ * The control point.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeQuadraticCurve = _.curry(function (style, startPos, controlPos, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.width, style.color.hex, style.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.quadraticCurveTo(
+        controlPos.x,
+        controlPos.y,
+        endPos.x,
+        endPos.y
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of quadratic curve.
+ *
+ * @param {Object} style
+ * How the line should look.
+ *
+ * @param {Number} style.width
+ * The width of the line.
+ *
+ * @param {Color} style.color
+ * The color of the line.
+ *
+ * @param {Vec2} startPos
+ * Where to start the line.
+ *
+ * @param {Vec2} controlPos1
+ * The first control point.
+ *
+ * @param {Vec2} controlPos2
+ * The second control point.
+ *
+ * @param {Vec2} endPos
+ * Where to end the line.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeBezierCurve = _.curry(function (style, startPos, controlPos1, controlPos2, endPos) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.width, style.color.hex, style.color.alpha);
+    result.moveTo(startPos.x, startPos.y);
+    result.bezierCurveTo(
+        controlPos1.x,
+        controlPos1.y,
+        controlPos2.x,
+        controlPos2.y,
+        endPos.x,
+        endPos.y
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of a circle. This function is curried.
+ *
+ * @param {Object} style
+ * How the circle should look.
+ *
+ * @param {Object} style.border
+ * How the border around the circle should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the circle with.
+ *
+ * @param {Number} radius
+ * The radius of the circle.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeCircle = _.curry(function (style, radius) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawCircle(
+        0,
+        0,
+        radius
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of an ellipse. This function is curried.
+ *
+ * @param {Object} style
+ * How the ellipse should look.
+ *
+ * @param {Object} style.border
+ * How the border around the ellipse should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the ellipse with.
+ *
+ * @param {Number} halfWidth
+ * The half width of the ellipse.
+ *
+ * @param {Number} halfHeight
+ * The half height of the ellipse.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeEllipse = _.curry(function (style, halfWidth, halfHeight) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawEllipse(
+        0,
+        0,
+        halfWidth,
+        halfHeight
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of a rectangle. This function is curried.
+ *
+ * @param {Object} style
+ * How the rectangle should look.
+ *
+ * @param {Object} style.border
+ * How the border around the rectangle should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the rectangle with.
+ *
+ * @param {Number} width
+ * The width of the rectangle.
+ *
+ * @param {Number} height
+ * The height of the rectangle.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeRect = _.curry(function (style, width, height) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawRect(
+        -width  / 2,
+        -height / 2,
+        width,
+        height
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of a rounded rectangle. This function is curried.
+ *
+ * @param {Object} style
+ * How the rounded rectangle should look.
+ *
+ * @param {Object} style.border
+ * How the border around the rounded rectangle should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the rounded rectangle with.
+ *
+ * @param {Number} width
+ * The width of the rounded rectangle.
+ *
+ * @param {Number} height
+ * The height of the rounded rectangle.
+ *
+ * @param {Number} radius
+ * The radius of the circles at the corners of the rectangle.
+ *
+ * @return {DisplayObject}
+ * The created display object.
+ */
+export const makeRoundedRect = _.curry(function (style, width, height, radius) {
+    const result = new PIXI.Graphics();
+    result.lineStyle(style.border.width, style.border.color.hex, style.border.color.alpha);
+    result.beginFill(style.backgroundColor.hex, style.backgroundColor.alpha);
+    result.drawRoundedRect(
+        -width  / 2,
+        -height / 2,
+        width,
+        height,
+        radius
+    );
+    return result;
+});
+
+/**
+ * Creates a display object of a text. This function is curried.
+ *
+ * @param {Object} style
+ * How the text should look.
+ *
+ * @param {String} style.align
+ * How the text should be aligned. The possible values are &quot;left&quot;, &quot;center&quot; and
+ * &quot;right&quot;. For a single line of text this option has no effect.
+ *
+ * @param {Object} style.dropShadow
+ * How the drop shadow of the text should look.
+ *
+ * @param {Number} style.dropShadow.distance
+ * How long the drop shadow should be. Set this to 0 to remove it.
+ *
+ * @param {Number} style.dropShadow.angle
+ * The angle of the drop shadow given in radian. An angle of 0 means that the
+ * shadow goes to the right, increasing the angle moves the shadow clockwise.
+ *
+ * @param {Color} style.dropShadow.color
+ * The color of the shadow.
+ *
+ * @param {Color} style.fillColor
+ * The color to fill the text with.
+ *
+ * @param {Object} style.font
+ * Configures the font of the text.
+ *
+ * @param {String} style.font.family
+ * The font-family to use.
+ *
+ * @param {String} style.font.size
+ * The font-size to use.
+ *
+ * @param {String} style.font.weight
+ * The weight of the font. This can either be &quot;normal&quot; or &quot;bold&quot;.
+ *
+ * @param {String} style.font.style
+ * The style of the font. This can either be &quot;normal&quot;, &quot;italic&quot; or &quot;oblique&quot;.
+ *
+ * @param {Object} style.stroke
+ * How the stroke around the text should look.
+ *
+ * @param {Color} style.stroke.color
+ * The color of the stroke around the text.
+ *
+ * @param {Number} style.stroke.thickness
+ * How thick the stroke should be. Set this to 0 to deactivate it.
+ *
+ * @param {Number} style.wordWrapWidth
+ * The width at which the text is going to wrap. Set this to 0 to disable it.
+ *
+ * @param {String} s
+ * The string to use as text.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeText = _.curry(function (style, s) {
+    const result = new PIXI.Text(s, {
+        align:              style.align,
+        dropShadow:         style.dropShadow.distance &gt; 0,
+        dropShadowAngle:    style.dropShadow.angle,
+        dropShadowColor:    style.dropShadow.color.hex,
+        dropShadowDistance: style.dropShadow.distance,
+        fill:               style.fillColor.hex,
+        font:               `${style.font.weight} ${style.font.style} ${style.font.size}px ${style.font.family}`,
+        stroke:             style.stroke.color.hex,
+        strokeThickness:    style.stroke.thickness,
+        wordWrap:           style.wordWrapWidth &gt; 0,
+        wordWrapWidth:      style.wordWrapWidth
+    });
+    result.x = -result.width  / 2;
+    result.y = -result.height / 2;
+    return result;
+});
+
+/**
+ * Creates a display object of a box around the given display object.
+ *
+ * @param {Object} style
+ * How the box should look.
+ *
+ * @param {String} style.shape
+ * The shape of the box. This can be one of &quot;circle&quot;, &quot;ellipse&quot;, &quot;rect&quot; or
+ * &quot;roundedRect&quot;.
+ *
+ * @param {Number} style.padding
+ * The padding to add around the given display object.
+ *
+ * @param {Object} style.border
+ * How the border of the box should look.
+ *
+ * @param {Number} style.border.width
+ * The line width of the border.
+ *
+ * @param {Color} style.border.color
+ * The color of the border.
+ *
+ * @param {Number} style.border.radius
+ * This is only relevant when the shape is set to &quot;roundedRect&quot;. It describes
+ * the radius of the circles in the corners of the rectangle.
+ *
+ * @param {Color} style.backgroundColor
+ * The color to fill the box with.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make a box for.
+ *
+ * @return {DisplayObject}
+ * The resulting box.
+ */
+export const makeBox = _.curry(function (style, displayObject) {
+    switch (style.shape) {
+    case &quot;circle&quot;:
+        return makeCircle(
+            style,
+            Math.max(displayObject.width, displayObject.height) / Math.sqrt(2) + style.padding
+        );
+    case &quot;ellipse&quot;:
+        return makeEllipse(
+            style,
+            displayObject.width  / Math.sqrt(2) + style.padding,
+            displayObject.height / Math.sqrt(2) + style.padding
+        );
+    case &quot;rect&quot;:
+        return makeRect(
+            style,
+            displayObject.width  + 2 * style.padding,
+            displayObject.height + 2 * style.padding
+        );
+    case &quot;roundedRect&quot;:
+        return makeRoundedRect(
+            style,
+            displayObject.width  + 2 * style.padding,
+            displayObject.height + 2 * style.padding,
+            style.border.radius
+        );
+    }
+});
+
+/**
+ * Creates a transparent margin for the given display object. This function is
+ * curried.
+ *
+ * @param {Number} margin
+ * How wide the margin at one side should be.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make a margin for.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeMargin = _.curry(function (margin, displayObject) {
+    const result = new PIXI.Graphics();
+    result.beginFill(predefinedColors.transparent.hex, predefinedColors.transparent.alpha);
+    result.drawRect(
+        -displayObject.width  / 2 -     margin,
+        -displayObject.height / 2 -     margin,
+         displayObject.width      + 2 * margin,
+         displayObject.height     + 2 * margin
+    );
+    return result;
+});
+
+/**
+ * Creates a diplay object from the image at the given location.
+ *
+ * @param {Object} style
+ * How the image should look.
+ *
+ * @param {Number|String} style.width
+ * The width of the image. Set this to &quot;orig&quot; to use the width of the
+ * original image and to &quot;auto&quot; to keep the aspect ratio when setting
+ * the height.
+ *
+ * @param {Number|String} style.height
+ * The height of the image. Set this to &quot;orig&quot; to use the height of the
+ * original image and to &quot;auto&quot; to keep the aspect ratio when setting
+ * the width.
+ *
+ * @param {String} path
+ * The location of the image.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export function makeImage(style, path) {
+    const result = PIXI.Sprite.fromImage(path);
+
+    setBounds(style.width, style.height, result);
+
+    // Adjust position
+    result.x = -result.width  / 2;
+    result.y = -result.height / 2;
+
+    return result;
+}
+
+/**
+ * Creates a display object of a caption for the given display object. This
+ * function is curried.
+ *
+ * @param {Object} style
+ * How the caption should look.
+ *
+ * @param {Object} style.text
+ * How the text should look. Refer to the makeText function to see how this
+ * sub-object has to be structured.
+ *
+ * @param {Object} style.caption
+ * Affects the style of the caption in general.
+ *
+ * @param {String} style.caption.side
+ * Where the caption should be positioned in relation to the given display
+ * object. Possible options are &quot;center&quot;, &quot;above&quot;, &quot;right&quot;, &quot;below&quot; and &quot;left&quot;.
+ *
+ * @param {Number} style.caption.gap
+ * How large the gap between the given display object and the caption should be.
+ *
+ * @param {String} text
+ * The text to display.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make the caption for.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeCaption = _.curry(function (style, text, displayObject) {
+    const result = makeText(style.text, text);
+
+    switch (style.side) {
+    case &quot;above&quot;:
+        result.y -= (displayObject.height + result.height) / 2 + style.gap; break;
+    case &quot;right&quot;:
+        result.x += (displayObject.width  + result.width)  / 2 + style.gap; break;
+    case &quot;below&quot;:
+        result.y += (displayObject.height + result.height) / 2 + style.gap; break;
+    case &quot;left&quot;:
+        result.x -= (displayObject.width  + result.width)  / 2 + style.gap; break;
+    }
+
+    return result;
+});
+
+/**
+ * Creates a label surrounded by a box.
+ *
+ * @param {Object} style
+ * How everything should look.
+ *
+ * @param {Object} style.text
+ * How the text should look. Refer to the makeText function to see how this
+ * sub-object has to be structured.
+ *
+ * @param {Object} style.box
+ * How the box around the text should look. Refer to the makeBox function to see
+ * how this sub-object has to be structured.
+ *
+ * @param {Object} style.box.margin
+ * The margin to add around the box. This is useful to prevent PIXI from cutting
+ * some pixels of the border off.
+ *
+ * @param {String} text
+ * The text to display.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeBoxedLabel = _.curry(function (style, text) {
+    const result    = new PIXI.Container();
+    const label     = makeText(style.text, text);
+    const box       = makeBox(style.box, label);
+    const margin    = makeMargin(style.box.margin, box);
+    result.addChild(margin);
+    result.addChild(box);
+    result.addChild(label);
+    return result;
+});
+
+/**
+ * Creates an image with a label.
+ *
+ * @param {Object} style
+ * How everything should look.
+ *
+ * @param {Object} style.image
+ * How the image should look. Refer to the makeImage function to see how this
+ * sub-object should be structured.
+ *
+ * @param {Object} style.caption
+ * How the caption should look. Check the documentation of the makeCaption
+ * function for further information.
+ *
+ * @param {String} imagePath
+ * The path to the image.
+ *
+ * @param {String} text
+ * The caption text.
+ *
+ * @return {DisplayObject}
+ * The resulting display object.
+ */
+export const makeCaptionedImage = _.curry(function (style, imagePath, text) {
+    const result       = new PIXI.Container();
+    const illustration = makeImage(style.image, imagePath);
+    result.addChild(illustration);
+
+    if (style.captionSide !== &quot;none&quot;) {
+        const caption  = makeCaption(style.caption, text, illustration);
+        result.addChild(caption);
+
+        const centerX = Math.min(illustration.x, caption.x) + result.width  / 2;
+        const centerY = Math.min(illustration.y, caption.y) + result.height / 2;
+        illustration.x -= centerX;
+        illustration.y -= centerY;
+        caption.x      -= centerX;
+        caption.y      -= centerY;
+    }
+
+    return result;
+});
+
+/**
+ * Adds event handlers to the given display object.
+ *
+ * @param {Object} conf
+ * Contains the event handlers to add.
+ *
+ * @param {Function} conf.mouseover
+ * Is triggered when the mouse moves onto the display object.
+ *
+ * @param {Function} conf.mouseout
+ * Is triggered when the mouse leaves the display object.
+ *
+ * @param {Function} conf.mousedown
+ * Is triggered when the left mousebutton is pressed when the mouse is on the
+ * display object.
+ *
+ * @param {Function} conf.mouseup
+ * Is triggered when the left mousebutton is released when the mouse is on the
+ * display object.
+ *
+ * @param {Function} conf.click
+ * Is triggered right after the mouseup event.
+ *
+ * @param {Function} conf.touchstart
+ * Is triggered when the display object is touched.
+ *
+ * @param {Function} conf.touchend
+ * Is triggered when the display object is no longer touched.
+ *
+ * @param {Function} conf.tap
+ * Is triggered right after the touchend event.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to make interactive.
+ */
+export const addInteraction = _.curry(function (conf, displayObject) {
+    displayObject.interactive = true;
+    displayObject.buttonMode  = true;
+    displayObject.mouseover   = conf.handleMouseover;
+    displayObject.mouseout    = conf.handleMouseout;
+    displayObject.mousedown   = conf.handleMousedown;
+    displayObject.mouseup     = conf.handleMouseup;
+    displayObject.click       = conf.handleClick;
+    displayObject.touchstart  = conf.handleTouchstart;
+    displayObject.touchend    = conf.handleTouchend;
+    displayObject.tap         = conf.handleTap;
+});
+
+/**
+ * Sets the position of the given display object.
+ *
+ * @param {Vec2} position
+ * Where to place the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to place.
+ */
+export function setPosition(position, displayObject) {
+    displayObject.position.x = position.x;
+    displayObject.position.y = position.y;
+}
+
+/**
+ * Sets the scale of the given display object.
+ *
+ * @param {Vec2|Number} scale
+ * The factor to enlarge or shrink the display object by. If a single number
+ * is provided, it is use for the x- and y-directions.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to scale.
+ */
+export function setScale(scale, displayObject) {
+    if (typeof scale === &quot;number&quot;) {
+        displayObject.scale.x = scale;
+        displayObject.scale.y = scale;
+    } else if (typeof scale.x === &quot;number&quot; &amp;&amp; typeof scale.y === &quot;number&quot;) {
+        displayObject.scale.x = scale.x;
+        displayObject.scale.y = scale.y;
+    }
+}
+
+/**
+ * Sets the width and height of the given display object.
+ *
+ * @param {Number|String} width
+ * The width of the image. Set this to &quot;orig&quot; to use the width of the
+ * original image and to &quot;auto&quot; to keep the aspect ratio when setting
+ * the height.
+ *
+ * @param {Number|String} height
+ * The height of the image. Set this to &quot;orig&quot; to use the height of the
+ * original image and to &quot;auto&quot; to keep the aspect ratio when setting
+ * the width.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to adjust.
+ */
+export function setBounds(width, height, displayObject) {
+    const oldWidth  = displayObject.width;
+    const oldHeight = displayObject.height;
+
+    // Adjust width
+    if (width === &quot;auto&quot;) {
+        if (height !== &quot;auto&quot; || height !== &quot;orig&quot;) {
+            displayObject.width *= height / oldHeight;
+        }
+    } else if (width !== &quot;orig&quot;) {
+        displayObject.width = width;
+    }
+
+    // Adjust height
+    if (height === &quot;auto&quot;) {
+        if (width !== &quot;auto&quot; || width !== &quot;orig&quot;) {
+            displayObject.height *= width / oldWidth;
+        }
+    } else if (height !== &quot;orig&quot;) {
+        displayObject.height = height;
+    }
+}
+
+/**
+ * Sets the point to rotate the given display object about.
+ *
+ * @param {Vec2} pivot
+ * Where to rotate the display object around.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to configure.
+ */
+export function setPivot(pivot, displayObject) {
+    displayObject.pivot.x = pivot.x;
+    displayObject.pivot.y = pivot.y;
+}
+
+/**
+ * Sets the rotation angle of the given display object.
+ *
+ * @param {Vec2} angle
+ * The rotation angle of the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to rotate.
+ */
+export function setRotation(angle, displayObject) {
+    displayObject.rotation = angle;
+}
+
+/**
+ * Turns a string into an array of its lines. This is the expected format for
+ * the shader source code.
+ *
+ * @param {String} s
+ * The source code of the shader as a string.
+ *
+ * @return {Array&lt;String&gt;}
+ * The split string.
+ */
+export function shaderStringToArray(s) {
+    return s.split(&quot;\n&quot;).map(s =&gt; s.trim()).filter(s =&gt; s.length &gt; 0);
+}
+
+/**
+ * Creates a new event listener covering the two cases, that another event
+ * listener exists already and that the opposite is true.
+ *
+ * @param {*} current
+ * The current value of the event handler.
+ *
+ * @param {Function} next
+ * The event handler to call after the current one.
+ *
+ * @return {Function}
+ * The created event listener.
+ */
+export function composeEventListeners(current, next) {
+    if (typeof current === &quot;function&quot;) {
+        return e =&gt; {
+            current(e);
+            next(e);
+        };
+    } else {
+        return next;
+    }
+}
+
+/**
+ * Computes the hit area of the display object.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to compute the hit area for.
+ *
+ * @return {Polygon}
+ * The hit area.
+ */
+export function computeHitArea({width: w = 0, height: h = 0, x, y, rotation: alpha = 0}) {
+    const v = new Vec2(x, y);
+    const points = {
+        tl: new Vec2(-w/2, -h/2).rotate(alpha).add(v),
+        tr: new Vec2( w/2, -h/2).rotate(alpha).add(v),
+        br: new Vec2( w/2,  h/2).rotate(alpha).add(v),
+        bl: new Vec2(-w/2,  h/2).rotate(alpha).add(v),
+    };
+
+    return new PIXI.Polygon([
+        points.tl.x, points.tl.y,
+        points.tr.x, points.tr.y,
+        points.br.x, points.br.y,
+        points.bl.x, points.bl.y
+    ]);;
+}
+
+/**
+ * Computes the anchor point of the sprite generated from the display object. This
+ * is necessary to align it properly.
+ *
+ * @param {DisplayObject} displayObject
+ * The display object to generate the sprite from.
+ */
+export function computeAnchor(displayObject) {
+    const {x, y, width, height} = displayObject.getBounds();
+    return {
+        x: -x / width,
+        y: -y / height,
+    };
+}</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(0.4.8)</span></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>

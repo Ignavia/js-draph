@@ -1,0 +1,155 @@
+{
+  "name": "@ignavia/draph",
+  "version": "1.2.1",
+  "description": "A graph drawing library.",
+  "keywords": [
+    "drawing",
+    "graph"
+  ],
+  "homepage": "http://ignavia.github.io/js-draph",
+  "bugs": "https://github.com/Ignavia/js-draph/issues",
+  "license": "MIT",
+  "author": "Lars Reimann <mail@lars-reimann.eu> (http://lars-reimann.eu)",
+  "files": [
+    "dist/"
+  ],
+  "main": "dist/draph.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ignavia/js-draph.git"
+  },
+  "scripts": {
+    "build": "jspm build ./src/draph.js - lodash - @ignavia/earl - @ignavia/ella - @ignavia/util - jquery - jquery-mousewheel - pixi.js ./dist/draph.js --format cjs --skip-source-maps --minify",
+    "doc": "esdoc -c esdoc.json"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "babel": {
+    "env": {
+      "development": {
+        "presets": [
+          "es2015",
+          "stage-0"
+        ]
+      }
+    }
+  },
+  "jspmPackage": true,
+  "registry": "npm",
+  "format": "cjs",
+  "jspm": {
+    "name": "@ignavia/draph",
+    "dependencies": {
+      "@ignavia/earl": "^1.3.1",
+      "@ignavia/ella": "^2.0.0",
+      "@ignavia/util": "^2.0.0",
+      "jquery": "^3.0.0",
+      "jquery-mousewheel": "^3.1.13",
+      "lodash": "^4.11.1"
+    },
+    "devDependencies": {
+      "babel-plugin-transform-export-extensions": "^6.5.0",
+      "babel-preset-stage-0": "^6.5.0",
+      "babel-regenerator-runtime": "^6.5.0",
+      "plugin-babel": "systemjs-plugin-babel@^0.0.8",
+      "systemjs-hot-reloader": "github:capaj/systemjs-hot-reloader@^0.5.7"
+    },
+    "peerDependencies": {
+      "assert": "github:jspm/nodelibs-assert@^0.2.0-alpha",
+      "buffer": "github:jspm/nodelibs-buffer@^0.2.0-alpha",
+      "child_process": "github:jspm/nodelibs-child_process@^0.2.0-alpha",
+      "constants": "github:jspm/nodelibs-constants@^0.2.0-alpha",
+      "core-js": "^1.2.0",
+      "crypto": "github:jspm/nodelibs-crypto@^0.2.0-alpha",
+      "events": "github:jspm/nodelibs-events@^0.2.0-alpha",
+      "fs": "github:jspm/nodelibs-fs@^0.2.0-alpha",
+      "module": "github:jspm/nodelibs-module@^0.2.0-alpha",
+      "net": "github:jspm/nodelibs-net@^0.2.0-alpha",
+      "os": "github:jspm/nodelibs-os@^0.2.0-alpha",
+      "path": "github:jspm/nodelibs-path@^0.2.0-alpha",
+      "pixi.js": "^3.0.11",
+      "process": "github:jspm/nodelibs-process@^0.2.0-alpha",
+      "punycode": "github:jspm/nodelibs-punycode@^0.2.0-alpha",
+      "querystring": "github:jspm/nodelibs-querystring@^0.2.0-alpha",
+      "source-map": "~0.1.33",
+      "stream": "github:jspm/nodelibs-stream@^0.2.0-alpha",
+      "string_decoder": "github:jspm/nodelibs-string_decoder@^0.2.0-alpha",
+      "tls": "github:jspm/nodelibs-tls@^0.2.0-alpha",
+      "tty": "github:jspm/nodelibs-tty@^0.2.0-alpha",
+      "url": "github:jspm/nodelibs-url@^0.2.0-alpha",
+      "util": "github:jspm/nodelibs-util@^0.2.0-alpha",
+      "vm": "github:jspm/nodelibs-vm@^0.2.0-alpha",
+      "zlib": "github:jspm/nodelibs-zlib@^0.2.0-alpha"
+    },
+    "overrides": {
+      "npm:browserify-zlib@0.1.4": {
+        "dependencies": {
+          "readable-stream": "^2.0.2",
+          "pako": "~0.2.0"
+        },
+        "map": {
+          "_stream_transform": "readable-stream/transform"
+        }
+      },
+      "npm:debug@2.2.0": {
+        "main": "browser.js",
+        "jspmNodeConversion": false,
+        "format": "cjs",
+        "map": {
+          "./browser.js": {
+            "node": "./node.js"
+          },
+          "fs": "@node/fs",
+          "net": "@node/net",
+          "tty": "@node/tty",
+          "util": "@node/util"
+        }
+      },
+      "npm:inherits@2.0.1": {
+        "ignore": [
+          "test.js"
+        ]
+      },
+      "npm:lodash@4.14.1": {
+        "map": {
+          "buffer": "@empty",
+          "process": "@empty"
+        }
+      },
+      "npm:ms@0.7.1": {
+        "jspmNodeConversion": false,
+        "format": "cjs"
+      },
+      "npm:readable-stream@1.0.34": {
+        "map": {
+          "stream": "stream-browserify/index"
+        },
+        "systemjs": {
+          "main": "readable.js"
+        },
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.0",
+          "inherits": "~2.0.1",
+          "stream-browserify": "~1.0.0"
+        }
+      },
+      "npm:readable-stream@1.1.14": {
+        "map": {
+          "stream": "stream-browserify/index"
+        },
+        "systemjs": {
+          "main": "readable.js"
+        },
+        "dependencies": {
+          "core-util-is": "~1.0.0",
+          "isarray": "0.0.1",
+          "string_decoder": "~0.10.0",
+          "inherits": "~2.0.1",
+          "stream-browserify": "~1.0.0"
+        }
+      }
+    }
+  }
+}

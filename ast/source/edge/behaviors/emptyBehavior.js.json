@@ -1,0 +1,350 @@
+{
+  "type": "Program",
+  "start": 0,
+  "end": 265,
+  "loc": {
+    "start": {
+      "line": 1,
+      "column": 0
+    },
+    "end": {
+      "line": 10,
+      "column": 47
+    }
+  },
+  "sourceType": "module",
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "start": 0,
+      "end": 41,
+      "loc": {
+        "start": {
+          "line": 1,
+          "column": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 41
+        }
+      },
+      "specifiers": [
+        {
+          "type": "ImportDefaultSpecifier",
+          "start": 7,
+          "end": 15,
+          "loc": {
+            "start": {
+              "line": 1,
+              "column": 7
+            },
+            "end": {
+              "line": 1,
+              "column": 15
+            }
+          },
+          "local": {
+            "type": "Identifier",
+            "start": 7,
+            "end": 15,
+            "loc": {
+              "start": {
+                "line": 1,
+                "column": 7
+              },
+              "end": {
+                "line": 1,
+                "column": 15
+              }
+            },
+            "name": "registry"
+          }
+        }
+      ],
+      "importKind": "value",
+      "source": {
+        "type": "Literal",
+        "start": 21,
+        "end": 40,
+        "loc": {
+          "start": {
+            "line": 1,
+            "column": 21
+          },
+          "end": {
+            "line": 1,
+            "column": 40
+          }
+        },
+        "value": "../../registry.js",
+        "rawValue": "../../registry.js",
+        "raw": "\"../../registry.js\""
+      },
+      "trailingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Does absolutely nothing.\n *\n * @param {DisplayObject} displayObject\n * The display object to add behavior to.\n ",
+          "start": 43,
+          "end": 163,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 3
+            }
+          },
+          "range": [
+            43,
+            163
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "start": 164,
+      "end": 217,
+      "loc": {
+        "start": {
+          "line": 9,
+          "column": 0
+        },
+        "end": {
+          "line": 9,
+          "column": 53
+        }
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "start": 179,
+        "end": 217,
+        "loc": {
+          "start": {
+            "line": 9,
+            "column": 15
+          },
+          "end": {
+            "line": 9,
+            "column": 53
+          }
+        },
+        "id": {
+          "type": "Identifier",
+          "start": 188,
+          "end": 199,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 24
+            },
+            "end": {
+              "line": 9,
+              "column": 35
+            }
+          },
+          "name": "addBehavior",
+          "leadingComments": null
+        },
+        "generator": false,
+        "expression": false,
+        "async": false,
+        "params": [
+          {
+            "type": "Identifier",
+            "start": 200,
+            "end": 213,
+            "loc": {
+              "start": {
+                "line": 9,
+                "column": 36
+              },
+              "end": {
+                "line": 9,
+                "column": 49
+              }
+            },
+            "name": "displayObject"
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "start": 215,
+          "end": 217,
+          "loc": {
+            "start": {
+              "line": 9,
+              "column": 51
+            },
+            "end": {
+              "line": 9,
+              "column": 53
+            }
+          },
+          "body": []
+        },
+        "leadingComments": [
+          {
+            "type": "Block",
+            "value": "*\n * Does absolutely nothing.\n *\n * @param {DisplayObject} displayObject\n * The display object to add behavior to.\n ",
+            "start": 43,
+            "end": 163,
+            "loc": {
+              "start": {
+                "line": 3,
+                "column": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 3
+              }
+            },
+            "range": [
+              43,
+              163
+            ]
+          }
+        ],
+        "trailingComments": []
+      },
+      "leadingComments": [
+        {
+          "type": "Block",
+          "value": "*\n * Does absolutely nothing.\n *\n * @param {DisplayObject} displayObject\n * The display object to add behavior to.\n ",
+          "start": 43,
+          "end": 163,
+          "loc": {
+            "start": {
+              "line": 3,
+              "column": 0
+            },
+            "end": {
+              "line": 8,
+              "column": 3
+            }
+          },
+          "range": [
+            43,
+            163
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "start": 218,
+      "end": 265,
+      "loc": {
+        "start": {
+          "line": 10,
+          "column": 0
+        },
+        "end": {
+          "line": 10,
+          "column": 47
+        }
+      },
+      "expression": {
+        "type": "CallExpression",
+        "start": 218,
+        "end": 264,
+        "loc": {
+          "start": {
+            "line": 10,
+            "column": 0
+          },
+          "end": {
+            "line": 10,
+            "column": 46
+          }
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "start": 218,
+          "end": 242,
+          "loc": {
+            "start": {
+              "line": 10,
+              "column": 0
+            },
+            "end": {
+              "line": 10,
+              "column": 24
+            }
+          },
+          "object": {
+            "type": "Identifier",
+            "start": 218,
+            "end": 226,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 0
+              },
+              "end": {
+                "line": 10,
+                "column": 8
+              }
+            },
+            "name": "registry"
+          },
+          "property": {
+            "type": "Identifier",
+            "start": 227,
+            "end": 242,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 9
+              },
+              "end": {
+                "line": 10,
+                "column": 24
+              }
+            },
+            "name": "addEdgeBehavior"
+          },
+          "computed": false
+        },
+        "arguments": [
+          {
+            "type": "Literal",
+            "start": 243,
+            "end": 250,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 25
+              },
+              "end": {
+                "line": 10,
+                "column": 32
+              }
+            },
+            "value": "empty",
+            "rawValue": "empty",
+            "raw": "\"empty\""
+          },
+          {
+            "type": "Identifier",
+            "start": 252,
+            "end": 263,
+            "loc": {
+              "start": {
+                "line": 10,
+                "column": 34
+              },
+              "end": {
+                "line": 10,
+                "column": 45
+              }
+            },
+            "name": "addBehavior"
+          }
+        ]
+      }
+    }
+  ]
+}
