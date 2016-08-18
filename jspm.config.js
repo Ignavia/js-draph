@@ -346,7 +346,7 @@ SystemJS.config({
     "lodash": "npm:lodash@4.14.1",
     "@ignavia/util": "npm:@ignavia/util@2.0.0",
     "@ignavia/earl": "npm:@ignavia/earl@1.5.0",
-    "@ignavia/ella": "npm:@ignavia/ella@1.2.0",
+    "@ignavia/ella": "npm:@ignavia/ella@2.0.0",
     "assert": "github:jspm/nodelibs-assert@0.2.0-alpha",
     "buffer": "github:jspm/nodelibs-buffer@0.2.0-alpha",
     "child_process": "github:jspm/nodelibs-child_process@0.2.0-alpha",
@@ -376,7 +376,7 @@ SystemJS.config({
   packages: {
     "github:jspm/nodelibs-buffer@0.2.0-alpha": {
       "map": {
-        "buffer-browserify": "npm:buffer@4.7.1"
+        "buffer-browserify": "npm:buffer@4.9.1"
       }
     },
     "github:jspm/nodelibs-os@0.2.0-alpha": {
@@ -532,7 +532,7 @@ SystemJS.config({
     "npm:stream-browserify@2.0.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "readable-stream": "npm:readable-stream@2.1.4"
+        "readable-stream": "npm:readable-stream@2.1.5"
       }
     },
     "npm:through2@0.4.2": {
@@ -611,7 +611,7 @@ SystemJS.config({
         "create-hash": "npm:create-hash@1.1.2",
         "create-hmac": "npm:create-hmac@1.1.4",
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "parse-asn1": "npm:parse-asn1@5.0.0",
         "elliptic": "npm:elliptic@6.3.1"
       }
@@ -639,14 +639,14 @@ SystemJS.config({
       "map": {
         "create-hash": "npm:create-hash@1.1.2",
         "browserify-rsa": "npm:browserify-rsa@4.0.1",
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "parse-asn1": "npm:parse-asn1@5.0.0",
         "randombytes": "npm:randombytes@2.0.3"
       }
     },
     "npm:diffie-hellman@5.0.2": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "miller-rabin": "npm:miller-rabin@4.0.0",
         "randombytes": "npm:randombytes@2.0.3"
       }
@@ -660,7 +660,7 @@ SystemJS.config({
     },
     "npm:browserify-rsa@4.0.1": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "randombytes": "npm:randombytes@2.0.3"
       }
     },
@@ -701,7 +701,7 @@ SystemJS.config({
     },
     "npm:miller-rabin@4.0.0": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "brorand": "npm:brorand@1.0.5"
       }
     },
@@ -712,7 +712,7 @@ SystemJS.config({
     },
     "npm:create-ecdh@4.0.0": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "elliptic": "npm:elliptic@6.3.1"
       }
     },
@@ -735,7 +735,7 @@ SystemJS.config({
     "npm:elliptic@6.3.1": {
       "map": {
         "inherits": "npm:inherits@2.0.1",
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "brorand": "npm:brorand@1.0.5",
         "hash.js": "npm:hash.js@1.0.3"
       }
@@ -758,13 +758,6 @@ SystemJS.config({
         "eventemitter3": "npm:eventemitter3@1.2.0"
       }
     },
-    "npm:buffer@4.7.1": {
-      "map": {
-        "isarray": "npm:isarray@1.0.0",
-        "ieee754": "npm:ieee754@1.1.6",
-        "base64-js": "npm:base64-js@1.1.2"
-      }
-    },
     "npm:async@2.0.1": {
       "map": {
         "lodash": "npm:lodash@4.14.1"
@@ -777,9 +770,27 @@ SystemJS.config({
     },
     "npm:asn1.js@4.8.0": {
       "map": {
-        "bn.js": "npm:bn.js@4.11.5",
+        "bn.js": "npm:bn.js@4.11.6",
         "inherits": "npm:inherits@2.0.1",
         "minimalistic-assert": "npm:minimalistic-assert@1.0.0"
+      }
+    },
+    "npm:buffer@4.9.1": {
+      "map": {
+        "base64-js": "npm:base64-js@1.1.2",
+        "isarray": "npm:isarray@1.0.0",
+        "ieee754": "npm:ieee754@1.1.6"
+      }
+    },
+    "npm:readable-stream@2.1.5": {
+      "map": {
+        "inherits": "npm:inherits@2.0.1",
+        "isarray": "npm:isarray@1.0.0",
+        "string_decoder": "npm:string_decoder@0.10.31",
+        "buffer-shims": "npm:buffer-shims@1.0.0",
+        "util-deprecate": "npm:util-deprecate@1.0.2",
+        "core-util-is": "npm:core-util-is@1.0.2",
+        "process-nextick-args": "npm:process-nextick-args@1.0.7"
       }
     }
   }
