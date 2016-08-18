@@ -106,4 +106,9 @@ export default class CartesianFisheye extends PIXI.AbstractFilter {
     }
 }
 
+/**
+ * An instance of this filter.
+ *
+ * @type {CartesianFisheye}
+ */
 export const instance = new CartesianFisheye();

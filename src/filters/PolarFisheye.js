@@ -128,4 +128,9 @@ export default class PolarFisheye extends PIXI.AbstractFilter {
     }
 }
 
+/**
+ * An instance of this filter.
+ *
+ * @type {PolarFisheye}
+ */
 export const instance = new PolarFisheye();
