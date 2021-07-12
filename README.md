@@ -2,6 +2,8 @@
 
 [![npm version](https://badge.fury.io/js/%40ignavia%2Fdraph.svg)](https://badge.fury.io/js/%40ignavia%2Fdraph) [![Build Status](https://travis-ci.org/Ignavia/js-draph.svg?branch=master)](https://travis-ci.org/Ignavia/js-draph)
 
+**This project is not maintained anymore.**
+
 A library to draw graphs.
 
 ### API Documentation
